@@ -48,20 +48,19 @@ class Ninja {
         this.fillAnimations();
 
         //Idle right
-        this.animations[0][0] = new Animator(this.spritesheet, 11, 521, 250 - 11, 974 - 521, 9, .05, 3, false, true);
-        //Idle Left
+        this.animations[0][0] = new Animator(this.spritesheet, 14, 592, 310 - 14, 1115 - 592, 9, .05, 4, false, true);
 
         // running right
-        this.animations[1][0] = new Animator(this.spritesheet, 16, 1494, 385 - 16, 1954 - 1494, 10, .05, 5, false, true);
+        this.animations[1][0] = new Animator(this.spritesheet, 43, 1687, 400 - 43, 2204 - 1687, 10, .05, 29, false, true);
 
         // jumping right
-        this.animations[2][0] = new Animator(this.spritesheet, 30, 1000, 395 - 45, 1476 - 1000, 10, .05, 21, false, true);
+        this.animations[2][0] = new Animator(this.spritesheet, 10, 1150, 440 - 40, 1680 - 1150, 10, .05, 9, false, true);
 
         // attacking right
-        this.animations[3][0] = new Animator(this.spritesheet, 25, 30, 550 - 60, 484 - 30, 10, .05, 95, false, true);
+        this.animations[3][0] = new Animator(this.spritesheet, 20, 40, 550 - 25, 565 - 40, 10, .05, 9, false, true);
 
         // Death right
-        this.deathAnimation = new Animator(this.spritesheet, 18, 1985, 505 - 18, 2470 - 1985, 10, .05, 5, false, true);
+        this.deathAnimation = new Animator(this.spritesheet, 30, 2250, 560 - 30, 2790 - 2250, 10, .05, 58, false, true);
     }
 
     update() {
@@ -69,9 +68,9 @@ class Ninja {
 
     draw(ctx) {
         this.animations[0][0].drawFrame(this.game.clockTick, ctx, 0, this.y, .5);
-        this.animations[1][0].drawFrame(this.game.clockTick, ctx, 100, this.y, .5);
-        this.animations[2][0].drawFrame(this.game.clockTick, ctx, 250, this.y, .5);
-        this.animations[3][0].drawFrame(this.game.clockTick, ctx, 400, this.y, .5)
-        this.deathAnimation.drawFrame(this.game.clockTick, ctx, 600, this.y, .5)
+        this.animations[1][0].drawFrame(this.game.clockTick, ctx, 150, this.y, .5);
+        this.animations[2][0].drawFrame(this.game.clockTick, ctx, 300, this.y, .5);
+        this.animations[3][0].drawFrame(this.game.clockTick, ctx, 500, this.y, .5)
+        this.deathAnimation.drawFrame(this.game.clockTick, ctx, 700, this.y, .5)
     }
 }

@@ -10,8 +10,8 @@ class SceneManager {
     loadGame() {
         this.person = new Ninja(this.game, 0, 0, true);
         this.game.addEntity(this.person);
-        // this.person = new Ninja(this.game, 0, 300, false);
-        // this.game.addEntity(this.person);
+        this.person = new Ninja(this.game, 0, 300, false);
+        this.game.addEntity(this.person);
     }
 
     clearEntities() {
