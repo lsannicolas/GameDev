@@ -3,7 +3,9 @@ var gameEngine = new GameEngine();
 var ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload('./sprites/BoyNinja.png');
+ASSET_MANAGER.queueDownload('./sprites/BoyNinjaLeft.png');
 ASSET_MANAGER.queueDownload('./sprites/ninjaGirl.png');
+ASSET_MANAGER.queueDownload('./sprites/ninjaGirlLeft.png');
 
 ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
