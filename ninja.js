@@ -76,6 +76,7 @@ class Ninja {
     }
 
     update() {
+
     }
 
     draw(ctx) {

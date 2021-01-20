@@ -38,6 +38,7 @@ class GameEngine {
             return { x: x, y: y };
         }
 
+
         this.ctx.canvas.addEventListener("mousemove", function (e) {
             //console.log(getXandY(e));
             that.mouse = getXandY(e);
