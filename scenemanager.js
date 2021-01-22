@@ -19,12 +19,14 @@ class SceneManager {
 
         let zombie = new Zombie(this.game, 0 , 0, false);
         this.game.addEntity(zombie);
+//         this.boy = new Ninja(this.game, 0, 0, true);
+//         this.game.addEntity(this.person);
+//         this.girl = new Ninja(this.game, 0, 300, false);
+//         this.game.addEntity(this.person);
 
     };
 
     update() {
-        console.log("HEARD");
-        console.log(PARAMS.DEBUG = document.getElementById("debug").checked);
         PARAMS.DEBUG = document.getElementById("debug").checked;
 
 
