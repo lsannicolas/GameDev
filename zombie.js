@@ -64,20 +64,20 @@ class Zombie {
     }
 
     draw(ctx) {
-        this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, .5);
-        this.animation2.drawFrame(this.game.clockTick, ctx, this.x+200, this.y, .5);
-        this.animation3.drawFrame(this.game.clockTick, ctx, this.x+400, this.y, .5);
-        this.animation4.drawFrame(this.game.clockTick, ctx, this.x+600, this.y, .5);
+         this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, .5);
+//         this.animation2.drawFrame(this.game.clockTick, ctx, this.x+200, this.y, .5);
+//         this.animation3.drawFrame(this.game.clockTick, ctx, this.x+400, this.y, .5);
+//         this.animation4.drawFrame(this.game.clockTick, ctx, this.x+600, this.y, .5);
 
-        this.animationG.drawFrame(this.game.clockTick, ctx, this.x, this.y + 400, .5);
-        this.animation2G.drawFrame(this.game.clockTick, ctx, this.x+200, this.y + 400, .5);
-        this.animation3G.drawFrame(this.game.clockTick, ctx, this.x+400, this.y + 400, .5);
-        this.animation4G.drawFrame(this.game.clockTick, ctx, this.x+600, this.y + 400, .5);
+//         this.animationG.drawFrame(this.game.clockTick, ctx, this.x, this.y + 400, .5);
+//         this.animation2G.drawFrame(this.game.clockTick, ctx, this.x+200, this.y + 400, .5);
+//         this.animation3G.drawFrame(this.game.clockTick, ctx, this.x+400, this.y + 400, .5);
+//         this.animation4G.drawFrame(this.game.clockTick, ctx, this.x+600, this.y + 400, .5);
 
-        // if (PARAMS.DEBUG) {
-        //     ctx.strokeStyle = 'Red';
-        //     ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
-        // }
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
+        }
     }
 
 
