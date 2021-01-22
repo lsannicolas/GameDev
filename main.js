@@ -13,8 +13,9 @@ ASSET_MANAGER.queueDownload('./sprites/ninjaGirlLeft.png');
 
 
 ASSET_MANAGER.downloadAll(function () {
-
 	var gameEngine = new GameEngine();
+
+	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
@@ -28,3 +29,4 @@ ASSET_MANAGER.downloadAll(function () {
 
 	gameEngine.start();
 });
+

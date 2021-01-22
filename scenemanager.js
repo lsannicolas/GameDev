@@ -15,8 +15,10 @@ class SceneManager {
 
     loadLevelOne() {
         this.x = 0;
-        this.zombie = new Zombie(this.game, this.x , this.y, false);
-        this.game.addEntity(this.zombie);
+        this.y = 0;
+
+        let zombie = new Zombie(this.game, 0 , 0, false);
+        this.game.addEntity(zombie);
 //         this.boy = new Ninja(this.game, 0, 0, true);
 //         this.game.addEntity(this.person);
 //         this.girl = new Ninja(this.game, 0, 300, false);
