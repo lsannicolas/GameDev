@@ -17,12 +17,12 @@ class SceneManager {
         this.x = 0;
         this.y = 0;
 
-        let zombie = new Zombie(this.game, 0 , 0, false);
+        let zombie = new Zombie(this.game, 0, 0, false);
         this.game.addEntity(zombie);
-//         this.boy = new Ninja(this.game, 0, 0, true);
-//         this.game.addEntity(this.person);
-//         this.girl = new Ninja(this.game, 0, 300, false);
-//         this.game.addEntity(this.person);
+        this.boy = new Ninja(this.game, 0, 500, true);
+        this.game.addEntity(this.boy);
+        // this.girl = new Ninja(this.game, 0, 300, false);
+        // this.game.addEntity(this.girl);
 
     };
 
@@ -30,8 +30,8 @@ class SceneManager {
         PARAMS.DEBUG = document.getElementById("debug").checked;
 
 
-        let midpoint = PARAMS.CANVAS_WIDTH/2 - 60;
-        let midpointY = PARAMS.CANVAS_HEIGHT/2 - 60;
+        let midpoint = PARAMS.CANVAS_WIDTH / 2 - 60;
+        let midpointY = PARAMS.CANVAS_HEIGHT / 2 - 60;
 
         // if (this.x < this.knight.x - midpoint) this.x = this.knight.x - midpoint;
         //always start center
