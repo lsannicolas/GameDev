@@ -1,17 +1,5 @@
 class Animator {
-    /**
-     * 
-     * @param {*} spritesheet the spritesheet to reference
-     * @param {*} xStart starting x pixel
-     * @param {*} yStart starting y pixel
-     * @param {*} width width of the animation
-     * @param {*} height height of the animation
-     * @param {*} frameCount number of animation frames
-     * @param {*} frameDuration how long the frame will show
-     * @param {*} framePadding space between animation frames
-     * @param {*} reverse reverse the animation
-     * @param {*} loop loop through the animation
-     */
+
     constructor(spritesheet, xStart, yStart, width, height, frameCount, frameDuration, framePadding, reverse, loop) {
         Object.assign(this, { spritesheet, xStart, yStart, height, width, frameCount, frameDuration, framePadding, reverse, loop });
 
@@ -41,10 +29,11 @@ class Animator {
             this.width * scale,
             this.height * scale);
 
-        // if (PARAMS.DEBUG) {
-        //     ctx.strokeStyle = 'Green';
-        //     ctx.strokeRect(x, y, this.width * scale, this.height * scale);
-        // }
+
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Green';
+            ctx.strokeRect(x, y, this.width * scale, this.height * scale);
+        }
     };
 
     currentFrame() {
@@ -54,4 +43,4 @@ class Animator {
     isDone() {
         return (this.elapsedTime >= this.totalTime);
     };
-};
+
