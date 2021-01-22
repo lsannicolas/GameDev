@@ -5,6 +5,8 @@ class SceneManager {
         this.x = 0;
         this.y = 0;
         this.loadLevelOne();
+
+
     };
 
 
@@ -14,9 +16,19 @@ class SceneManager {
     };
 
     loadLevelOne() {
+        this.game.entities = [];
         this.x = 0;
-        this.zombie = new Zombie(this.game, this.x , this.y, false);
-        this.game.addEntity(this.zombie);
+        
+        let platform = new Platform(this.game, 200, 200, 500);
+        this.game.addEntity(platform);
+        //platform = new Platform(this.game, 40, 200, 500);
+        //this.game.addEntity(platform);
+
+
+        //this.zombie = new Zombie(this.game, this.x , this.y, false);
+        //this.game.addEntity(this.zombie);dw
+
+       
 
     };
 
@@ -26,12 +38,6 @@ class SceneManager {
 
         let midpoint = PARAMS.CANVAS_WIDTH/2 - 60;
         let midpointY = PARAMS.CANVAS_HEIGHT/2 - 60;
-
-        // if (this.x < this.knight.x - midpoint) this.x = this.knight.x - midpoint;
-        //always start center
-        // this.x = this.CHARACTERNAME.x - midpoint;
-        // this.y = this.CHARACTERNAME.y - midpointY;
-
 
     };
 

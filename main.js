@@ -5,6 +5,8 @@ var ASSET_MANAGER = new AssetManager();
 ASSET_MANAGER.queueDownload("./sprites/zombieboy2.png");
 ASSET_MANAGER.queueDownload("./sprites/zombiegirl2.png");
 
+ASSET_MANAGER.queueDownload("./sprites/platforms.png");
+
 ASSET_MANAGER.downloadAll(function () {
 
 	var gameEngine = new GameEngine();
