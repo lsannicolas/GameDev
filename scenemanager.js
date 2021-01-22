@@ -17,8 +17,10 @@ class SceneManager {
 //         this.x = 0;
 //         this.zombie = new Zombie(this.game, this.x , this.y, false);
 //         this.game.addEntity(this.zombie);
-        this.ninja = new Ninja(this.game, 0, this.y);
-        this.game.addEntity(this.ninja);
+        this.boy = new Ninja(this.game, 0, 0, true);
+        this.game.addEntity(this.person);
+        this.girl = new Ninja(this.game, 0, 300, false);
+        this.game.addEntity(this.person);
 
     };
 
