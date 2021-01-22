@@ -1,4 +1,5 @@
 class Animator {
+
     constructor(spritesheet, xStart, yStart, width, height, frameCount, frameDuration, framePadding, reverse, loop) {
         Object.assign(this, { spritesheet, xStart, yStart, height, width, frameCount, frameDuration, framePadding, reverse, loop });
 
@@ -28,6 +29,7 @@ class Animator {
             this.width * scale,
             this.height * scale);
 
+
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Green';
             ctx.strokeRect(x, y, this.width * scale, this.height * scale);
@@ -42,3 +44,5 @@ class Animator {
         return (this.elapsedTime >= this.totalTime);
     };
 };
+
+
