@@ -87,7 +87,6 @@ class Zombie {
                 this.y - this.game.camera.y, PARAMS.SCALE);
         }
         if (PARAMS.DEBUG) {
-            // console.log("HEARD")
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
         }
