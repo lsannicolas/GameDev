@@ -15,12 +15,16 @@ class SceneManager {
 
     loadLevelOne() {
         this.x = 0;
-        this.zombie = new Zombie(this.game, this.x , this.y, false);
-        this.game.addEntity(this.zombie);
+        this.y = 0;
+
+        let zombie = new Zombie(this.game, 0 , 0, false);
+        this.game.addEntity(zombie);
 
     };
 
     update() {
+        console.log("HEARD");
+        console.log(PARAMS.DEBUG = document.getElementById("debug").checked);
         PARAMS.DEBUG = document.getElementById("debug").checked;
 
 
