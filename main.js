@@ -12,6 +12,10 @@ ASSET_MANAGER.queueDownload('./sprites/ninjaGirl.png');
 ASSET_MANAGER.queueDownload('./sprites/ninjaGirlLeft.png');
 
 
+ASSET_MANAGER.queueDownload("./sprites/stone.png");
+ASSET_MANAGER.queueDownload("./sprites/grass.png");
+ASSET_MANAGER.queueDownload("./sprites/brick.png");
+
 ASSET_MANAGER.downloadAll(function () {
 	var gameEngine = new GameEngine();
 

@@ -90,7 +90,6 @@ class Zombie {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y, this.BB.width, this.BB.height);
         }
-
     }
 
 
