@@ -75,24 +75,30 @@ class Ninja {
         this.animations[4][1] = new Animator(this.spritesheetleft, 30, 2250, 530, 540, 10, .05, 58, true, true);
     }
 
+
+    updateBB() {
+        this.lastBB = this.BB;
+        if (this.size === 0 || this.size === 3) {
+            this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+        }
+        else {
+            this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2);
+        }
+    };
+
     update() {
 
-    }
+    };
 
     draw(ctx) {
-        this.animations[0][0].drawFrame(this.game.clockTick, ctx, 0, this.y, .25);
-        this.animations[0][1].drawFrame(this.game.clockTick, ctx, 0, this.y + 150, .25);
-
-        this.animations[1][0].drawFrame(this.game.clockTick, ctx, 100, this.y, .25);
-        this.animations[1][1].drawFrame(this.game.clockTick, ctx, 100, this.y + 150, .25);
-
-        this.animations[2][0].drawFrame(this.game.clockTick, ctx, 200, this.y, .25);
-        this.animations[2][1].drawFrame(this.game.clockTick, ctx, 200, this.y + 150, .25);
-
-        this.animations[3][0].drawFrame(this.game.clockTick, ctx, 300, this.y, .25);
-        this.animations[3][1].drawFrame(this.game.clockTick, ctx, 300, this.y + 150, .25);
-
-        this.animations[4][0].drawFrame(this.game.clockTick, ctx, 450, this.y, .25);
-        this.animations[4][1].drawFrame(this.game.clockTick, ctx, 450, this.y + 150, .25);
-    }
+        if (this.dead) {
+            this.animations[4][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y, PARAMS.SCALE);
+        } else {
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y, PARAMS.SCALE);
+        }
+        // if (PARAMS.DEBUG) {
+        //     ctx.strokeStyle = 'Red';
+        //     ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        // }
+    };
 }
