@@ -1,14 +1,10 @@
 class Platform{
     constructor(game, x, y, w) {
         Object.assign(this, { game, x, y, w});
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/platforms.png");
-        this.h = 350;
-        this.BB = new BoundingBox(this.x, this.y, this.w);
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/brick.png");
+        this.h = 4 * PARAMS.BLOCKWIDTH;
+        this.BB = new BoundingBox(this.x, this.y, this.w, this.h);
 
-        this.animation = [];
-
-        this.animation.push(new Animator(ASSET_MANAGER.getAsset("./sprites/platforms.png"), 51, 101, 385, 157, 1, 1, 0, false, true));
-        this.animation.push(new Animator(ASSET_MANAGER.getAsset("./sprites/platforms.png"), 521, 5, 389, 260, 1, 0, 0, false, true));
         //this.leftBB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2)
         //this.rightBB = new BoundingBox(this.x + this.w - PARAMS.BLOCKWIDTH, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2)
     };
@@ -19,11 +15,11 @@ class Platform{
 
     draw(ctx){
         ctx.drawImage(this.spritesheet, this.x, this.y, this.w, this.h);
-        //ctx.drawImage(this.spritesheet, 51, 101, 385, 157, 1, 0, 0,);
+        //ctx.drawImage(this.spritesheet, 51, 101, 385, 157, 1, 1, 0, false, true);
 
-        if(this.type){
-            this.animation[this.type].drawFrame(this.game.clockTick, ctx, this.x, this.y, PARAMS.SCALE);
-        }
+        // if(this.type){
+        //     this.animation[this.type].drawFrame(this.game.clockTick, ctx, this.x, this.y, PARAMS.SCALE);
+        // }
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.x - this.game.camera.x, this.y - this.game.camera.y, this.BB.width, this.BB.height);
