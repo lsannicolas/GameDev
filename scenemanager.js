@@ -20,6 +20,8 @@ class SceneManager {
         this.x = 0;
         this.y = 0;
 
+
+
         let platform = new Platform(this.game, 5 * PARAMS.BLOCKWIDTH, 5 * PARAMS.BLOCKWIDTH, 8 * PARAMS.BLOCKWIDTH);
         this.game.addEntity(platform);
         platform = new Platform(this.game, 30 * PARAMS.BLOCKWIDTH, 15 * PARAMS.BLOCKWIDTH, 8 * PARAMS.BLOCKWIDTH);
@@ -49,14 +51,15 @@ class SceneManager {
 //         this.girl = new Ninja(this.game, 0, 300, false);
 //         this.game.addEntity(this.person);
 
+
     };
 
     update() {
         PARAMS.DEBUG = document.getElementById("debug").checked;
 
 
-        let midpoint = PARAMS.CANVAS_WIDTH/2 - 60;
-        let midpointY = PARAMS.CANVAS_HEIGHT/2 - 60;
+        let midpoint = PARAMS.CANVAS_WIDTH / 2 - 60;
+        let midpointY = PARAMS.CANVAS_HEIGHT / 2 - 60;
 
     };
 
