@@ -7,12 +7,12 @@ class Zombie {
             this.width = 360;
             this.height = 540;
         } else {
-            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/zombieboy2.png");
-            this.width = 338;
-            this.height = 475;
+            this.spritesheet = ASSET_MANAGER.getAsset("./sprites/zombieboynew.png");
+            this.width = 160;
+            this.height = 220;
         }
         //state variables
-        this.facing = 0; //0 for right, 1 for left
+        this.facing = 1; //0 for right, 1 for left
         this.state = 0;  //0 for idle, 1 for walking
         this.dead = false;
 
@@ -41,12 +41,12 @@ class Zombie {
             this.animations[1][1] = new Animator(this.spritesheet, 30, 1210, 360, 540, 7, 0.07, 163, true, true);
         } else {
             //idle
-            this.animations[0][0] = new Animator(this.spritesheet, 27, 557, this.width, this.height, 5, 0.07, 94, false, true);
-            this.animations[0][1] = new Animator(this.spritesheet, 75, 1704, this.width, this.height, 5, 0.07, 94, true, true);
+            this.animations[0][0] = new Animator(this.spritesheet, 50, 535, this.width - 20, this.height, 12, 0.05, 61.5, false, true);
+            this.animations[0][1] = new Animator(this.spritesheet, 45, 792, this.width - 20, this.height, 12, 0.05, 61.5, true, true);
 
             //walking
-            this.animations[1][0] = new Animator(this.spritesheet, 22, 18, this.width, this.height, 7, 0.07, 94, false, true);
-            this.animations[1][1] = new Animator(this.spritesheet, 52, 1168, this.width, this.height, 7, 0.07, 94, true, true);
+            this.animations[1][0] = new Animator(this.spritesheet, 20, 20, this.width, this.height, 10, 0.07, 42, false, true);
+            this.animations[1][1] = new Animator(this.spritesheet, 20, 276, this.width, this.height, 10, 0.07, 42, true, true);
 
 
         }

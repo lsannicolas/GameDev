@@ -50,8 +50,8 @@ class SceneManager {
 
 
 
-        //let zombie = new Zombie(this.game, 0 , 0, false);
-        //this.game.addEntity(zombie);
+        let zombie = new Zombie(this.game, 40 , 0, false);
+        this.game.addEntity(zombie);
         this.ninja = new Ninja(this.game, 250, 0, true);
         this.game.addEntity(this.ninja);
         // this.girl = new Ninja(this.game, 0, 300, false);

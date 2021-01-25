@@ -116,8 +116,7 @@ class Ninja {
     update() {
         //TODO refactor for knight
         const TICK = this.game.clockTick;
-
-        //adjust constants to alter physics
+        //-------------adjust constants to alter physics-----------
         //run
         const MAX_RUN = 1000; //adjust for maximum run speed
         const ACC_RUN = 800;  //adjust for maximum acceleration
@@ -133,14 +132,14 @@ class Ninja {
         //in air deceleration
         const AIR_DEC = 2;
 
-        //SET SCREEN BOUNDS (MAYBE DO BOUNDING BOX LATER
+        //SET SCREEN BOUNDS (MAYBE DO BOUNDING BOX LATER)
         const SCREEN_BOUND_LEFT = 170;
         const SCREEN_BOUND_RIGHT = 720;
+        //-----------------------------------------------------------
 
         //collisions
         var that = this;
         let canFall = true;
-
         //collision system needs a rework
         this.game.entities.forEach( function (entity) {
             if ((entity.BB && that.BB.collide(entity.BB))
