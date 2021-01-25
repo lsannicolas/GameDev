@@ -21,8 +21,8 @@ ASSET_MANAGER.downloadAll(function () {
 
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 
-	var canvas = document.getElementById('gameWorld');
-	var ctx = canvas.getContext('2d');
+	let canvas = document.getElementById('gameWorld');
+	let ctx = canvas.getContext('2d');
 
 	PARAMS.CANVAS_WIDTH = canvas.width;
 	PARAMS.CANVAS_HEIGHT = canvas.height;
