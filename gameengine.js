@@ -13,7 +13,6 @@ class GameEngine {
         this.down = false;
         this.A = false;
         this.B = false;
-        this.double = false;
     };
 
     init(ctx) { // called after page has loaded
@@ -34,9 +33,8 @@ class GameEngine {
 
     startInput() {
         var that = this;
-
         this.ctx.canvas.addEventListener("keydown", function (e) {
-
+            //console.log(e.code);
             switch (e.code) {
                 case "ArrowLeft":
                 case "KeyA":
@@ -66,6 +64,7 @@ class GameEngine {
         }, false);
 
         this.ctx.canvas.addEventListener("keyup", function (e) {
+
             switch (e.code) {
                 case "ArrowLeft":
                 case "KeyA":
