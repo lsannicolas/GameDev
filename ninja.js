@@ -7,8 +7,10 @@ class Ninja {
         this.velocity = { x: 0, y: 0 };
         this.fallAcc = 2000;
         this.facing = 0; //0: right, 1: left
-        this.state = 0;//0: idle, 1: running, 2: jumping, 3: attacking, 4: death
+        this.state = 0;//0: idle, 1: running, 2: jumping, 3: attacking, 4: death, 5: throwing
         this.animations = [];
+        this.throwRight = ASSET_MANAGER.getAsset('./sprites/throwRight.png');
+        this.throwLeft = ASSET_MANAGER.getAsset('./sprites/throwLeft.png');
         if (!isBoy) {
             this.spritesheetright = ASSET_MANAGER.getAsset('./sprites/ninjaGirl.png');
             this.spritesheetleft = ASSET_MANAGER.getAsset('./sprites/ninjaGirlLeft.png');
@@ -25,7 +27,7 @@ class Ninja {
 
     fillAnimations() {
         //Load the animations from here
-        for (var i = 0; i < 5; i++) { //0: idle, 1: running, 2: jumping, 3: attacking, 4: death
+        for (var i = 0; i < 6; i++) { //0: idle, 1: running, 2: jumping, 3: attacking, 4: death
             this.animations.push([])
             for (var j = 0; j < 2; j++) { // 0: left, 1: right
                 this.animations[i].push([]);
@@ -55,6 +57,10 @@ class Ninja {
         // Death 
         this.animations[4][0] = new Animator(this.spritesheetright, 18, 1985, 487, 485, 10, .05, 5, false, true);
         this.animations[4][1] = new Animator(this.spritesheetleft, 560, 1985, 487, 485, 10, .05, 5, true, true);
+
+        //Throw
+        this.animations[5][0] = new Animator(this.throwRight, 25, 0, 375, 460, 9, .05, 12, false, true);
+        this.animations[5][1] = new Animator(this.throwLeft, 260, 0, 375, 460, 9, .05, 12, true, true);
     }
 
 
@@ -80,6 +86,10 @@ class Ninja {
         // Death 
         this.animations[4][0] = new Animator(this.spritesheetright, 30, 2250, 530, 540, 10, .05, 58, false, true);
         this.animations[4][1] = new Animator(this.spritesheetleft, 30, 2250, 530, 540, 10, .05, 58, true, true);
+
+        // Throw 
+        this.animations[5][0] = new Animator(this.throwRight, 60, 0, 400 - 60, 460, 9, .5, 10, false, true);
+        // this.animations[5][1] = new Animator(this.spritesheetleft, 30, 2250, 530, 540, 10, .05, 58, true, true);
     }
 
     updateBB() {
@@ -170,7 +180,6 @@ class Ninja {
                 else if (that.lastBB.left >= entity.BB.right) { //collisions ->
                     that.x = that.lastBB.left;
                     that.velocity.x *= .8
-                    console.log('bonk')
                     that.updateBB();
                 } else if (that.lastBB.right <= entity.BB.left) {  //collisions <-
                     that.x = that.lastBB.left;
@@ -195,6 +204,8 @@ class Ninja {
             if (this.game.right) { //face right walk right
                 this.facing = 0;
                 this.state = 1;
+            } else if (this.game.C) {
+                this.state = 5;
             } else if (this.game.left) { //face left walk left
                 this.facing = 1;
                 this.state = 1;
@@ -306,5 +317,6 @@ class Ninja {
                 ctx.strokeRect(this.ABB.x, this.ABB.y - this.game.camera.y, this.ABB.width, this.ABB.height);
             }
         }
+
     };
 }
