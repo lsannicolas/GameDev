@@ -20,6 +20,7 @@ class Ninja {
         }
 
 
+
     }
 
     fillAnimations() {
@@ -81,40 +82,48 @@ class Ninja {
         this.animations[4][1] = new Animator(this.spritesheetleft, 30, 2250, 530, 540, 10, .05, 58, true, true);
     }
 
-
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, 50, 90);
+        this.BB = new BoundingBox(this.x, this.y, 65, 90);
         //below I tried to alter BB based on animations but it screws with collisions
 
-        //below if you set PARAMS.SCALE/4 in draw method at bottom
+        if (this.state === 3) {
+            if (this.facing === 0) {
+                this.ABB = new BoundingBox(this.x + 70, this.y, 35, 90);
+            } else {
+                this.ABB = new BoundingBox(this.x - 50, this.y, 40, 90);
+            }
+        }
+
+        // //below if you set PARAMS.SCALE/4 in draw method at bottom
         // if (this.facing === 0 && this.state === 1) {
         //     this.BB = new BoundingBox(this.x + 15, this.y, 70, 113);
-        // } else if (this.facing === 1 && this.state === 1){
+        // } else if (this.facing === 1 && this.state === 1) {
         //     this.BB = new BoundingBox(this.x + 8, this.y, 70, 113);
         // } else if (this.state === 3 && this.facing === 0) {
-        //     this.BB = new BoundingBox(this.x + 10, this.y, 125, 113);
-        // } else if (this.state ===3 && this.facing === 1) {
-        //     this.BB = new BoundingBox(this.x - 65, this.y, 125, 113);
+        //     this.BB = new BoundingBox(this.x + 10, this.y, 70, 113);
+        // } else if (this.state === 3 && this.facing === 1) {
+        //     this.BB = new BoundingBox(this.x - 65, this.y, 70, 113);
         // } else {
         //     this.BB = new BoundingBox(this.x, this.y, 60, 113);
         // }
-        // use below if you set PARAMS.SCALE/5 in draw method at bottom
+
+
+        // // use below if you set PARAMS.SCALE/5 in draw method at bottom
         // if (this.facing === 0 && this.state === 1) {
         //     this.BB = new BoundingBox(this.x + 5, this.y, 60, 90);
-        // } else if (this.facing === 1 && this.state === 1){
+        // } else if (this.facing === 1 && this.state === 1) {
         //     this.BB = new BoundingBox(this.x + 8, this.y, 60, 90);
         // } else if (this.state === 3 && this.facing === 0) {
-        //     this.BB = new BoundingBox(this.x + 10, this.y, 90, 90);
-        // } else if (this.state ===3 && this.facing === 1) {
-        //     this.BB = new BoundingBox(this.x - 52, this.y, 100, 90);
+        //     this.BB = new BoundingBox(this.x + 10, this.y, 60, 90);
+        // } else if (this.state === 3 && this.facing === 1) {
+        //     this.BB = new BoundingBox(this.x - 10, this.y, 60, 90);
         // } else { //idle either way
         //     this.BB = new BoundingBox(this.x, this.y, 50, 90);
         // }
     };
 
     update() {
-        //TODO refactor for knight
         const TICK = this.game.clockTick;
 
         //adjust constants to alter physics
@@ -138,24 +147,44 @@ class Ninja {
         const SCREEN_BOUND_RIGHT = 720;
 
         //collisions
-        var that = this;
+        let that = this;
         let canFall = true;
 
+
         //collision system needs a rework
-        this.game.entities.forEach( function (entity) {
+        this.game.entities.forEach(function (entity) {
             if ((entity.BB && that.BB.collide(entity.BB))
                 && (entity instanceof Platform)) {
                 if (that.BB.bottom - entity.BB.top < 20 && that.velocity.y >= 0) { //if on top/falling
                     that.y = entity.BB.top - that.BB.height + 1;
                     that.velocity.y = 0;
                     canFall = false;
-                } else if (that.BB.right - entity.BB.left < 20 ) { //collisions ->
-                    that.x = entity.BB.left - that.BB.width - 10;
-                } else if (that.BB.left - entity.BB.right < 20) {  //collisions <-
-                    that.x = entity.BB.x + entity.BB.width + 10;
+                    that.updateBB();
+                    // console.log("top platform")
+                } else if (that.lastBB.top >= entity.BB.bottom) {
+                    that.y = that.lastBB.top;
+                    that.x = that.BB.x;
+                    that.velocity.y = 5
+                    that.updateBB();
+                }
+                else if (that.lastBB.left >= entity.BB.right) { //collisions ->
+                    that.x = that.lastBB.left;
+                    that.velocity.x *= .8
+                    console.log('bonk')
+                    that.updateBB();
+                } else if (that.lastBB.right <= entity.BB.left) {  //collisions <-
+                    that.x = that.lastBB.left;
+                    that.velocity.x *= .8
+                    that.updateBB();
                 }
             }
+            //TODO test the zombie
+            // if ((entity.BB && that.ABB.collide(entity.BB))
+            //     && (entity instanceof Zombie)) {
+            //         entity.dead = true;
+            // }
         });
+
         let yVel = Math.abs(this.velocity.y);
         //physics
         let yTest = this.velocity.y;
@@ -178,11 +207,11 @@ class Ninja {
             }
 
             //if moving right and then face left, skid
-            if(this.game.left && this.velocity.x > 0 && yVel < 20) {
+            if (this.game.left && this.velocity.x > 0 && yVel < 20) {
                 this.velocity.x -= TURN_SKID;
             }
             //if moving left ann then face right, skid
-            if(this.game.right && this.velocity.x < 0 && yVel < 20) {
+            if (this.game.right && this.velocity.x < 0 && yVel < 20) {
                 this.velocity.x += TURN_SKID;
             }
             //if you unpress left and right while moving right
@@ -193,7 +222,7 @@ class Ninja {
                     } else if (yVel < 20) {
                         this.velocity.x = 0;
                     } else if (this.velocity.x > 0) { //this is where you control horizontal deceleration when in air
-                        this.velocity.x-=AIR_DEC;
+                        this.velocity.x -= AIR_DEC;
                     }
                 } else { //if you unpress left and right while moving left
                     if (this.velocity.x < 0 && yVel < 20) {
@@ -201,7 +230,7 @@ class Ninja {
                     } else if (yVel < 20) {
                         this.velocity.x = 0;
                     } else if (this.velocity.x < 0) { //this is where you control horizontal deceleration when in air
-                       this.velocity.x+=AIR_DEC;
+                        this.velocity.x += AIR_DEC;
                     }
                 }
             }
@@ -212,7 +241,7 @@ class Ninja {
                         this.velocity.x += ACC_RUN * TICK;
                     }
                 }
-            } else if(this.facing === 1) {                  //facing left
+            } else if (this.facing === 1) {                  //facing left
                 if (!this.game.right && this.game.left) {   //and pressing left.
                     if (yVel < 10 && !this.game.B) {        //makes sure you are on ground
                         this.velocity.x -= ACC_RUN * TICK;
@@ -266,13 +295,16 @@ class Ninja {
         if (this.dead) {
             //TODO
         } else if (this.state === 3 && this.facing === 1) { //need to offset so our player doesn't shift when attacking left
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 50, this.y - this.game.camera.y, PARAMS.SCALE/5);
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 50, this.y - this.game.camera.y, PARAMS.SCALE / 5);
         } else {
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y, PARAMS.SCALE/5);
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y, PARAMS.SCALE / 5);
         }
         if (PARAMS.DEBUG) {
-            ctx.strokeStyle = 'Red';
+            ctx.strokeStyle = 'blue';
             ctx.strokeRect(this.BB.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+            if (this.state === 3) {
+                ctx.strokeRect(this.ABB.x, this.ABB.y - this.game.camera.y, this.ABB.width, this.ABB.height);
+            }
         }
     };
 }
