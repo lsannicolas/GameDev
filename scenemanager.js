@@ -4,6 +4,8 @@ class SceneManager {
         this.game.camera = this;
         this.x = 0;
         this.y = 0;
+        this.yFlag = true;
+        //this.ninja = new Ninja(this.game, 0 * PARAMS.BLOCKWIDTH, 2.5 * PARAMS.BLOCKWIDTH, true);
         this.loadLevelOne();
     };
 
@@ -53,24 +55,40 @@ class SceneManager {
         //let zombie = new Zombie(this.game, 0 , 0, false);
         //this.game.addEntity(zombie);
         this.ninja = new Ninja(this.game, 250, 0, true);
+       // this.ninja.y = y;
+       // this.ninja.x = x;
         this.game.addEntity(this.ninja);
         // this.girl = new Ninja(this.game, 0, 300, false);
         // this.game.addEntity(this.girl);
-
+        
 
     };
 
+
+  
     update() {
         PARAMS.DEBUG = document.getElementById("debug").checked;
-
-
-        // let midpoint = PARAMS.CANVAS_WIDTH / 2 - 60;
         let midpointY = PARAMS.CANVAS_HEIGHT / 2 - 60;
-        //if you want x side scrolling
-        // this.x = this.ninja.x - midpoint;
-        this.x = 0;
-        this.y = this.ninja.y - midpointY;
+        /*this.x = 0;
+        if (this.yFlag) {
+            this.y = this.ninja.y - midpointY;
+            this.yFlag = false;
+        }
+        // if (this.ninja.y - midpointY < this.y) {
+        //     this.y -=2;
+        // } else {
+        //     this.y--;
+        // }
+        this.y--;
 
+       */ let midpointY = PARAMS.CANVAS_WIDTH/2 - PARAMS.BLOCKWIDTH / 2;
+
+        if (this.x < this.ninja.x - midpointY) this.x = this.ninja.x - midpointY;
+    
+        if (this.ninja.dead && this.ninja.y > PARAMS.BLOCKWIDTH * 16) {
+            this.ninja.dead = false;
+            this.loadLevel();
+        };
     };
 
     draw(ctx) {

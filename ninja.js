@@ -113,6 +113,10 @@ class Ninja {
         // }
     };
 
+    die() {
+        this.velocity.y = -950;
+        this.dead = true;
+    };
     update() {
         //TODO refactor for knight
         const TICK = this.game.clockTick;
@@ -141,6 +145,12 @@ class Ninja {
         var that = this;
         let canFall = true;
 
+       /* if (this.game.camera.y - this.game.ninja.y < -1200 ) {
+            this.game.camera.y = -200;
+            this.y = -200;
+        } */
+
+        if (this.y > PARAMS.BLOCKWIDTH * 16) this.die();
         //collision system needs a rework
         this.game.entities.forEach( function (entity) {
             if ((entity.BB && that.BB.collide(entity.BB))
