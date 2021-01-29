@@ -18,31 +18,28 @@ class SceneManager {
         this.y = 0;
 
 
-        let platform = new Platform(this.game, 500, 0, 128);
+        let platform = new Platform(this.game, 500, -50, 250);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 200, -200, 128);
+        platform = new Platform(this.game, 200, -250, 150);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 600, -400, 128);
+        platform = new Platform(this.game, 500, -500, 250);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 200, -600, 128);
+        platform = new Platform(this.game, 180, -750, 75);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 600, -800, 128);
+        platform = new Platform(this.game, 400, -900, 75);
         this.game.addEntity(platform);
-        // platform = new Platform(this.game, 450, 850, 128);
-        // this.game.addEntity(platform);
-        // platform = new Platform(this.game, 200, 1000, 128);
-        // this.game.addEntity(platform);
+        platform = new Platform(this.game, 600, -1200, 100);
+        this.game.addEntity(platform);
+        platform = new Platform(this.game, 170, -1400, 75);
+        this.game.addEntity(platform);
+        platform = new Platform(this.game, 350, -1600, 250);
+        this.game.addEntity(platform);
 
         //made ground below for testing
-        platform = new Platform(this.game, 170, 200, 128);
+        platform = new Platform(this.game, 170, 200, 600);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 298, 200, 128);
-        this.game.addEntity(platform);
-        platform = new Platform(this.game, 426, 200, 128);
-        this.game.addEntity(platform);
-        platform = new Platform(this.game, 554, 200, 128);
-        this.game.addEntity(platform);
-        platform = new Platform(this.game, 682, 200, 110);
+        //restart platform for testing death
+        platform = new Platform(this.game, 170, 100, 100);
         this.game.addEntity(platform);
 
 
@@ -52,11 +49,14 @@ class SceneManager {
 
 
 
-        //let zombie = new Zombie(this.game, 0 , 0, false);
-        //this.game.addEntity(zombie);
-        this.ninja = new Ninja(this.game, 250, 0, true);
-       // this.ninja.y = y;
-       // this.ninja.x = x;
+        let zombie = new Zombie(this.game, 500 , -150, true);
+        this.game.addEntity(zombie);
+        zombie = new Zombie(this.game, 650 , -550, true);
+        this.game.addEntity(zombie);
+        zombie = new Zombie(this.game, 650 , 150, false);
+        this.game.addEntity(zombie);
+
+        this.ninja = new Ninja(this.game, 200, 0, true);
         this.game.addEntity(this.ninja);
         // this.girl = new Ninja(this.game, 0, 300, false);
         // this.game.addEntity(this.girl);
@@ -87,4 +87,3 @@ class SceneManager {
 
     };
 };
-

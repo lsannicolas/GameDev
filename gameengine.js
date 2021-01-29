@@ -13,6 +13,7 @@ class GameEngine {
         this.down = false;
         this.A = false;
         this.B = false;
+        this.C = false;
     };
 
     init(ctx) { // called after page has loaded
@@ -60,6 +61,10 @@ class GameEngine {
                 case "Period":
                     that.A = true;
                     break;
+                case "KeyC":
+                    // case "Period":
+                    that.C = true;
+                    break;
             }
         }, false);
 
@@ -89,6 +94,10 @@ class GameEngine {
                 case "KeyX":
                 case "Period":
                     that.A = false;
+                    break;
+                case "KeyC":
+                    // case "Period":
+                    that.C = false;
                     break;
             }
         }, false);
