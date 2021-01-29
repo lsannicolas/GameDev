@@ -1,6 +1,6 @@
 class Zombie {
     constructor(game, x, y, isGirl) {
-        Object.assign(this, {game, x, y, isGirl});
+        Object.assign(this, { game, x, y, isGirl });
         //spritesheets
         if (this.isGirl) {
             this.spritesheet = ASSET_MANAGER.getAsset("./sprites/zombiegirl2.png");
@@ -32,7 +32,7 @@ class Zombie {
         }
 
         //store various states for animations
-        if (this.isGirl){
+        if (this.isGirl) {
             //idle - girl
             this.animations[0][0] = new Animator(this.spritesheet, 25, 615, this.width, this.height, 6, 0.07, 163, false, true);
             this.animations[0][1] = new Animator(this.spritesheet, 50, 1802, this.width, this.height, 6, 0.07, 163, true, true);
