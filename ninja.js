@@ -134,7 +134,7 @@ class Ninja {
     };
 
     update() {
-       const TICK = this.game.clockTick;
+        const TICK = this.game.clockTick;
 
         //adjust constants to alter physics
         //run
@@ -190,11 +190,15 @@ class Ninja {
             //TODO finish zombie/death animation
             if ((entity.BB && that.BB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
-                    // entity.dead = true;
+                // entity.dead = true;
                 that.velocity.x = 0;
                 that.velocity.y = 0;
                 that.x = 180
                 that.y = -100;
+            }
+            if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
+                && (entity instanceof Zombie)) {
+                entity.removeFromWorld = true;
             }
         });
 
