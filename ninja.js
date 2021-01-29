@@ -37,24 +37,24 @@ class Ninja {
 
     loadBoyAnimations() {
         this.fillAnimations();
-        //Idle 
+        //Idle
         this.animations[0][0] = new Animator(this.spritesheetright, 11, 521, 239, 453, 9, .05, 3, false, true);
         this.animations[0][1] = new Animator(this.spritesheetleft, 3045, 520, 240, 453, 9, .05, 2, true, true);
 
 
-        // running 
+        // running
         this.animations[1][0] = new Animator(this.spritesheetright, 16, 1494, 369, 460, 10, .05, 5, false, true);
         this.animations[1][1] = new Animator(this.spritesheetleft, 1740, 1490, 370, 460, 10, .05, 3, true, true);
 
-        // jumping 
+        // jumping
         this.animations[2][0] = new Animator(this.spritesheetright, 30, 1000, 350, 476, 10, .05, 22, false, true);
         this.animations[2][1] = new Animator(this.spritesheetleft, 1780, 1000, 350, 476, 10, .05, 22, true, true);
 
-        // attacking 
+        // attacking
         this.animations[3][0] = new Animator(this.spritesheetright, 25, 20, 535, 454, 10, .05, 11, false, true);
         this.animations[3][1] = new Animator(this.spritesheetleft, 10, 20, 535, 454, 10, .05, 11, true, true);
 
-        // Death 
+        // Death
         this.animations[4][0] = new Animator(this.spritesheetright, 18, 1985, 487, 485, 10, .05, 5, false, true);
         this.animations[4][1] = new Animator(this.spritesheetleft, 560, 1985, 487, 485, 10, .05, 5, true, true);
 
@@ -67,27 +67,27 @@ class Ninja {
     loadGirlAnimations() {
         this.fillAnimations();
 
-        //Idle 
+        //Idle
         this.animations[0][0] = new Animator(this.spritesheetright, 14, 592, 296, 523, 9, .05, 4, false, true);
         this.animations[0][1] = new Animator(this.spritesheetleft, 2875, 592, 296, 523, 9, .05, 4, true, true);
 
-        // running 
+        // running
         this.animations[1][0] = new Animator(this.spritesheetright, 43, 1687, 357, 517, 10, .05, 29, false, true);
         this.animations[1][1] = new Animator(this.spritesheetleft, 2015, 1687, 357, 517, 10, .05, 29, true, true);
 
-        // jumping 
+        // jumping
         this.animations[2][0] = new Animator(this.spritesheetright, 10, 1150, 400, 530, 10, .05, 9, false, true);
         this.animations[2][1] = new Animator(this.spritesheetleft, 1830, 1150, 385, 530, 10, .05, 24, true, true);
 
-        // attacking 
+        // attacking
         this.animations[3][0] = new Animator(this.spritesheetright, 20, 40, 525, 525, 10, .05, 9, false, true);
         this.animations[3][1] = new Animator(this.spritesheetleft, 535, 40, 525, 525, 10, .05, 9, true, true);
 
-        // Death 
+        // Death
         this.animations[4][0] = new Animator(this.spritesheetright, 30, 2250, 530, 540, 10, .05, 58, false, true);
         this.animations[4][1] = new Animator(this.spritesheetleft, 30, 2250, 530, 540, 10, .05, 58, true, true);
 
-        // Throw 
+        // Throw
         this.animations[5][0] = new Animator(this.throwRight, 60, 0, 400 - 60, 460, 9, .5, 10, false, true);
         // this.animations[5][1] = new Animator(this.spritesheetleft, 30, 2250, 530, 540, 10, .05, 58, true, true);
     }
@@ -134,7 +134,7 @@ class Ninja {
     };
 
     update() {
-        const TICK = this.game.clockTick;
+       const TICK = this.game.clockTick;
 
         //adjust constants to alter physics
         //run
@@ -187,11 +187,15 @@ class Ninja {
                     that.updateBB();
                 }
             }
-            //TODO test the zombie
-            // if ((entity.BB && that.ABB.collide(entity.BB))
-            //     && (entity instanceof Zombie)) {
-            //         entity.dead = true;
-            // }
+            //TODO finish zombie/death animation
+            if ((entity.BB && that.BB.collide(entity.BB))
+                && (entity instanceof Zombie)) {
+                    // entity.dead = true;
+                that.velocity.x = 0;
+                that.velocity.y = 0;
+                that.x = 180
+                that.y = -100;
+            }
         });
 
         let yVel = Math.abs(this.velocity.y);
