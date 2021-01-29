@@ -69,7 +69,7 @@ class SceneManager {
     update() {
         PARAMS.DEBUG = document.getElementById("debug").checked;
         let midpointY = PARAMS.CANVAS_HEIGHT / 2 - 60;
-        /*this.x = 0;
+        this.x = 0;
         if (this.yFlag) {
             this.y = this.ninja.y - midpointY;
             this.yFlag = false;
@@ -81,14 +81,6 @@ class SceneManager {
         // }
         this.y--;
 
-       */ let midpointY = PARAMS.CANVAS_WIDTH/2 - PARAMS.BLOCKWIDTH / 2;
-
-        if (this.x < this.ninja.x - midpointY) this.x = this.ninja.x - midpointY;
-    
-        if (this.ninja.dead && this.ninja.y > PARAMS.BLOCKWIDTH * 16) {
-            this.ninja.dead = false;
-            this.loadLevel();
-        };
     };
 
     draw(ctx) {
