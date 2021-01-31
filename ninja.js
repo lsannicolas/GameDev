@@ -136,19 +136,19 @@ class Ninja {
     update() {
         const TICK = this.game.clockTick;
 
-        //adjust constants to alter physics
+         //adjust constants to alter physics
         //run
         const MAX_RUN = 1000; //adjust for maximum run speed
-        const ACC_RUN = 800;  //adjust for maximum acceleration
+        const ACC_RUN = 600;  //adjust for maximum acceleration
         //skids
-        const DEC_SKID = 2000;
-        const TURN_SKID = 50;
+        const DEC_SKID = 1850;
+        const TURN_SKID = 65;
         //jump
-        const JUMP_ACC = 1000;  //adjust for maximum jump acc      //JUMP_ACC & MAX_JUMP
+        const JUMP_ACC = 900;  //adjust for maximum jump acc      //JUMP_ACC & MAX_JUMP
         const MAX_JUMP = 1500;  //adjust for maximum jump height   //NEED TO BOTH BE ADJUSTED
         //falling                                                  //FOR DESIRED RESULT
-        const MAX_FALL = 1000;  //adjust for fall speed
-        const STOP_FALL = 1575;
+        const MAX_FALL = 700;  //adjust for fall speed
+        const STOP_FALL = 1800;
         //in air deceleration
         const AIR_DEC = 2;
 
@@ -272,6 +272,14 @@ class Ninja {
                 if (this.velocity.y == 0) {      // this is where you alter jump physics
                     this.velocity.y -= JUMP_ACC; //we have the option of double jumping or jumping higher
                     this.fallAcc = STOP_FALL;    //if you hold b longer
+                }
+                // This part makes is so that the player can gain acceleration if they press a directional key
+                // at the same time as the jump key. if falling in air they can change their direction this way.
+                if(canFall && this.game.right) {
+                    this.velocity.x += 450 * TICK;
+                }
+                if(canFall && this.game.left) {
+                    this.velocity.x -= 450 * TICK;
                 }
             }
         }
