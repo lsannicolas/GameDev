@@ -133,6 +133,10 @@ class Ninja {
         // }
     };
 
+    die() {
+        this.velocity.y = -950;
+        this.dead = true;
+    };
     update() {
         const TICK = this.game.clockTick;
 
@@ -159,7 +163,6 @@ class Ninja {
         //collisions
         let that = this;
         let canFall = true;
-
 
         //collision system needs a rework
         this.game.entities.forEach(function (entity) {
