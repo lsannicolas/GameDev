@@ -18,23 +18,23 @@ class SceneManager {
 
         let platform = new Platform(this.game, 500, -50, 250);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 200, -250, 150);
+        platform = new Platform(this.game, 200, -250, 100);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 500, -500, 250);
+        platform = new Platform(this.game, 500, -400, 250);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 180, -750, 75);
+        platform = new Platform(this.game, 180, -500, 75);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 400, -900, 75);
+        platform = new Platform(this.game, 400, -690, 75);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 600, -1200, 100);
+        platform = new Platform(this.game, 600, -765, 100);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 170, -1400, 75);
+        platform = new Platform(this.game, 170, -900, 75);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 350, -1600, 250);
+        platform = new Platform(this.game, 350, -1100, 275);
         this.game.addEntity(platform);
 
         //made ground below for testing
-        platform = new Platform(this.game, 170, 200, 600);
+        platform = new Platform(this.game, 170, 300, 600);
         this.game.addEntity(platform);
         //restart platform for testing death
         platform = new Platform(this.game, 170, 100, 100);
