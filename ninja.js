@@ -94,14 +94,14 @@ class Ninja {
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, 65, 90);
+        this.BB = new BoundingBox(this.x, this.y, 50, 90);
         //below I tried to alter BB based on animations but it screws with collisions
 
         if (this.state === 3) {
             if (this.facing === 0) {
-                this.ABB = new BoundingBox(this.x + 70, this.y, 35, 90);
+                this.ABB = new BoundingBox(this.x + 50, this.y, 55, 90);
             } else {
-                this.ABB = new BoundingBox(this.x - 50, this.y, 40, 90);
+                this.ABB = new BoundingBox(this.x - 50, this.y, 50, 90);
             }
         }
 
@@ -140,7 +140,7 @@ class Ninja {
     update() {
         const TICK = this.game.clockTick;
 
-         //adjust constants to alter physics
+        //adjust constants to alter physics
         //run
         const MAX_RUN = 1000; //adjust for maximum run speed
         const ACC_RUN = 600;  //adjust for maximum acceleration
@@ -278,10 +278,10 @@ class Ninja {
                 }
                 // This part makes is so that the player can gain acceleration if they press a directional key
                 // at the same time as the jump key. if falling in air they can change their direction this way.
-                if(canFall && this.game.right) {
+                if (canFall && this.game.right) {
                     this.velocity.x += 450 * TICK;
                 }
-                if(canFall && this.game.left) {
+                if (canFall && this.game.left) {
                     this.velocity.x -= 450 * TICK;
                 }
             }
@@ -322,9 +322,20 @@ class Ninja {
         // }
         //with x side scrolling above without below
         //right now we have PARAMS.SCALE/4, if you alter we will need to adjust BB offsets here and above
+
         if (this.dead) {
             //TODO
-        } else if (this.state === 3 && this.facing === 1) { //need to offset so our player doesn't shift when attacking left
+        } else if (this.state === 1 && this.facing === 1) {
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 20, this.y - this.game.camera.y, PARAMS.SCALE / 5);
+        } else if (this.state === 5) {
+            if (this.facing === 0) {
+                this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 12, this.y - this.game.camera.y, PARAMS.SCALE / 5);
+            }
+            else {
+                this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 8, this.y - this.game.camera.y, PARAMS.SCALE / 5);
+            }
+        }
+        else if (this.state === 3 && this.facing === 1) { //need to offset so our player doesn't shift when attacking left
             this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 50, this.y - this.game.camera.y, PARAMS.SCALE / 5);
         } else {
             this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y, PARAMS.SCALE / 5);
