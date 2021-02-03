@@ -47,25 +47,26 @@ class SceneManager {
 
 
 
+        platform = new Platform(this.game, 200, 200, 150);
+        this.game.addEntity(platform);
 
-
-        let zombie = new Zombie(this.game, 500 , -150, true);
+        let zombie = new Zombie(this.game, 500, -150, true);
         this.game.addEntity(zombie);
-        zombie = new Zombie(this.game, 650 , -550, true);
+        zombie = new Zombie(this.game, 650, -550, true);
         this.game.addEntity(zombie);
-        zombie = new Zombie(this.game, 650 , 150, false);
-        this.game.addEntity(zombie);
+        // zombie = new Zombie(this.game, 650, 150, false);
+        // this.game.addEntity(zombie);
 
         this.ninja = new Ninja(this.game, 200, 0, true);
         this.game.addEntity(this.ninja);
         // this.girl = new Ninja(this.game, 0, 300, false);
         // this.game.addEntity(this.girl);
-        
+
 
     };
 
 
-  
+
     update() {
         PARAMS.DEBUG = document.getElementById("debug").checked;
         let midpointY = PARAMS.CANVAS_HEIGHT / 2 - 60;
@@ -79,7 +80,7 @@ class SceneManager {
         // } else {
         //     this.y--;
         // }
-        this.y-=.5;
+        this.y -= .5;
 
     };
 
