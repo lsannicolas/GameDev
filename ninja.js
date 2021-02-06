@@ -203,6 +203,11 @@ class Ninja {
                 && (entity instanceof Zombie)) {
                 entity.removeFromWorld = true;
             }
+            if ((entity.BB && that.BB.collide(entity.BB))
+                && (entity instanceof Item)) {
+                entity.removeFromWorld = true;
+                console.log("POWERED UP!")
+            }
         });
 
         let yVel = Math.abs(this.velocity.y);
