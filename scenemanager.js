@@ -80,7 +80,7 @@ class SceneManager {
         // } else {
         //     this.y--;
         // }
-        //this.y -= .5;
+        this.y -= .5;
 
     };
 
