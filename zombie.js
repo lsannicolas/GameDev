@@ -11,6 +11,9 @@ class Zombie {
             this.width = 160;
             this.height = 220;
         }
+        this.testTimer = new Timer();
+        this.time1 = this.testTimer.getTime();
+        this.time2 = this.time1;
         //state variables
         this.facing = 1; //0 for right, 1 for left
         this.state = 0;  //0 for idle, 1 for walking
@@ -19,7 +22,6 @@ class Zombie {
         this.canFall = true;
         this.leftBound = 0;
         this.rightBound = 0;
-        this.initialMove = true;
         this.updateBB();
         this.animations = [];
         this.loadAnimations();
@@ -82,66 +84,84 @@ class Zombie {
         } else {
             this.BB = new BoundingBox(this.x + 8, this.y, bWidth, bHeight);
         }
+
+
+        // if (this.state !== 3) {
+        //     this.lastBB = this.BB;
+        //     //incase you want to change based on direction facing
+        //     let bHeight = 80;
+        //     let bWidth = 50;
+        //     if (this.facing === 0) {
+        //         this.BB = new BoundingBox(this.x, this.y, bWidth, bHeight);
+        //     } else {
+        //         this.BB = new BoundingBox(this.x + 8, this.y, bWidth, bHeight);
+        //     }
+        // } else {
+        //     this.BB = new BoundingBox(0, 0, 0, 0);
+        // }
+
     }
 
     die() {
+        this.state = 3;
+        this.velocity.x = 0
+        this.time1 = this.testTimer.getTime();
         this.dead = true;
-        //do something?
+        // if (this.state === 3) {
+        //     this.removeFromWorld = true;
+        // }
     }
 
     update() {
-        console.log(this.dead)
+        if (this.state === 3) {
+            this.time2 = this.testTimer.getTime();
+        }
+        console.log(this.time2 - this.time1);
         const TICK = this.game.clockTick;
         const MAX_WALK = 100;
         const MAX_FALL = 100;
         const FALL_ACC = .5;
         let that = this;
         //collision system
-        this.game.entities.forEach( function (entity) {
+        if (!this.dead) {
+            this.game.entities.forEach(function (entity) {
+                if (entity.BB && that.BB.collide(entity.BB)) {
+                    if (entity instanceof Platform) {
+                        that.canFall = false;
+                        if (that.BB.bottom - entity.BB.top > 0 && that.BB.bottom - entity.BB.bottom < 50) { //if on top/falling
+                            that.velocity.y = 0;
+                            that.y = entity.BB.top - that.BB.height;
+                            that.leftBound = entity.BB.left;
+                            that.rightBound = entity.BB.right;
+                        }
 
-            if (entity.BB && that.BB.collide(entity.BB)) {
-                if (entity instanceof Platform) {
-                    that.canFall = false;
-                    if (that.BB.bottom - entity.BB.top >  0 && that.BB.bottom - entity.BB.bottom < 50) { //if on top/falling
-                        that.velocity.y = 0;
-                        that.y = entity.BB.top - that.BB.height;
-                        that.leftBound = entity.BB.left;
-                        that.rightBound = entity.BB.right;
                     }
-
-                } if (entity instanceof Ninja) {
-                    if (entity.BB.right > that.BB.left && entity.BB.left < that.BB.left) {
-                        that.facing = 1;
+                    if (entity instanceof Ninja) {
+                        if (entity.BB.right > that.BB.left && entity.BB.left < that.BB.left) {
+                            that.facing = 1;
+                        } else {
+                            that.facing = 0;
+                        }
+                        that.state = 2;
+                        that.velocity.x = 0;
                     } else {
-                        that.facing = 0;
+                        that.state = 1;
                     }
-                    that.state = 2;
-                    that.velocity.x = 0;
-                } else {
-                    that.state = 1;
                 }
-            }
-        });
+            });
 
-        //platform walking physics
-        if (this.dead) {
-            //TODO
-        } else {
+            //platform walking physics
             if (!this.canFall) {
                 if (this.leftBound > this.x) {
-                    //console.log("HEARD1")
                     this.state = 1;
                     this.facing = 0;
                     this.velocity.x += MAX_WALK;
                     this.initialMove = false;
                 } else if (this.rightBound - this.x < 70) {
-                    //console.log("HEARD2")
                     this.state = 1;
                     this.facing = 1;
                     this.velocity.x -= MAX_WALK;
-                    this.initialMove = false;
                 } else if (this.velocity.x === 0 && this.state !== 2 && this.facing === 1) {
-                    //console.log("HEARD3")
                     this.state = 1;
                     this.facing = 1;
                     this.velocity.x -= MAX_WALK;
@@ -151,32 +171,31 @@ class Zombie {
                     this.velocity.x += MAX_WALK;
                 }
             }
+
+            // update position
+            if (this.canFall) { //this makes sure we aren't applying velocity if we are on ground/platform
+                this.velocity.y += FALL_ACC;
+                if (this.velocity.y >= MAX_FALL) this.velocity.y = MAX_FALL;
+                //if (this.velocity.y <= -MAX_FALL) this.velocity.y = -MAX_FALL;
+                this.y += this.velocity.y;
+
+            }
+            if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
+            if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
+            this.x += this.velocity.x * TICK * PARAMS.SCALE;
+            this.updateBB();
+
+        //if dead
+        } else {
+            this.BB = new BoundingBox(0, 0, 0, 0);
         }
-        //collisions
-        this.game.entities.forEach(function (entity) {
-
-        });
-        // update position
-        if (this.canFall) { //this makes sure we aren't applying velocity if we are on ground/platform
-            //console.log("CANFALL");
-            this.velocity.y += FALL_ACC;
-            if (this.velocity.y >= MAX_FALL) this.velocity.y = MAX_FALL;
-            //if (this.velocity.y <= -MAX_FALL) this.velocity.y = -MAX_FALL;
-            this.y += this.velocity.y;
-
-        }
-        if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
-        if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
-        this.x += this.velocity.x * TICK * PARAMS.SCALE;
-        this.updateBB();
-
 
 
     }
 
     draw(ctx) {
-        if (this.dead) {
-
+        if (this.state === 3 && this.facing === 1) {
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 30, this.y - this.game.camera.y - 10, PARAMS.SCALE/2.5);
         } else {
             this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y - 10, PARAMS.SCALE/2.5);
         }
@@ -184,7 +203,6 @@ class Zombie {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
         }
-
     }
 
 
