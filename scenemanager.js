@@ -50,9 +50,9 @@ class SceneManager {
         platform = new Platform(this.game, 200, 200, 150);
         this.game.addEntity(platform);
 
-        let zombie = new Zombie(this.game, 500, -150, false);
+        let zombie = new Zombie(this.game, 500, -150, true);
         this.game.addEntity(zombie);
-        zombie = new Zombie(this.game, 650, -550, false);
+        zombie = new Zombie(this.game, 650, -550, true);
         this.game.addEntity(zombie);
         // zombie = new Zombie(this.game, 650, 150, false);
         // this.game.addEntity(zombie);

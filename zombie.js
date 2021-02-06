@@ -78,27 +78,19 @@ class Zombie {
         this.lastBB = this.BB;
         //incase you want to change based on direction facing
         let bHeight = 80;
-        let bWidth = 50;
+        let bWidth = 35;
         if (this.facing === 0) {
-            this.BB = new BoundingBox(this.x, this.y, bWidth, bHeight);
+            this.BB = new BoundingBox(this.x + 15, this.y, bWidth, bHeight);
         } else {
-            this.BB = new BoundingBox(this.x + 8, this.y, bWidth, bHeight);
+            this.BB = new BoundingBox(this.x + 20, this.y, bWidth, bHeight);
         }
-
-
-        // if (this.state !== 3) {
-        //     this.lastBB = this.BB;
-        //     //incase you want to change based on direction facing
-        //     let bHeight = 80;
-        //     let bWidth = 50;
-        //     if (this.facing === 0) {
-        //         this.BB = new BoundingBox(this.x, this.y, bWidth, bHeight);
-        //     } else {
-        //         this.BB = new BoundingBox(this.x + 8, this.y, bWidth, bHeight);
-        //     }
-        // } else {
-        //     this.BB = new BoundingBox(0, 0, 0, 0);
-        // }
+        if (this.state === 2) {
+            if (this.facing === 0) {
+                this.ABB = new BoundingBox(this.x + 25, this.y + 20, 40, 45);
+            } else {
+                this.ABB = new BoundingBox(this.x + 8, this.y + 20, 40, 45);
+            }
+        }
 
     }
 
@@ -137,7 +129,7 @@ class Zombie {
 
                     }
                     if (entity instanceof Ninja) {
-                        if (entity.BB.right > that.BB.left && entity.BB.left < that.BB.left) {
+                        if (entity.BB.right - that.BB.left > 0 && entity.BB.left - that.BB.left < 0) {
                             that.facing = 1;
                         } else {
                             that.facing = 0;
@@ -202,7 +194,12 @@ class Zombie {
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+            if (this.state === 2) {
+                ctx.strokeStyle = 'Green';
+                ctx.strokeRect(this.ABB.x, this.ABB.y - this.game.camera.y, this.ABB.width, this.ABB.height);
+            }
         }
+
     }
 
 
