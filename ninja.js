@@ -134,7 +134,7 @@ class Ninja {
     };
 
     die() {
-        this.velocity.y = -950;
+        //this.velocity.y = -950;
         this.dead = true;
     };
     update() {
@@ -164,6 +164,9 @@ class Ninja {
         let that = this;
         let canFall = true;
 
+
+        // Ninja falls from map dies.
+        if (this.y > PARAMS.BLOCKWIDTH * 16) this.die();
         //collision system needs a rework
         this.game.entities.forEach(function (entity) {
             if ((entity.BB && that.BB.collide(entity.BB))
@@ -190,14 +193,16 @@ class Ninja {
                     that.updateBB();
                 }
             }
-            //TODO finish zombie/death animation
+            // Ninja dies if the Zombie collides with it.
             if ((entity.BB && that.BB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
-                // entity.dead = true;
+                //entity.dead = true;
                 that.velocity.x = 0;
                 that.velocity.y = 0;
-                that.x = 180
-                that.y = -100;
+                //that.x = 180
+                //that.y = -100;
+                that.dead = true;
+                //that.BB.collide(entity.BB) = false;
             }
             if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
@@ -210,7 +215,8 @@ class Ninja {
         let yTest = this.velocity.y;
         //this physics will need a fine tuning;
         if (this.dead) {
-            //TODO
+            this.facing = 0;
+            this.state = 4;
         } else { //set facing state field
             if (this.game.right) { //face right walk right
                 this.facing = 0;
@@ -323,8 +329,8 @@ class Ninja {
         //with x side scrolling above without below
         //right now we have PARAMS.SCALE/4, if you alter we will need to adjust BB offsets here and above
 
-        if (this.dead) {
-            //TODO
+        if (this.dead === true) {
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 0, this.y-this.game.camera.y, PARAMS.SCALE / 5);
         } else if (this.state === 1 && this.facing === 1) {
             this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 20, this.y - this.game.camera.y, PARAMS.SCALE / 5);
         } else if (this.state === 5) {

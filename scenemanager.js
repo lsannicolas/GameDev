@@ -80,7 +80,11 @@ class SceneManager {
         // } else {
         //     this.y--;
         // }
-        this.y -= .5;
+        this.y -= .5
+        if(Ninja.dead === true) {
+            Ninja.x = 180;
+            Ninja.y = -100;
+        }
 
     };
 
