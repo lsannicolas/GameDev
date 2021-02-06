@@ -4,6 +4,8 @@ class SceneManager {
         this.game.camera = this;
         this.x = 0;
         this.y = 0;
+        this.yFlag = true;
+        //this.ninja = new Ninja(this.game, 0 * PARAMS.BLOCKWIDTH, 2.5 * PARAMS.BLOCKWIDTH, true);
         this.loadLevelOne();
     };
 
@@ -18,23 +20,23 @@ class SceneManager {
 
         let platform = new Platform(this.game, 500, -50, 250);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 200, -250, 150);
+        platform = new Platform(this.game, 200, -250, 100);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 500, -500, 250);
+        platform = new Platform(this.game, 500, -400, 250);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 180, -750, 75);
+        platform = new Platform(this.game, 180, -500, 75);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 400, -900, 75);
+        platform = new Platform(this.game, 400, -690, 75);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 600, -1200, 100);
+        platform = new Platform(this.game, 600, -765, 100);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 170, -1400, 75);
+        platform = new Platform(this.game, 170, -900, 75);
         this.game.addEntity(platform);
-        platform = new Platform(this.game, 350, -1600, 250);
+        platform = new Platform(this.game, 350, -1100, 275);
         this.game.addEntity(platform);
 
         //made ground below for testing
-        platform = new Platform(this.game, 170, 200, 600);
+        platform = new Platform(this.game, 170, 300, 600);
         this.game.addEntity(platform);
         //restart platform for testing death
         platform = new Platform(this.game, 170, 100, 100);
@@ -45,14 +47,15 @@ class SceneManager {
 
 
 
+        platform = new Platform(this.game, 200, 200, 150);
+        this.game.addEntity(platform);
 
-
-        let zombie = new Zombie(this.game, 500 , -150, true);
+        let zombie = new Zombie(this.game, 500, -150, true);
         this.game.addEntity(zombie);
-        zombie = new Zombie(this.game, 650 , -550, true);
+        zombie = new Zombie(this.game, 650, -550, true);
         this.game.addEntity(zombie);
-        zombie = new Zombie(this.game, 650 , 150, false);
-        this.game.addEntity(zombie);
+        // zombie = new Zombie(this.game, 650, 150, false);
+        // this.game.addEntity(zombie);
 
         this.ninja = new Ninja(this.game, 200, 0, true);
         this.game.addEntity(this.ninja);
@@ -62,16 +65,22 @@ class SceneManager {
 
     };
 
+
+
     update() {
         PARAMS.DEBUG = document.getElementById("debug").checked;
-
-
-        // let midpoint = PARAMS.CANVAS_WIDTH / 2 - 60;
         let midpointY = PARAMS.CANVAS_HEIGHT / 2 - 60;
-        //if you want x side scrolling
-        // this.x = this.ninja.x - midpoint;
         this.x = 0;
-        this.y = this.ninja.y - midpointY;
+        if (this.yFlag) {
+            this.y = this.ninja.y - midpointY;
+            this.yFlag = false;
+        }
+        // if (this.ninja.y - midpointY < this.y) {
+        //     this.y -=2;
+        // } else {
+        //     this.y--;
+        // }
+        this.y -= .5;
 
     };
 

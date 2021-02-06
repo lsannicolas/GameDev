@@ -94,14 +94,14 @@ class Ninja {
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, 65, 90);
+        this.BB = new BoundingBox(this.x, this.y, 50, 90);
         //below I tried to alter BB based on animations but it screws with collisions
 
         if (this.state === 3) {
             if (this.facing === 0) {
-                this.ABB = new BoundingBox(this.x + 70, this.y, 35, 90);
+                this.ABB = new BoundingBox(this.x + 50, this.y, 55, 90);
             } else {
-                this.ABB = new BoundingBox(this.x - 50, this.y, 40, 90);
+                this.ABB = new BoundingBox(this.x - 50, this.y, 50, 90);
             }
         }
 
@@ -133,22 +133,26 @@ class Ninja {
         // }
     };
 
+    die() {
+        this.velocity.y = -950;
+        this.dead = true;
+    };
     update() {
-       const TICK = this.game.clockTick;
+        const TICK = this.game.clockTick;
 
         //adjust constants to alter physics
         //run
         const MAX_RUN = 1000; //adjust for maximum run speed
-        const ACC_RUN = 800;  //adjust for maximum acceleration
+        const ACC_RUN = 600;  //adjust for maximum acceleration
         //skids
-        const DEC_SKID = 2000;
-        const TURN_SKID = 50;
+        const DEC_SKID = 1850;
+        const TURN_SKID = 65;
         //jump
-        const JUMP_ACC = 1000;  //adjust for maximum jump acc      //JUMP_ACC & MAX_JUMP
+        const JUMP_ACC = 900;  //adjust for maximum jump acc      //JUMP_ACC & MAX_JUMP
         const MAX_JUMP = 1500;  //adjust for maximum jump height   //NEED TO BOTH BE ADJUSTED
         //falling                                                  //FOR DESIRED RESULT
-        const MAX_FALL = 1000;  //adjust for fall speed
-        const STOP_FALL = 1575;
+        const MAX_FALL = 700;  //adjust for fall speed
+        const STOP_FALL = 1800;
         //in air deceleration
         const AIR_DEC = 2;
 
@@ -159,7 +163,6 @@ class Ninja {
         //collisions
         let that = this;
         let canFall = true;
-
 
         //collision system needs a rework
         this.game.entities.forEach(function (entity) {
@@ -190,11 +193,15 @@ class Ninja {
             //TODO finish zombie/death animation
             if ((entity.BB && that.BB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
-                    // entity.dead = true;
-                //that.velocity.x = 0;
-               // that.velocity.y = 0;
-                //that.x = 180
-               // that.y = -100;
+                // entity.dead = true;
+                that.velocity.x = 0;
+                that.velocity.y = 0;
+                that.x = 180
+                that.y = -100;
+            }
+            if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
+                && (entity instanceof Zombie)) {
+                entity.removeFromWorld = true;
             }
         });
 
@@ -269,6 +276,14 @@ class Ninja {
                     this.velocity.y -= JUMP_ACC; //we have the option of double jumping or jumping higher
                     this.fallAcc = STOP_FALL;    //if you hold b longer
                 }
+                // This part makes is so that the player can gain acceleration if they press a directional key
+                // at the same time as the jump key. if falling in air they can change their direction this way.
+                if (canFall && this.game.right) {
+                    this.velocity.x += 450 * TICK;
+                }
+                if (canFall && this.game.left) {
+                    this.velocity.x -= 450 * TICK;
+                }
             }
         }
 
@@ -307,9 +322,20 @@ class Ninja {
         // }
         //with x side scrolling above without below
         //right now we have PARAMS.SCALE/4, if you alter we will need to adjust BB offsets here and above
+
         if (this.dead) {
             //TODO
-        } else if (this.state === 3 && this.facing === 1) { //need to offset so our player doesn't shift when attacking left
+        } else if (this.state === 1 && this.facing === 1) {
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 20, this.y - this.game.camera.y, PARAMS.SCALE / 5);
+        } else if (this.state === 5) {
+            if (this.facing === 0) {
+                this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 12, this.y - this.game.camera.y, PARAMS.SCALE / 5);
+            }
+            else {
+                this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 8, this.y - this.game.camera.y, PARAMS.SCALE / 5);
+            }
+        }
+        else if (this.state === 3 && this.facing === 1) { //need to offset so our player doesn't shift when attacking left
             this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 50, this.y - this.game.camera.y, PARAMS.SCALE / 5);
         } else {
             this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y, PARAMS.SCALE / 5);
