@@ -42,8 +42,8 @@ class Zombie {
             this.animations[0][0] = new Animator(this.spritesheet, 25, 493, this.width, this.height, 12, 0.07, 66.5, false, true);
             this.animations[0][1] = new Animator(this.spritesheet, 25, 752, this.width, this.height, 12, 0.07, 66.5, true, true);
             //walking - girl
-            this.animations[1][0] = new Animator(this.spritesheet, 20, 20, this.width, this.height, 10, .07, 50, false, true);
-            this.animations[1][1] = new Animator(this.spritesheet, 20, 260, this.width, this.height, 10, 0.07, 50, true, true);
+            this.animations[1][0] = new Animator(this.spritesheet, 20, 10, this.width, this.height, 10, .07, 50, false, true);
+            this.animations[1][1] = new Animator(this.spritesheet, 20, 250, this.width, this.height, 10, 0.07, 50, true, true);
 
             //attack - girl - done for now
             this.animations[2][0] = new Animator(this.spritesheet, 30, 1010, this.width + 30, this.height, 8, 0.07, 22, false, true);
@@ -58,16 +58,16 @@ class Zombie {
             this.animations[0][1] = new Animator(this.spritesheet, 45, 792, this.width - 20, this.height, 12, 0.05, 61.5, true, true);
 
             //walking
-            this.animations[1][0] = new Animator(this.spritesheet, 20, 10, this.width, this.height, 10, 0.07, 42, false, true);
-            this.animations[1][1] = new Animator(this.spritesheet, 20, 276, this.width, this.height, 10, 0.07, 42, true, true);
+            this.animations[1][0] = new Animator(this.spritesheet, 15, 18, this.width, this.height, 10, 0.07, 42, false, true);
+            this.animations[1][1] = new Animator(this.spritesheet, 20, 272, this.width, this.height, 10, 0.07, 42, true, true);
 
             //attack
-            this.animations[2][0] = new Animator(this.spritesheet, 20, 10, this.width, this.height, 10, 0.07, 42, false, true);
-            this.animations[2][1] = new Animator(this.spritesheet, 20, 276, this.width, this.height, 10, 0.07, 42, true, true);
+            this.animations[2][0] = new Animator(this.spritesheet, 47, 1062, this.width + 28.7, this.height, 8, 0.07, 22, false, true);
+            this.animations[2][1] = new Animator(this.spritesheet, 47, 1317, this.width + 28.7, this.height, 8, 0.07, 22, true, true);
 
             //dead
-            this.animations[3][0] = new Animator(this.spritesheet, 20, 10, this.width, this.height, 10, 0.07, 42, false, true);
-            this.animations[3][1] = new Animator(this.spritesheet, 20, 276, this.width, this.height, 10, 0.07, 42, true, true);
+            this.animations[3][0] = new Animator(this.spritesheet, 65, 1600, this.width + 110, this.height, 11, 0.09, 46, false, false);
+            this.animations[3][1] = new Animator(this.spritesheet, 40, 1840, this.width + 110, this.height, 11, 0.09, 46, true, false);
         }
 
     }
@@ -116,19 +116,19 @@ class Zombie {
         } else {
             if (!this.canFall) {
                 if (this.leftBound > this.x) {
-                    this.state = 3; // should be 1 (all of them)
+                    this.state = 1;
                     this.facing = 0;
-                    //this.velocity.x += MAX_WALK;
+                    this.velocity.x += MAX_WALK;
                     this.initialMove = false;
                 } else if (this.rightBound - this.x < 70) {
-                    this.state = 3;
-                    this.facing = 1 // should be 1
-                    //this.velocity.x -= MAX_WALK;
+                    this.state = 1;
+                    this.facing = 1;
+                    this.velocity.x -= MAX_WALK;
                     this.initialMove = false;
                 } else if (this.initialMove) {
-                    this.state = 3;
-                    this.facing = 1; // should be 1
-                    //this.velocity.x -= MAX_WALK;
+                    this.state = 1;
+                    this.facing = 1;
+                    this.velocity.x -= MAX_WALK;
                 }
             }
         }
