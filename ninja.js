@@ -191,10 +191,10 @@ class Ninja {
             if ((entity.BB && that.BB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
                     // entity.dead = true;
-                that.velocity.x = 0;
-                that.velocity.y = 0;
-                that.x = 180
-                that.y = -100;
+                //that.velocity.x = 0;
+               // that.velocity.y = 0;
+                //that.x = 180
+               // that.y = -100;
             }
         });
 
