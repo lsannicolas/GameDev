@@ -5,6 +5,7 @@ class SceneManager {
         this.x = 0;
         this.y = 0;
         this.yFlag = true;
+        this.bricky = 0;
         //this.ninja = new Ninja(this.game, 0 * PARAMS.BLOCKWIDTH, 2.5 * PARAMS.BLOCKWIDTH, true);
         this.loadLevelOne();
     };
@@ -16,7 +17,19 @@ class SceneManager {
     loadLevelOne() {
         this.x = 0;
         this.y = 0;
+        let bricks = new Brick(this.game, 0, -2000);
+        this.game.addEntity(bricks);
+        bricks = new Brick(this.game, 0, -4100);
+        this.game.addEntity(bricks);        
+        bricks = new Brick(this.game, 0, -6200);
+        this.game.addEntity(bricks);        
 
+        let decor = new Decor(this.game, 0, -1500);
+        this.game.addEntity(decor);
+        decor = new Decor(this.game, 0, -4250);
+        this.game.addEntity(decor);
+        decor = new Decor(this.game, 0, -6150);
+        this.game.addEntity(decor);
 
         let platform = new Platform(this.game, 500, -50, 250);
         this.game.addEntity(platform);
@@ -80,18 +93,14 @@ class SceneManager {
 
     update() {
         PARAMS.DEBUG = document.getElementById("debug").checked;
-        let midpointY = PARAMS.CANVAS_HEIGHT / 2 - 60;
+        let midpointY = PARAMS.CANVAS_HEIGHT / 2 - 10;
         this.x = 0;
         if (this.yFlag) {
             this.y = this.ninja.y - midpointY;
             this.yFlag = false;
         }
-        // if (this.ninja.y - midpointY < this.y) {
-        //     this.y -=2;
-        // } else {
-        //     this.y--;
-        // }
-        this.y -= .5
+        
+        this.y -= .75;
     };
 
     draw(ctx) {
