@@ -81,11 +81,6 @@ class SceneManager {
         //     this.y--;
         // }
         this.y -= .5
-        if(Ninja.dead === true) {
-            Ninja.x = 180;
-            Ninja.y = -100;
-        }
-
     };
 
     draw(ctx) {

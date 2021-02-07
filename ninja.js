@@ -55,7 +55,7 @@ class Ninja {
         this.animations[3][1] = new Animator(this.spritesheetleft, 10, 20, 535, 454, 10, .05, 11, true, true);
 
         // Death
-        this.animations[4][0] = new Animator(this.spritesheetright, 18, 1985, 487, 485, 10, .05, 5, false, true);
+        this.animations[4][0] = new Animator(this.spritesheetright, 18, 1985, 487, 485, 10, .05, 5, false, false);
         this.animations[4][1] = new Animator(this.spritesheetleft, 560, 1985, 487, 485, 10, .05, 5, true, true);
 
         //Throw
