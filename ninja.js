@@ -134,7 +134,9 @@ class Ninja {
     };
 
     die() {
-        //this.velocity.y = -950;
+        this.state = 4;
+        this.velocity.x = 0;
+        this.velocity.y = 0;
         this.dead = true;
     };
     update() {
@@ -196,13 +198,7 @@ class Ninja {
             // Ninja dies if the Zombie collides with it.
             if ((entity.BB && that.BB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
-                //entity.dead = true;
-                that.velocity.x = 0;
-                that.velocity.y = 0;
-                //that.x = 180
-                //that.y = -100;
-                that.dead = true;
-                //that.BB.collide(entity.BB) = false;
+                that.die();
             }
             if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
