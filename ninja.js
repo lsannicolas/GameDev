@@ -55,7 +55,7 @@ class Ninja {
         this.animations[3][1] = new Animator(this.spritesheetleft, 10, 20, 535, 454, 10, .05, 11, true, true);
 
         // Death
-        this.animations[4][0] = new Animator(this.spritesheetright, 18, 1985, 487, 485, 10, .05, 5, false, true);
+        this.animations[4][0] = new Animator(this.spritesheetright, 18, 1985, 487, 485, 10, .05, 5, false, false);
         this.animations[4][1] = new Animator(this.spritesheetleft, 560, 1985, 487, 485, 10, .05, 5, true, true);
 
         //Throw
@@ -134,7 +134,9 @@ class Ninja {
     };
 
     die() {
-        this.velocity.y = -950;
+        this.state = 4;
+        this.velocity.x = 0;
+        this.velocity.y = 0;
         this.dead = true;
     };
     update() {
@@ -164,6 +166,9 @@ class Ninja {
         let that = this;
         let canFall = true;
 
+
+        // Ninja falls from map dies.
+        if (this.y > PARAMS.BLOCKWIDTH * 16) this.die();
         //collision system needs a rework
         this.game.entities.forEach(function (entity) {
             if ((entity.BB && that.BB.collide(entity.BB))
@@ -190,18 +195,20 @@ class Ninja {
                     that.updateBB();
                 }
             }
-            //TODO finish zombie/death animation
+            // Ninja dies if the Zombie collides with it.
             if ((entity.BB && that.BB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
-                // entity.dead = true;
-                that.velocity.x = 0;
-                that.velocity.y = 0;
-                that.x = 180
-                that.y = -100;
+                that.die();
             }
             if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
+                //entity.removeFromWorld = true;
+                entity.die();
+            }
+            if ((entity.BB && that.BB.collide(entity.BB))
+                && (entity instanceof Item)) {
                 entity.removeFromWorld = true;
+                console.log("POWERED UP!")
             }
         });
 
@@ -210,7 +217,8 @@ class Ninja {
         let yTest = this.velocity.y;
         //this physics will need a fine tuning;
         if (this.dead) {
-            //TODO
+            this.facing = 0;
+            this.state = 4;
         } else { //set facing state field
             if (this.game.right) { //face right walk right
                 this.facing = 0;
@@ -323,8 +331,8 @@ class Ninja {
         //with x side scrolling above without below
         //right now we have PARAMS.SCALE/4, if you alter we will need to adjust BB offsets here and above
 
-        if (this.dead) {
-            //TODO
+        if (this.dead === true) {
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 0, this.y-this.game.camera.y, PARAMS.SCALE / 5);
         } else if (this.state === 1 && this.facing === 1) {
             this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 20, this.y - this.game.camera.y, PARAMS.SCALE / 5);
         } else if (this.state === 5) {

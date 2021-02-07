@@ -55,6 +55,17 @@ class SceneManager {
         platform = new Platform(this.game, 170, 100, 100);
         this.game.addEntity(platform);
 
+        let item = new Item(this.game, 650, -100, "thumb")
+        this.game.addEntity(item);
+
+        item = new Item(this.game, 200, -325, "up")
+        this.game.addEntity(item);
+
+        item = new Item(this.game, 500, -450, "wings")
+        this.game.addEntity(item);
+
+        item = new Item(this.game, 400, -740, "heart")
+        this.game.addEntity(item);
 
 
 
@@ -90,7 +101,6 @@ class SceneManager {
         }
         
         this.y -= .75;
-
     };
 
     draw(ctx) {
