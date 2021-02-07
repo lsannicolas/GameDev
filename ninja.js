@@ -202,7 +202,13 @@ class Ninja {
             }
             if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
+                //entity.removeFromWorld = true;
+                entity.die();
+            }
+            if ((entity.BB && that.BB.collide(entity.BB))
+                && (entity instanceof Item)) {
                 entity.removeFromWorld = true;
+                console.log("POWERED UP!")
             }
         });
 
