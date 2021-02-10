@@ -20,9 +20,9 @@ class SceneManager {
         let bricks = new Brick(this.game, 0, -2000);
         this.game.addEntity(bricks);
         bricks = new Brick(this.game, 0, -4100);
-        this.game.addEntity(bricks);        
+        this.game.addEntity(bricks);
         bricks = new Brick(this.game, 0, -6200);
-        this.game.addEntity(bricks);        
+        this.game.addEntity(bricks);
 
         let decor = new Decor(this.game, 0, -1500);
         this.game.addEntity(decor);
@@ -95,11 +95,15 @@ class SceneManager {
         PARAMS.DEBUG = document.getElementById("debug").checked;
         let midpointY = PARAMS.CANVAS_HEIGHT / 2 - 10;
         this.x = 0;
+        if (this.y > this.ninja.y && this.ninja.isPoweredUp) {
+            // this.y = this.ninja.y - midpointY
+            this.y -= 12;
+        }
+
         if (this.yFlag) {
             this.y = this.ninja.y - midpointY;
             this.yFlag = false;
         }
-        
         this.y -= .75;
     };
 

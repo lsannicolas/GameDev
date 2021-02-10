@@ -177,7 +177,10 @@ class Ninja {
                     that.y = entity.BB.top - that.BB.height + 1;
                     that.velocity.y = 0;
                     canFall = false;
-                    if (that.isPoweredUp) that.isPoweredUp = false
+                    if (that.isPoweredUp) {
+                        that.isPoweredUp = false
+                        that.state = 0;
+                    }
                     that.updateBB();
                 } if (that.lastBB.top >= entity.BB.bottom && !that.isPoweredUp) {
                     that.y = that.lastBB.top;
@@ -213,7 +216,7 @@ class Ninja {
                         that.state = 2;
                         that.isPoweredUp = true;
                         // Play with this value to adjust boost up
-                        that.velocity.y = -1600
+                        that.velocity.y = -5000
                         break;
                 }
             }
@@ -315,7 +318,7 @@ class Ninja {
         if (this.velocity.y <= -MAX_JUMP && !this.isPoweredUp) {
             this.velocity.y = -MAX_FALL;
             this.isPoweredUp = false;
-        } else if (this.velocity.y < -MAX_JUMP && this.isPoweredUp) this.velocity.y += 100
+        } else if (this.velocity.y < -MAX_JUMP && this.isPoweredUp) this.velocity.y *= .8
 
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         if (this.x < SCREEN_BOUND_LEFT) this.x = SCREEN_BOUND_LEFT;
