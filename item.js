@@ -49,8 +49,6 @@ class Item {
     }
 
     draw(ctx) {
-        console.log(parseFloat(this.floatY) * 10)
-
         if (Math.round(parseFloat(this.floatY) * 10) > 50) {
             this.step = -.1
         }
