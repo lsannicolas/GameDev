@@ -20,7 +20,7 @@ class Ninja {
             this.spritesheetleft = ASSET_MANAGER.getAsset('./sprites/BoyNinjaLeft.png');
             this.loadBoyAnimations();
         }
-
+        this.isPoweredUp = false;
 
 
     }
@@ -177,19 +177,22 @@ class Ninja {
                     that.y = entity.BB.top - that.BB.height + 1;
                     that.velocity.y = 0;
                     canFall = false;
+                    if (that.isPoweredUp) {
+                        that.isPoweredUp = false
+                        that.state = 0;
+                    }
                     that.updateBB();
-                    // console.log("top platform")
-                } else if (that.lastBB.top >= entity.BB.bottom) {
+                } if (that.lastBB.top >= entity.BB.bottom && !that.isPoweredUp) {
                     that.y = that.lastBB.top;
                     that.x = that.BB.x;
                     that.velocity.y = 5
                     that.updateBB();
                 }
-                else if (that.lastBB.left >= entity.BB.right) { //collisions ->
+                if (that.lastBB.left >= entity.BB.right && !that.isPoweredUp) { //collisions ->
                     that.x = that.lastBB.left;
                     that.velocity.x *= .8
                     that.updateBB();
-                } else if (that.lastBB.right <= entity.BB.left) {  //collisions <-
+                } if (that.lastBB.right <= entity.BB.left && !that.isPoweredUp) {  //collisions <-
                     that.x = that.lastBB.left;
                     that.velocity.x *= .8
                     that.updateBB();
@@ -197,7 +200,7 @@ class Ninja {
             }
             // Ninja dies if the Zombie collides with it.
             if ((entity.BB && that.BB.collide(entity.BB))
-                && (entity instanceof Zombie)) {
+                && (entity instanceof Zombie) && !that.isPoweredUp) {
                 that.die();
             }
             if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
@@ -208,13 +211,19 @@ class Ninja {
             if ((entity.BB && that.BB.collide(entity.BB))
                 && (entity instanceof Item)) {
                 entity.removeFromWorld = true;
-                console.log("POWERED UP!")
+                switch (entity.name) {
+                    case "up":
+                        that.state = 2;
+                        that.isPoweredUp = true;
+                        // Play with this value to adjust boost up
+                        that.velocity.y = -5000
+                        break;
+                }
             }
         });
-
         let yVel = Math.abs(this.velocity.y);
         //physics
-        let yTest = this.velocity.y;
+        // let yTest = this.velocity.y;
         //this physics will need a fine tuning;
         if (this.dead) {
             this.facing = 0;
@@ -306,7 +315,11 @@ class Ninja {
         }
 
         if (this.velocity.y >= MAX_FALL) this.velocity.y = MAX_FALL;
-        if (this.velocity.y <= -MAX_JUMP) this.velocity.y = -MAX_FALL;
+        if (this.velocity.y <= -MAX_JUMP && !this.isPoweredUp) {
+            this.velocity.y = -MAX_FALL;
+            this.isPoweredUp = false;
+        } else if (this.velocity.y < -MAX_JUMP && this.isPoweredUp) this.velocity.y *= .8
+
         this.x += this.velocity.x * TICK * PARAMS.SCALE;
         if (this.x < SCREEN_BOUND_LEFT) this.x = SCREEN_BOUND_LEFT;
 
@@ -332,7 +345,7 @@ class Ninja {
         //right now we have PARAMS.SCALE/4, if you alter we will need to adjust BB offsets here and above
 
         if (this.dead === true) {
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 0, this.y-this.game.camera.y, PARAMS.SCALE / 5);
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 0, this.y - this.game.camera.y, PARAMS.SCALE / 5);
         } else if (this.state === 1 && this.facing === 1) {
             this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 20, this.y - this.game.camera.y, PARAMS.SCALE / 5);
         } else if (this.state === 5) {
