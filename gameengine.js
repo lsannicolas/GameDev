@@ -14,6 +14,7 @@ class GameEngine {
         this.A = false;
         this.B = false;
         this.C = false;
+        this.play = false;
     };
 
     init(ctx) { // called after page has loaded
@@ -34,6 +35,25 @@ class GameEngine {
 
     startInput() {
         var that = this;
+        //for mouse clicks
+
+        if (PARAMS.START === false) {
+            this.ctx.canvas.addEventListener("click", function (e) {
+                let click = getXandY(e);
+                if (click.x > 230 && click.x < 396 && click.y > 467 && click.y < 525) {
+                    PARAMS.START = true;
+                }
+            }, false);
+        }
+        var getXandY = function (e) {
+            var x = e.clientX - that.ctx.canvas.getBoundingClientRect().left;
+            var y = e.clientY - that.ctx.canvas.getBoundingClientRect().top;
+
+            return { x: x, y: y };
+        }
+
+
+        //for key presses
         this.ctx.canvas.addEventListener("keydown", function (e) {
             //console.log(e.code);
             switch (e.code) {
