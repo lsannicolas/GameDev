@@ -1,7 +1,7 @@
 class StartMenu{
     constructor(game) {
         Object.assign(this, { game });
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/start.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/start2.png");
         this.exists = true;
 
     };
