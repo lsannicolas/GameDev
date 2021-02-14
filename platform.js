@@ -1,6 +1,6 @@
-class Platform{
+class Platform {
     constructor(game, x, y, w) {
-        Object.assign(this, { game, x, y, w});
+        Object.assign(this, { game, x, y, w });
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Jumping-pads_1.png");
         this.h = 40;
         this.BB = new BoundingBox(this.x, this.y + 10, this.w, this.h - 10); //offset so were into platform a bit
@@ -13,7 +13,7 @@ class Platform{
 
     };
 
-    draw(ctx){
+    draw(ctx) {
         ctx.drawImage(this.spritesheet, this.x - this.game.camera.x, this.y - this.game.camera.y, this.w, this.h);
         //ctx.drawImage(this.spritesheet, 51, 101, 385, 157, 1, 1, 0, false, true);
 

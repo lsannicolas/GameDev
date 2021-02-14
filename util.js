@@ -3,6 +3,12 @@ function randomInt(n) {
     return Math.floor(Math.random() * n);
 };
 
+function randomInRange(i, j) {
+    let min = Math.ceil(i);
+    let max = Math.floor(j);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 // returns a string that can be used as a rgb web color
 function rgb(r, g, b) {
     return "rgb(" + r + "," + g + "," + b + ")";

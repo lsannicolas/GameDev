@@ -1,41 +1,46 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
-    <link rel="stylesheet" href="backGround.css">
-    <meta charset="utf-8">
-    <title>Game Dev</title>
-<!--    set fonts below-->
-<!--    <link rel="preconnect"-->
-<!--          href="https://fonts.gstatic.com">-->
-<!--    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">-->
-<!--    <style>-->
-<!--        body {-->
-<!--            font-family: 'MedievalSharp', cursive;-->
-<!--            font-size: 48px;-->
-<!--        }-->
-<!--    </style>-->
-    <script type="text/javascript" src="./scenemanager.js"></script>
-    <script type="text/javascript" src="./assetmanager.js"></script>
-    <script type="text/javascript" src="./timer.js"></script>
-    <script type="text/javascript" src="./gameengine.js"></script>
-    <script type="text/javascript" src="./util.js"></script>
-    <script type="text/javascript" src="./main.js"></script>
-    <script type="text/javascript" src="./boundingbox.js"></script>
-    <script type="text/javascript" src="./animator.js"></script>
-    <script type="text/javascript" src="./zombie.js"></script>
-    <script type="text/javascript" src="./ninja.js"></script>
-    <script type="text/javascript" src="./platform.js"></script>
-    <script type="text/javascript" src="./bricks.js"></script>
-     <script type="text/javascript" src="./item.js"></script>
-    
-</head>
-<body>
-<div>
-    Game Dev - WIP <br />
-</div>
-<div>
-    <canvas id="gameWorld" width="950" height="750" style="background:url('sprites/layers/background2c.png'); border: 1px solid black";  tabindex ="0" autofocus></canvas>
-</div>
+
+    <head>
+        <link rel="stylesheet" href="backGround.css">
+        <meta charset="utf-8">
+        <title>Game Dev</title>
+        <!--    set fonts below-->
+        <!--    <link rel="preconnect"-->
+        <!--          href="https://fonts.gstatic.com">-->
+        <!--    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">-->
+        <!--    <style>-->
+        <!--        body {-->
+        <!--            font-family: 'MedievalSharp', cursive;-->
+        <!--            font-size: 48px;-->
+        <!--        }-->
+        <!--    </style>-->
+        <script type="text/javascript" src="./scenemanager.js"></script>
+        <script type="text/javascript" src="./assetmanager.js"></script>
+        <script type="text/javascript" src="./timer.js"></script>
+        <script type="text/javascript" src="./gameengine.js"></script>
+        <script type="text/javascript" src="./util.js"></script>
+        <script type="text/javascript" src="./main.js"></script>
+        <script type="text/javascript" src="./boundingbox.js"></script>
+        <script type="text/javascript" src="./animator.js"></script>
+        <script type="text/javascript" src="./zombie.js"></script>
+        <script type="text/javascript" src="./ninja.js"></script>
+        <script type="text/javascript" src="./platform.js"></script>
+        <script type="text/javascript" src="./bricks.js"></script>
+        <script type="text/javascript" src="./item.js"></script>
+        <script type="text/javascript" src="./levels.js"></script>
+
+    </head>
+
+    <body>
+        <div>
+            Game Dev - WIP <br />
+        </div>
+        <div>
+            <canvas id="gameWorld" width="950" height="750"
+                style="background:url('sprites/layers/background2c.png'); border: 1px solid black" ; tabindex="0"
+                autofocus></canvas>
+        </div>
         <div>
             <br />
             <input type="checkbox" id="debug" checked> Debug
