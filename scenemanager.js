@@ -62,11 +62,14 @@ class SceneManager {
     loadLevelOne() {
         this.x = 0;
         this.y = 0;
-        let bricks = new Brick(this.game, 0, -2000);
+
+
+
+        let bricks = new Brick(this.game, 0, -1000);
         this.game.addEntity(bricks);
-        bricks = new Brick(this.game, 0, -4100);
+        bricks = new Brick(this.game, 0, -3100);
         this.game.addEntity(bricks);
-        bricks = new Brick(this.game, 0, -6200);
+        bricks = new Brick(this.game, 0, -5200);
         this.game.addEntity(bricks);
 
         let decor = new Decor(this.game, 0, -1500);
@@ -126,10 +129,13 @@ class SceneManager {
         // zombie = new Zombie(this.game, 650, 150, false);
         // this.game.addEntity(zombie);
 
-        this.ninja = new Ninja(this.game, 200, 0, true);
+        this.ninja = new Ninja(this.game, 500, 0, true);
         this.game.addEntity(this.ninja);
         // this.girl = new Ninja(this.game, 0, 300, false);
         // this.game.addEntity(this.girl);
+
+        this.startMenu = new StartMenu(this.game);
+        this.game.addEntity(this.startMenu);
 
 
     };
@@ -193,19 +199,24 @@ class SceneManager {
 
 
     update() {
-        PARAMS.DEBUG = document.getElementById("debug").checked;
-        let midpointY = PARAMS.CANVAS_HEIGHT / 2 - 10;
-        this.x = 0;
-        if (this.y > this.ninja.y && this.ninja.isPoweredUp) {
-            // this.y = this.ninja.y - midpointY
-            this.y -= 12;
-        }
+        PARAMS.DEBUG = false;
+        if (PARAMS.START === true) {
+            if (this.startMenu) {
+                this.startMenu.exists = false;
+            }
+            let midpointY = PARAMS.CANVAS_HEIGHT / 2 - 10;
+            this.x = 0;
+            if (this.y > this.ninja.y && this.ninja.isPoweredUp) {
+                // this.y = this.ninja.y - midpointY
+                this.y -= 12;
+            }
 
-        if (this.yFlag) {
-            this.y = this.ninja.y - midpointY;
-            this.yFlag = false;
+            if (this.yFlag) {
+                this.y = this.ninja.y - midpointY;
+                this.yFlag = false;
+            }
+            this.y -= .75;
         }
-        this.y -= 2;
     };
 
     draw(ctx) {

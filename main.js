@@ -2,7 +2,7 @@
 
 var ASSET_MANAGER = new AssetManager();
 
-
+ASSET_MANAGER.queueDownload("./sprites/start2.png");
 
 ASSET_MANAGER.queueDownload("./sprites/zombieboynew.png");
 ASSET_MANAGER.queueDownload("./sprites/zombiegirlnew.png");
@@ -26,6 +26,7 @@ ASSET_MANAGER.queueDownload("./sprites/brick.png");
 ASSET_MANAGER.queueDownload("./sprites/Jumping-pads_1.png");
 ASSET_MANAGER.queueDownload("./sprites/layers/land.png");
 ASSET_MANAGER.queueDownload("./sprites/layers/decor.png");
+
 
 
 
