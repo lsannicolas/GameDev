@@ -170,9 +170,8 @@ class Ninja {
         // Ninja falls from map dies.
         if (this.y > PARAMS.BLOCKWIDTH * 16) this.die();
         //collision system needs a rework
-        this.game.entities.forEach(function (entity) {
-            if ((entity.BB && that.BB.collide(entity.BB))
-                && (entity instanceof Platform)) {
+        this.game.platforms.forEach(function (entity) {
+            if ((entity.BB && that.BB.collide(entity.BB))) {
                 if (that.BB.bottom - entity.BB.top < 20 && that.velocity.y >= 0) { //if on top/falling
                     that.y = entity.BB.top - that.BB.height + 1;
                     that.velocity.y = 0;
@@ -183,10 +182,10 @@ class Ninja {
                     }
                     that.updateBB();
                 } if (that.lastBB.top >= entity.BB.bottom && !that.isPoweredUp) {
-                    that.y = that.lastBB.top;
-                    that.x = that.BB.x;
-                    that.velocity.y = 5
-                    that.updateBB();
+                    // that.y = that.lastBB.top;
+                    // that.x = that.BB.x;
+                    // that.velocity.y = 5
+                    // that.updateBB();
                 }
                 if (that.lastBB.left >= entity.BB.right && !that.isPoweredUp) { //collisions ->
                     that.x = that.lastBB.left;
@@ -198,6 +197,35 @@ class Ninja {
                     that.updateBB();
                 }
             }
+        })
+        this.game.entities.forEach(function (entity) {
+            // if ((entity.BB && that.BB.collide(entity.BB))
+            //     && (entity instanceof Platform)) {
+            //     if (that.BB.bottom - entity.BB.top < 20 && that.velocity.y >= 0) { //if on top/falling
+            //         that.y = entity.BB.top - that.BB.height + 1;
+            //         that.velocity.y = 0;
+            //         canFall = false;
+            //         if (that.isPoweredUp) {
+            //             that.isPoweredUp = false
+            //             that.state = 0;
+            //         }
+            //         that.updateBB();
+            //     } if (that.lastBB.top >= entity.BB.bottom && !that.isPoweredUp) {
+            //         that.y = that.lastBB.top;
+            //         that.x = that.BB.x;
+            //         that.velocity.y = 5
+            //         that.updateBB();
+            //     }
+            //     if (that.lastBB.left >= entity.BB.right && !that.isPoweredUp) { //collisions ->
+            //         that.x = that.lastBB.left;
+            //         that.velocity.x *= .8
+            //         that.updateBB();
+            //     } if (that.lastBB.right <= entity.BB.left && !that.isPoweredUp) {  //collisions <-
+            //         that.x = that.lastBB.left;
+            //         that.velocity.x *= .8
+            //         that.updateBB();
+            //     }
+            // }
             // Ninja dies if the Zombie collides with it.
             if ((entity.BB && that.BB.collide(entity.BB))
                 && (entity instanceof Zombie) && !that.isPoweredUp) {
@@ -220,7 +248,7 @@ class Ninja {
                         that.state = 2;
                         that.isPoweredUp = true;
                         // Play with this value to adjust boost up
-                        that.velocity.y = -5000
+                        that.velocity.y = -2000
                         break;
                 }
             }

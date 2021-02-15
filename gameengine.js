@@ -3,6 +3,7 @@
 class GameEngine {
     constructor() {
         this.entities = [];
+        this.platforms = [];
         this.ctx = null;
         this.surfaceWidth = null;
         this.surfaceHeight = null;
@@ -41,7 +42,9 @@ class GameEngine {
             this.ctx.canvas.addEventListener("click", function (e) {
                 let click = getXandY(e);
                 if (click.x > 230 && click.x < 396 && click.y > 467 && click.y < 525) {
-                    PARAMS.START = true;
+                    PARAMS.PLAY = true;
+                } else if (click.x > 544 && click.x < 716 && click.y > 467 && click.y < 525) {
+                    PARAMS.LEVELS = true;
                 }
             }, false);
         }
@@ -127,9 +130,16 @@ class GameEngine {
         this.entities.push(entity);
     };
 
+    addPlatform(entity) {
+        this.platforms.push(entity);
+    };
+
     draw() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        //this.ctx.save();
+
+        for (var i = 0; i < this.platforms.length; i++) {
+            this.platforms[i].draw(this.ctx);
+        }
         for (var i = 0; i < this.entities.length; i++) {
             this.entities[i].draw(this.ctx);
         }
