@@ -1,6 +1,6 @@
 class Zombie {
     constructor(game, x, y, isBoy) {
-        Object.assign(this, {game, x, y, isBoy});
+        Object.assign(this, { game, x, y, isBoy });
         //spritesheets
         if (!this.isBoy) {
             this.spritesheet = ASSET_MANAGER.getAsset("./sprites/zombiegirlnew.png");
@@ -39,7 +39,7 @@ class Zombie {
         }
 
         //store various states for animations
-        if (!this.isBoy){
+        if (!this.isBoy) {
             //idle - girl
             this.animations[0][0] = new Animator(this.spritesheet, 25, 493, this.width, this.height, 12, 0.07, 66.5, false, true);
             this.animations[0][1] = new Animator(this.spritesheet, 25, 752, this.width, this.height, 12, 0.07, 66.5, true, true);
@@ -108,7 +108,7 @@ class Zombie {
         if (this.state === 3) {
             this.time2 = this.testTimer.getTime();
         }
-        console.log(this.time2 - this.time1);
+        // console.log(this.time2 - this.time1);
         const TICK = this.game.clockTick;
         const MAX_WALK = 100;
         const MAX_FALL = 100;
@@ -116,18 +116,27 @@ class Zombie {
         let that = this;
         //collision system
         if (!this.dead) {
+            this.game.platforms.forEach(function (entity) {
+                that.canFall = false;
+                if (that.BB.bottom - entity.BB.top > 0 && that.BB.bottom - entity.BB.bottom < 50) { //if on top/falling
+                    that.velocity.y = 0;
+                    that.y = entity.BB.top - that.BB.height;
+                    that.leftBound = entity.BB.left;
+                    that.rightBound = entity.BB.right;
+                }
+            })
             this.game.entities.forEach(function (entity) {
                 if (entity.BB && that.BB.collide(entity.BB)) {
-                    if (entity instanceof Platform) {
-                        that.canFall = false;
-                        if (that.BB.bottom - entity.BB.top > 0 && that.BB.bottom - entity.BB.bottom < 50) { //if on top/falling
-                            that.velocity.y = 0;
-                            that.y = entity.BB.top - that.BB.height;
-                            that.leftBound = entity.BB.left;
-                            that.rightBound = entity.BB.right;
-                        }
+                    // if (entity instanceof Platform) {
+                    //     that.canFall = false;
+                    //     if (that.BB.bottom - entity.BB.top > 0 && that.BB.bottom - entity.BB.bottom < 50) { //if on top/falling
+                    //         that.velocity.y = 0;
+                    //         that.y = entity.BB.top - that.BB.height;
+                    //         that.leftBound = entity.BB.left;
+                    //         that.rightBound = entity.BB.right;
+                    //     }
 
-                    }
+                    // }
                     if (entity instanceof Ninja) {
                         if (entity.BB.right - that.BB.left > 0 && entity.BB.left - that.BB.left < 0) {
                             that.facing = 1;
@@ -177,7 +186,7 @@ class Zombie {
             this.x += this.velocity.x * TICK * PARAMS.SCALE;
             this.updateBB();
 
-        //if dead
+            //if dead
         } else {
             this.BB = new BoundingBox(0, 0, 0, 0);
         }
@@ -187,9 +196,9 @@ class Zombie {
 
     draw(ctx) {
         if (this.state === 3 && this.facing === 1) {
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 30, this.y - this.game.camera.y - 10, PARAMS.SCALE/2.5);
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 30, this.y - this.game.camera.y - 10, PARAMS.SCALE / 2.5);
         } else {
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y - 10, PARAMS.SCALE/2.5);
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y - 10, PARAMS.SCALE / 2.5);
         }
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';
