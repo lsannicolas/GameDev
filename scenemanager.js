@@ -11,7 +11,6 @@ class SceneManager {
         this.level = levelOne;
         this.platforms = levelOne.platforms
         this.loadLevel(this.level);
-        this.lastCamera = Number.MAX_SAFE_INTEGER
     };
 
     loadLevel(level) {
@@ -55,6 +54,9 @@ class SceneManager {
 
         this.ninja = new Ninja(this.game, 200, 0, true);
         this.game.addEntity(this.ninja);
+        
+        this.startMenu = new StartMenu(this.game);
+        this.game.addEntity(this.startMenu);
 
         console.log(this.game.entities)
     }
