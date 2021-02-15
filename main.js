@@ -2,7 +2,7 @@
 
 var ASSET_MANAGER = new AssetManager();
 
-ASSET_MANAGER.queueDownload("./sprites/start2.png");
+ASSET_MANAGER.queueDownload("./sprites/start.png");
 
 ASSET_MANAGER.queueDownload("./sprites/zombieboynew.png");
 ASSET_MANAGER.queueDownload("./sprites/zombiegirlnew.png");

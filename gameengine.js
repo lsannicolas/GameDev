@@ -42,7 +42,9 @@ class GameEngine {
             this.ctx.canvas.addEventListener("click", function (e) {
                 let click = getXandY(e);
                 if (click.x > 230 && click.x < 396 && click.y > 467 && click.y < 525) {
-                    PARAMS.START = true;
+                    PARAMS.PLAY = true;
+                } else if (click.x > 544 && click.x < 716 && click.y > 467 && click.y < 525) {
+                    PARAMS.LEVELS = true;
                 }
             }, false);
         }
