@@ -1,0 +1,6 @@
+#health {
+    position: absolute;
+    bottom: 850px; /* moves the progress bar to the bottom-right */
+    right: 1300px;
+    width: 100px;
+}

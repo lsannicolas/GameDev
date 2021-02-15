@@ -229,7 +229,7 @@ class Ninja {
             // Ninja dies if the Zombie collides with it.
             if ((entity.BB && that.BB.collide(entity.BB))
                 && (entity instanceof Zombie) && !that.isPoweredUp) {
-                    let health = document.getElementById("health")
+                    let health = document.getElementById("health");
                     health.value -= 5;
                     if(health.value == 0) {
                         that.die();
