@@ -6,7 +6,7 @@ class SceneManager {
         this.y = 0;
         this.lastCamY = 0;
         this.yFlag = true;
-        this.bricky = 0;
+        this.score = 0;
         //this.ninja = new Ninja(this.game, 0 * PARAMS.BLOCKWIDTH, 2.5 * PARAMS.BLOCKWIDTH, true);
         this.level = levelOne;
         this.platforms = levelOne.platforms
@@ -222,6 +222,11 @@ class SceneManager {
     };
 
     draw(ctx) {
+        ctx.font = 30 + 'px "Press Start 2P"';
+        ctx.fillStyle = "White";
+        ctx.fillText("SCORE", 435, 90);
+        ctx.fillText((this.score + "").padStart(8,"0"), 422, 115);
+       
         // Make it a larger window to hold more platforms 
         // Remove/Add based on distance
         let lowest = this.game.platforms[0];
