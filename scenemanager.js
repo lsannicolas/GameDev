@@ -58,6 +58,9 @@ class SceneManager {
         this.startMenu = new StartMenu(this.game);
         this.game.addEntity(this.startMenu);
 
+        this.HPBar = new HPBar(this.game);
+        this.game.addEntity(this.HPBar);
+
         console.log(this.game.entities)
     }
 
@@ -135,9 +138,12 @@ class SceneManager {
         this.game.addEntity(this.ninja);
         // this.girl = new Ninja(this.game, 0, 300, false);
         // this.game.addEntity(this.girl);
-
+        
         this.startMenu = new StartMenu(this.game);
         this.game.addEntity(this.startMenu);
+
+        this.HPBar = new HPBar(this.game);
+        this.game.addEntity(this.HPBar);
 
 
     };

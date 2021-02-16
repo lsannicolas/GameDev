@@ -229,11 +229,9 @@ class Ninja {
             // Ninja dies if the Zombie collides with it.
             if ((entity.BB && that.BB.collide(entity.BB))
                 && (entity instanceof Zombie) && !that.isPoweredUp) {
-                    let health = document.getElementById("health");
-                    health.value -= 5;
-                    if(health.value == 0) {
-                        that.die();
-                    }
+                    //let health = document.getElementById("health");
+                    //health.value -= 5;
+                    that.die();
             }
             if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
@@ -252,17 +250,7 @@ class Ninja {
                         break;
                 }
             }
-            if ((entity.BB && that.BB.collide(entity.BB))
-                && (entity instanceof Item)) {
-                entity.removeFromWorld = true;
-                switch (entity.name) {
-                    case "heart":
-                        that.isPoweredUp = true;
-                        // Play with this value to adjust boost up
-                        health.value +=100;
-                        break;
-                }
-            }
+          
         });
         let yVel = Math.abs(this.velocity.y);
         //physics
