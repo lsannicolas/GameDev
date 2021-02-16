@@ -22,7 +22,6 @@ class Ninja {
         }
         this.isPoweredUp = false;
 
-
     }
 
     fillAnimations() {
@@ -227,11 +226,14 @@ class Ninja {
             //     }
             // }
             // Ninja dies if the Zombie collides with it.
+           
             if ((entity.BB && that.BB.collide(entity.BB))
-                && (entity instanceof Zombie) && !that.isPoweredUp) {
-                    //let health = document.getElementById("health");
-                    //health.value -= 5;
-                    that.die();
+                && (entity instanceof Zombie) && !that.isPoweredUp) {                 
+                    HPBar.updateHealth(-5);
+                    if(HPBar.health <= 1000) {
+                        that.die();
+                    }
+                    
             }
             if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
