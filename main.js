@@ -36,7 +36,7 @@ ASSET_MANAGER.downloadAll(function () {
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 
 	let canvas = document.getElementById('gameWorld');
-
+	
 	let ctx = canvas.getContext('2d');
 
 	PARAMS.CANVAS_WIDTH = canvas.width;

@@ -224,12 +224,20 @@ class SceneManager {
     };
 
     draw(ctx) {
+<<<<<<< HEAD
         let score = "Score" + this.score + " ";
         ctx.font = 30 + 'px "Press Start 2P"';
         ctx.fillStyle = "White";
         //ctx.fillText("SCORE", (950/2), 90);
         ctx.fillText(score, (950/2), 115);
 
+=======
+        ctx.font = 30 + 'px "Press Start 2P"';
+        ctx.fillStyle = "White";
+        ctx.fillText("SCORE", 435, 90);
+        ctx.fillText((this.score + "").padStart(8,"0"), 422, 115);
+       
+>>>>>>> 263c458009f51de34362e9d6c2fa5958aa2dad7b
         // Make it a larger window to hold more platforms 
         // Remove/Add based on distance
         let lowest = this.game.platforms[0];
