@@ -2,7 +2,7 @@ class HPBar {
     constructor(game) {
         Object.assign(this, {game});
         this.exists = true; 
-        const health = 1000;
+        this.health = 1000;
     }
     
         update() {
