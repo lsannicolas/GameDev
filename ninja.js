@@ -229,7 +229,7 @@ class Ninja {
            
             if ((entity.BB && that.BB.collide(entity.BB))
                 && (entity instanceof Zombie) && !that.isPoweredUp) {                 
-                    HPBar.updateHealth(-5);
+                    HPBar.updateHealth(-5); // Not sure if this is the proper way to call the method. I get an error here.
                     if(HPBar.health <= 1000) {
                         that.die();
                     }
