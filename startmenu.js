@@ -14,7 +14,6 @@ class StartMenu{
 
 
     update() {
-        console.log(PARAMS.LEVELS);
         if (this.exists) {
             if (PARAMS.PLAY) {
                 this.playCounter++;
