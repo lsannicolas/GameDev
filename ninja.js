@@ -226,6 +226,8 @@ class Ninja {
             //         that.updateBB();
             //     }
             // }
+
+
             // Ninja dies if the Zombie collides with it.
             if ((entity.BB && that.BB.collide(entity.BB))
                 && (entity instanceof Zombie) && !that.isPoweredUp) {
@@ -250,6 +252,7 @@ class Ninja {
                         that.isPoweredUp = true;
                         
                 }
+                that.game.addEntity(new Score(that.game, that.x, that.y, 200));
             }
         });
         let yVel = Math.abs(this.velocity.y);
