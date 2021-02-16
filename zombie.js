@@ -99,6 +99,10 @@ class Zombie {
         this.velocity.x = 0
         this.time1 = this.testTimer.getTime();
         this.dead = true;
+        // if(that.Ninja.isPoweredUp){
+        //     this.game.addEntity(new Score(this.game, this.x, this.y, 200));    
+        // }
+        this.game.addEntity(new Score(this.game, this.x, this.y, 100));
         // if (this.state === 3) {
         //     this.removeFromWorld = true;
         // }

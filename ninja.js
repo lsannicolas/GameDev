@@ -246,6 +246,9 @@ class Ninja {
                         // Play with this value to adjust boost up
                         that.velocity.y = -2000
                         break;
+                    case "thumb":
+                        that.isPoweredUp = true;
+                        
                 }
             }
         });

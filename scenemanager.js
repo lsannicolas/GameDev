@@ -6,10 +6,10 @@ class SceneManager {
         this.y = 0;
         this.lastCamY = 0;
         this.yFlag = true;
-        this.bricky = 0;
+        this.score = 0;
         //this.ninja = new Ninja(this.game, 0 * PARAMS.BLOCKWIDTH, 2.5 * PARAMS.BLOCKWIDTH, true);
         this.level = levelOne;
-        this.platforms = levelOne.platforms
+        this.platforms = levelOne.platforms;
         this.loadLevel(this.level);
     };
 
@@ -217,11 +217,19 @@ class SceneManager {
                 this.y = this.ninja.y - midpointY;
                 this.yFlag = false;
             }
-            this.y -= .75;
+            this.y -= .25;
+            this.score += Math.ceil(this.game.clockTick);
         }
+
     };
 
     draw(ctx) {
+        let score = "Score" + this.score + " ";
+        ctx.font = 30 + 'px "Press Start 2P"';
+        ctx.fillStyle = "White";
+        //ctx.fillText("SCORE", (950/2), 90);
+        ctx.fillText(score, (950/2), 115);
+
         // Make it a larger window to hold more platforms 
         // Remove/Add based on distance
         let lowest = this.game.platforms[0];
