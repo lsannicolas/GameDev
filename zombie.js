@@ -22,6 +22,7 @@ class Zombie {
         this.canFall = true;
         this.leftBound = 0;
         this.rightBound = 0;
+        this.zombieScore = 0;
         this.updateBB();
         this.animations = [];
         this.loadAnimations();
@@ -99,16 +100,20 @@ class Zombie {
         this.velocity.x = 0
         this.time1 = this.testTimer.getTime();
         this.dead = true;
+        //this.game.addEntity(new Score(this.x, this.y, 200));
+        this.game.camera.score += this.zombieScore;
+
         // if(that.Ninja.isPoweredUp){
         //     this.game.addEntity(new Score(this.game, this.x, this.y, 200));    
         // }
-        PARAMS.SCORE += 200;
+        
         // if (this.state === 3) {
         //     this.removeFromWorld = true;
         // }
     }
 
     update() {
+
         if (this.state === 3) {
             this.time2 = this.testTimer.getTime();
         }

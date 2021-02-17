@@ -63,27 +63,3 @@ class Item {
         }
     }
 }
-
-class Score {
-    constructor(game, x, y, score) {
-        Object.assign(this, { game, x, y, score });
-
-        this.game.camera.score += this.score;
-
-        // this.velocity = -2 * PARAMS.BITWIDTH;
-        // this.elapsed = 0;
-    };
-
-    update() {
-        // this.elapsed += this.game.clockTick;
-        // if (this.elapsed > 1) this.removeFromWorld = true;
-
-        // this.y += this.game.clockTick * this.velocity * PARAMS.SCALE;
-    };
-
-   draw(ctx) {
-        ctx.font = PARAMS.BLOCKWIDTH / 4 + 'px "Press Start 2P"';
-        ctx.fillStyle = "White";
-        ctx.fillText(this.score, this.x + (this.score < 1000 ? PARAMS.BLOCKWIDTH / 8 : 0) - this.game.camera.x, this.y);
-    };
-};

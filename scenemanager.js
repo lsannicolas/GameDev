@@ -8,9 +8,8 @@ class SceneManager {
         this.yFlag = true;
         this.score = 0;
         this.highScore = 0;
-        this.heightScore = 0;
-        this.bestY = 0;
-        this.scrollSpeed = .65;
+        this.elapsedTime = 0;
+        this.scrollSpeed = .75;
         //this.ninja = new Ninja(this.game, 0 * PARAMS.BLOCKWIDTH, 2.5 * PARAMS.BLOCKWIDTH, true);
         this.level = levelOne;
         this.platforms = levelOne.platforms;
@@ -207,6 +206,10 @@ class SceneManager {
 
     update() {
         if (this.ninja.dead) {
+            //set highscore on death and reset old score.
+            this.highScore = Math.max(this.highScore, this.score);
+            this.score = 0;
+
             this.ninja.dead = false;
             this.game.entities = [];
             this.game.platforms = [];
@@ -225,30 +228,43 @@ class SceneManager {
                 // this.y = this.ninja.y - midpointY
                 this.y -= 12;
             }
-
+            if(this.game.ninja.multiplied){
+                this.elapsedTime += this.game.clockTick;
+                this.score += (.1 * 2);
+            }  else {
+                this.score += .08;
+            }
+            if(this.elapsedTime > 10){
+                this.elapsedTime = 0;
+                this.game.ninja.multiplied = false;
+            }
             if (this.yFlag) {
                 this.y = this.ninja.y - midpointY;
                 this.yFlag = false;
             }
 
-            //current score
-            // this.bestY = Math.ceil(Math.min(this.bestY, this.game.ninja.y + 101));
-            // this.heightScore = -this.bestY;
-            // this.score = this.y;
-            PARAMS.SCORE += .1;
+            //increment score as game plays
+            
             
             //scroll map
             this.y -= this.scrollSpeed; 
+
+            //follow the player
+            if (this.y > this.game.ninja.y - midpointY) this.y = this.game.ninja.y - midpointY;
         }
 
     };
 
     draw(ctx) {
-        let score = "Score " + Math.ceil(PARAMS.SCORE) + " ";
+        let score = "Score " + Math.ceil(this.score + " ");
         ctx.font = 30 + 'px "Play"';
         ctx.fillStyle = "White";
-        
         ctx.fillText(score, (950/2), 115);
+
+        let highscore = "High Score " + Math.ceil(this.highScore) + " ";
+        ctx.font = 30 + 'px "Play"';
+        ctx.fillStyle = "White";
+        ctx.fillText(highscore, (950/2), 140);
 
         // Make it a larger window to hold more platforms 
         // Remove/Add based on distance

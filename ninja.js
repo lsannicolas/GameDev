@@ -21,6 +21,7 @@ class Ninja {
             this.loadBoyAnimations();
         }
         this.isPoweredUp = false;
+        this.multiplied = false;
 
 
     }
@@ -237,6 +238,11 @@ class Ninja {
             if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
                 //entity.removeFromWorld = true;
+                if(that.multiplied){
+                    entity.zombieScore = 400;
+                } else {
+                    entity.zombieScore = 200;
+                }
                 entity.die();
             }
             if ((entity.BB && that.BB.collide(entity.BB))
@@ -250,10 +256,16 @@ class Ninja {
                         that.velocity.y = -2000
                         break;
                     case "thumb":
-                        that.isPoweredUp = true;
                         
+                        that.multiplied = true;                        
                 }
-                PARAMS.SCORE += 100;
+                if(that.multiplied) {
+                    that.game.camera.score += 200;
+                } else if(that.elapsedTime > 15) {
+                    that.elapsedTime = 0;
+                    that.multiplied = false;
+                    that.game.camera.score += 100;
+                }
             }
         });
         let yVel = Math.abs(this.velocity.y);
