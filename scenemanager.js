@@ -10,10 +10,18 @@ class SceneManager {
         this.highScore = 0;
         this.elapsedTime = 0;
         this.scrollSpeed = .75;
+
+        this.lastBrickY = 0;
+        // this.bricky = 0;
+
         //this.ninja = new Ninja(this.game, 0 * PARAMS.BLOCKWIDTH, 2.5 * PARAMS.BLOCKWIDTH, true);
+
+
         this.level = levelOne;
         this.platforms = levelOne.platforms;
         this.loadLevel(this.level);
+
+
     };
 
     loadLevel(level) {
@@ -58,107 +66,32 @@ class SceneManager {
 
         this.ninja = new Ninja(this.game, 200, 0, true);
         this.game.addEntity(this.ninja);
-        
+
         this.startMenu = new StartMenu(this.game);
         this.game.addEntity(this.startMenu);
-
-        console.log(this.game.entities)
     }
-
-    // loadLevelOne() {
-    //     this.x = 0;
-    //     this.y = 0;
-    //
-    //
-    //
-    //     let bricks = new Brick(this.game, 0, -1000);
-    //     this.game.addEntity(bricks);
-    //     bricks = new Brick(this.game, 0, -3100);
-    //     this.game.addEntity(bricks);
-    //     bricks = new Brick(this.game, 0, -5200);
-    //     this.game.addEntity(bricks);
-    //
-    //     let decor = new Decor(this.game, 0, -1500);
-    //     this.game.addEntity(decor);
-    //     decor = new Decor(this.game, 0, -4250);
-    //     this.game.addEntity(decor);
-    //     decor = new Decor(this.game, 0, -6150);
-    //     this.game.addEntity(decor);
-    //
-    //     let platform = new Platform(this.game, 500, -50, 250);
-    //     this.game.addEntity(platform);
-    //     platform = new Platform(this.game, 200, -250, 100);
-    //     this.game.addEntity(platform);
-    //     platform = new Platform(this.game, 500, -400, 250);
-    //     this.game.addEntity(platform);
-    //     platform = new Platform(this.game, 180, -500, 75);
-    //     this.game.addEntity(platform);
-    //     platform = new Platform(this.game, 400, -690, 75);
-    //     this.game.addEntity(platform);
-    //     platform = new Platform(this.game, 600, -765, 100);
-    //     this.game.addEntity(platform);
-    //     platform = new Platform(this.game, 170, -900, 75);
-    //     this.game.addEntity(platform);
-    //     platform = new Platform(this.game, 350, -1100, 275);
-    //     this.game.addEntity(platform);
-    //
-    //     //made ground below for testing
-    //     platform = new Platform(this.game, 170, 300, 600);
-    //     this.game.addEntity(platform);
-    //     //restart platform for testing death
-    //     platform = new Platform(this.game, 170, 100, 100);
-    //     this.game.addEntity(platform);
-    //
-    //     let item = new Item(this.game, 650, -100, "thumb")
-    //     this.game.addEntity(item);
-    //
-    //     item = new Item(this.game, 200, -325, "up")
-    //     this.game.addEntity(item);
-    //
-    //     item = new Item(this.game, 500, -450, "wings")
-    //     this.game.addEntity(item);
-    //
-    //     item = new Item(this.game, 400, -740, "heart")
-    //     this.game.addEntity(item);
-    //
-    //
-    //
-    //
-    //
-    //     platform = new Platform(this.game, 200, 200, 150);
-    //     this.game.addEntity(platform);
-    //
-    //     let zombie = new Zombie(this.game, 500, -150, true);
-    //     this.game.addEntity(zombie);
-    //     zombie = new Zombie(this.game, 650, -550, false);
-    //     this.game.addEntity(zombie);
-    //     // zombie = new Zombie(this.game, 650, 150, false);
-    //     // this.game.addEntity(zombie);
-    //
-    //     this.ninja = new Ninja(this.game, 500, 0, true);
-    //     this.game.addEntity(this.ninja);
-    //     // this.girl = new Ninja(this.game, 0, 300, false);
-    //     // this.game.addEntity(this.girl);
-    //
-    //     this.startMenu = new StartMenu(this.game);
-    //     this.game.addEntity(this.startMenu);
-    //
-    //
-    // };
 
     generateNewPlatform() {
         let last = this.game.platforms[this.game.platforms.length - 1]
         // const CENTER = 450;
 
 
-        let x = randomInRange(150, 690);
-        console.log(x)
+        let x = randomInRange(150, 500);
+
         let y = last.y - randomInRange(150, 215);
 
-        let width = randomInRange(100, 400)
+        let width = randomInRange(125, 400)
+
+        if (Math.abs(x - last.x) < 100) {
+            if (last.x < 450) {
+                x + 125
+            } else {
+                x - 125
+            }
+        }
 
         if (x + width > 700) {
-            width = Math.max(700 - x, 75)
+            width = Math.max(700 - x, 100)
         }
 
         //Place an enemy if platform is wide
@@ -180,7 +113,6 @@ class SceneManager {
             this.lastCamY = this.game.camera.y;
             let itemChance = randomInRange(0, 100);
             let itemX = randomInRange(0, width - 40)
-            console.log(itemChance % 4)
             switch (itemChance % 4) {
                 case 0:
                     this.game.addEntity(new Item(this.game, itemX + x, y - 50, "thumb"))
@@ -200,6 +132,15 @@ class SceneManager {
         }
 
         return new Platform(this.game, x, y, width)
+    }
+
+
+    checkBrickAndDecor() {
+        if (Math.abs(this.game.camera.y - this.lastBrickY) > 2000) {
+            this.lastBrickY = this.game.camera.y;
+            this.game.addEntity(new Brick(this.game, 0, this.game.camera.y - 2470))
+            this.game.addEntity(new Decor(this.game, 0, this.game.camera.y - 2470))
+        }
     }
 
 
@@ -224,9 +165,13 @@ class SceneManager {
             }
             let midpointY = PARAMS.CANVAS_HEIGHT / 2 - 10;
             this.x = 0;
-            if (this.y > this.ninja.y && this.ninja.isPoweredUp) {
+            if (this.y > this.ninja.y - 200) {
                 // this.y = this.ninja.y - midpointY
-                this.y -= 12;
+                if (this.ninja.isPoweredUp) {
+                    this.y -= 12
+                } else {
+                    this.y -= 3
+                }
             }
             if(this.game.ninja.multiplied){
                 this.elapsedTime += this.game.clockTick;
@@ -256,6 +201,7 @@ class SceneManager {
     };
 
     draw(ctx) {
+
         let score = "Score " + Math.ceil(this.score + " ");
         ctx.font = 30 + 'px "Play"';
         ctx.fillStyle = "White";
@@ -265,12 +211,16 @@ class SceneManager {
         ctx.font = 30 + 'px "Play"';
         ctx.fillStyle = "White";
         ctx.fillText(highscore, (950/2), 140);
+        this.checkBrickAndDecor();
 
         // Make it a larger window to hold more platforms 
         // Remove/Add based on distance
         let lowest = this.game.platforms[0];
 
         if (lowest.y - 1000 > this.game.camera.y) {
+            // we may want to clean up the entities no longer on screen
+            // this.cleanUp();
+
             this.game.platforms.shift();
 
             this.game.platforms.push(this.generateNewPlatform())
