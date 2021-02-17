@@ -21,7 +21,11 @@ class Ninja {
             this.loadBoyAnimations();
         }
         this.isPoweredUp = false;
-
+        this.radius = 50;
+        this.visualRadius = 100;
+        this.hp = 1000;
+        this.maxHP = 1000;
+        this.healthbar = new HPBar(this);
     }
 
     fillAnimations() {
@@ -227,14 +231,6 @@ class Ninja {
             // }
             // Ninja dies if the Zombie collides with it.
            
-            if ((entity.BB && that.BB.collide(entity.BB))
-                && (entity instanceof Zombie) && !that.isPoweredUp) {                 
-                    HPBar.updateHealth(-5); // Not sure if this is the proper way to call the method. I get an error here.
-                    if(HPBar.health <= 1000) {
-                        that.die();
-                    }
-                    
-            }
             if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
                 //entity.removeFromWorld = true;
@@ -249,6 +245,20 @@ class Ninja {
                         that.isPoweredUp = true;
                         // Play with this value to adjust boost up
                         that.velocity.y = -2000
+                        break;
+                }
+            }
+
+            if ((entity.BB && that.BB.collide(entity.BB))
+                && (entity instanceof Item)) {
+                entity.removeFromWorld = true;
+                switch (entity.name) {
+                    case "heart":
+                        that.isPoweredUp = true;
+                        // Play with this value to adjust boost up
+                        if(that.hp != that.maxHP) {
+                            that.hp += 100;
+                        }
                         break;
                 }
             }
@@ -401,6 +411,7 @@ class Ninja {
                 ctx.strokeRect(this.ABB.x, this.ABB.y - this.game.camera.y, this.ABB.width, this.ABB.height);
             }
         }
+        this.healthbar.draw(ctx);
 
     };
 }
