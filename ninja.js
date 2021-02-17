@@ -21,6 +21,11 @@ class Ninja {
             this.loadBoyAnimations();
         }
         this.isPoweredUp = false;
+        this.radius = 50;
+        this.visualRadius = 100;
+        this.hp = 1000;
+        this.maxHP = 1000;
+        this.healthbar = new HPBar(this);
         this.elapsedTime = 0;
         this.attackTime = 0;
         this.throwTime = 0;
@@ -178,10 +183,7 @@ class Ninja {
         })
         this.game.entities.forEach(function (entity) {
             // Ninja dies if the Zombie collides with it.
-            if ((entity.BB && that.BB.collide(entity.BB))
-                && (entity instanceof Zombie) && !that.isPoweredUp) {
-                that.die();
-            }
+           
             if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
                 //entity.removeFromWorld = true;
@@ -199,6 +201,20 @@ class Ninja {
                         break;
                 }
             }
+
+            if ((entity.BB && that.BB.collide(entity.BB))
+                && (entity instanceof Item)) {
+                entity.removeFromWorld = true;
+                switch (entity.name) {
+                    case "heart":
+                        that.isPoweredUp = true;
+                        if(that.hp != that.maxHP) {
+                            that.hp += 100;
+                        }
+                        break;
+                }
+            }
+          
         });
 
         //physics
@@ -376,6 +392,7 @@ class Ninja {
                 ctx.strokeRect(this.ABB.x, this.ABB.y - this.game.camera.y, this.ABB.width, this.ABB.height);
             }
         }
+        this.healthbar.draw(ctx);
 
     };
 }
