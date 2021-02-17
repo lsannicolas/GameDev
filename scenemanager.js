@@ -12,10 +12,6 @@ class SceneManager {
         this.scrollSpeed = .75;
 
         this.lastBrickY = 0;
-        // this.bricky = 0;
-
-        //this.ninja = new Ninja(this.game, 0 * PARAMS.BLOCKWIDTH, 2.5 * PARAMS.BLOCKWIDTH, true);
-
 
         this.level = levelOne;
         this.platforms = levelOne.platforms;
@@ -60,6 +56,7 @@ class SceneManager {
         if (level.enemies) {
             for (let i = 0; i < level.enemies.length; i++) {
                 let zombie = level.enemies[i]
+                //works ?
                 this.game.addEntity(new Zombie(this.game, zombie.x, zombie.y, zombie.isBoy));
             }
         }
@@ -205,12 +202,12 @@ class SceneManager {
         let score = "Score " + Math.ceil(this.score + " ");
         ctx.font = 30 + 'px "Play"';
         ctx.fillStyle = "White";
-        ctx.fillText(score, (950/2), 115);
+        ctx.fillText(score, 550, 35);
 
         let highscore = "High Score " + Math.ceil(this.highScore) + " ";
         ctx.font = 30 + 'px "Play"';
         ctx.fillStyle = "White";
-        ctx.fillText(highscore, (950/2), 140);
+        ctx.fillText(highscore, 700, 35);
         this.checkBrickAndDecor();
 
         // Make it a larger window to hold more platforms 

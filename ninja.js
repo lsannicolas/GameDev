@@ -196,6 +196,17 @@ class Ninja {
                 }
                 entity.die();
             }
+
+            if (entity.ABB && that.BB.collide(entity.ABB)) {
+                that.hp -= 5;
+                if(that.hp <= 0) {
+                    that.hp = 5;
+                    that.die();
+                } else if(entity.hp > entity.maxHP) {
+                    that.hp = entity.maxHP;
+                }
+            }
+
             if ((entity.BB && that.BB.collide(entity.BB))
                 && (entity instanceof Item)) {
                 entity.removeFromWorld = true;
