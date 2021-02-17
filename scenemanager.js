@@ -155,7 +155,7 @@ class SceneManager {
             this.y = -300;
             PARAMS.START = false;
         };
-        PARAMS.DEBUG = true;
+        PARAMS.DEBUG = false;
         if (PARAMS.START === true) {
             if (this.startMenu) {
                 this.startMenu.exists = false;
