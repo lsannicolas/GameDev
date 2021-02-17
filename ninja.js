@@ -256,7 +256,6 @@ class Ninja {
                 switch (entity.name) {
                     case "heart":
                         that.isPoweredUp = true;
-                        // Play with this value to adjust boost up
                         if(that.hp != that.maxHP) {
                             that.hp += 100;
                         }

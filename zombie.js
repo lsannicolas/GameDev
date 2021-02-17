@@ -153,7 +153,6 @@ class Zombie {
                 if ((entity.BB && that.BB.collide(entity.BB))
                 && (entity instanceof Ninja) && !that.isPoweredUp) {  
                    entity.hp -= 5;
-
                    if(entity.hp <= 0) {
                        entity.hp = 5;
                        entity.die();
