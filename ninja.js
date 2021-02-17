@@ -144,7 +144,8 @@ class Ninja {
     };
     update() {
         const TICK = this.game.clockTick;
-
+        //die if you fall of screen
+        if (this.y - this.game.camera.y > 760) this.die();
         //adjust constants to alter physics
         //run
         const MAX_RUN = 1000; //adjust for maximum run speed
