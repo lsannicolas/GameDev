@@ -223,11 +223,11 @@ class SceneManager {
             }
 
             //current score
-            this.bestY = Math.ceil(Math.min(this.bestY, this.game.ninja.y + 101));
-            this.heightScore = -this.bestY;
-            this.score = this.heightScore;
+            // this.bestY = Math.ceil(Math.min(this.bestY, this.game.ninja.y + 101));
+            // this.heightScore = -this.bestY;
+            // this.score = this.y;
+            PARAMS.SCORE += .1;
             
-
             //scroll map
             this.y -= this.scrollSpeed; 
         }
@@ -235,8 +235,8 @@ class SceneManager {
     };
 
     draw(ctx) {
-        let score = "Score" + this.score + " ";
-        ctx.font = 30 + 'px "Press Start 2P"';
+        let score = "Score " + Math.ceil(PARAMS.SCORE) + " ";
+        ctx.font = 30 + 'px "Play"';
         ctx.fillStyle = "White";
         
         ctx.fillText(score, (950/2), 115);

@@ -102,7 +102,7 @@ class Zombie {
         // if(that.Ninja.isPoweredUp){
         //     this.game.addEntity(new Score(this.game, this.x, this.y, 200));    
         // }
-        this.game.addEntity(new Score(this.game, this.canFall, this.y, 100));
+        PARAMS.SCORE += 200;
         // if (this.state === 3) {
         //     this.removeFromWorld = true;
         // }

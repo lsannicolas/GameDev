@@ -39,6 +39,7 @@ const PARAMS = {
     PLAY: false,
     LEVELS: false,
     SCALE: 1,
-    BITWIDTH: 16
+    BITWIDTH: 16,
+    SCORE: 0
 
 };

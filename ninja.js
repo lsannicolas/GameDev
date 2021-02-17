@@ -252,7 +252,7 @@ class Ninja {
                         that.isPoweredUp = true;
                         
                 }
-                that.game.addEntity(new Score(that.game, that.x, that.y, 200));
+                PARAMS.SCORE += 100;
             }
         });
         let yVel = Math.abs(this.velocity.y);
