@@ -197,7 +197,7 @@ class Ninja {
                 entity.die();
             }
 
-            if (entity.ABB && that.BB.collide(entity.ABB)) {
+            if (entity instanceof Zombie && that.BB.collide(entity.ABB)) {
                 that.hp -= 5;
                 if(that.hp <= 0) {
                     that.hp = 5;

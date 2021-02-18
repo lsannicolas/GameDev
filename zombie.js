@@ -79,13 +79,12 @@ class Zombie {
     updateBB() {
         this.lastBB = this.BB;
         //incase you want to change based on direction facing
-        let bHeight = 80;
-        let bWidth = 35;
         this.ABB = new BoundingBox(0, 0, 0, 0);
+
         if (this.facing === 0) {
-            this.BB = new BoundingBox(this.x + 15, this.y, bWidth, bHeight);
+            this.BB = new BoundingBox(this.x + 15, this.y, 35, 80);
         } else {
-            this.BB = new BoundingBox(this.x + 20, this.y, bWidth, bHeight);
+            this.BB = new BoundingBox(this.x + 20, this.y, 35, 80);
         }
         if (this.state === 2) {
             if (this.facing === 0) {
@@ -104,6 +103,7 @@ class Zombie {
         this.dead = true;
         //this.game.addEntity(new Score(this.x, this.y, 200));
         this.game.camera.score += this.zombieScore;
+        this.removeFromWorld = true;
 
         // if(that.Ninja.isPoweredUp){
         //     this.game.addEntity(new Score(this.game, this.x, this.y, 200));    
