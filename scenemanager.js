@@ -198,16 +198,16 @@ class SceneManager {
     };
 
     draw(ctx) {
-
-        let score = "Score " + Math.ceil(this.score + " ");
-        ctx.font = 30 + 'px "Play"';
-        ctx.fillStyle = "White";
-        ctx.fillText(score, 550, 35);
-
-        let highscore = "High Score " + Math.ceil(this.highScore) + " ";
-        ctx.font = 30 + 'px "Play"';
-        ctx.fillStyle = "White";
-        ctx.fillText(highscore, 700, 35);
+        if (PARAMS.START) {
+            let score = "Score " + Math.ceil(this.score + " ");
+            ctx.font = 30 + 'px "Play"';
+            ctx.fillStyle = "White";
+            ctx.fillText(score, 525, 35);
+            let highscore = "High Score " + Math.ceil(this.highScore) + " ";
+            ctx.font = 30 + 'px "Play"';
+            ctx.fillStyle = "White";
+            ctx.fillText(highscore, 700, 35);
+        }
         this.checkBrickAndDecor();
 
         // Make it a larger window to hold more platforms 
