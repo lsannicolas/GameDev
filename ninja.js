@@ -21,6 +21,8 @@ class Ninja {
             this.loadBoyAnimations();
         }
         this.isPoweredUp = false;
+        this.multiplied = false;
+
         this.radius = 50;
         this.visualRadius = 100;
         this.hp = 1000;
@@ -186,8 +188,24 @@ class Ninja {
             if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
                 //entity.removeFromWorld = true;
+                if(that.multiplied){
+                    entity.zombieScore = 400;
+                } else {
+                    entity.zombieScore = 200;
+                }
                 entity.die();
             }
+
+            if (entity instanceof Zombie && that.BB.collide(entity.ABB)) {
+                that.hp -= 5;
+                if(that.hp <= 0) {
+                    that.hp = 5;
+                    that.die();
+                } else if(entity.hp > entity.maxHP) {
+                    that.hp = entity.maxHP;
+                }
+            }
+
             if ((entity.BB && that.BB.collide(entity.BB))
                 && (entity instanceof Item)) {
                 entity.removeFromWorld = true;
@@ -198,6 +216,16 @@ class Ninja {
                         // Play with this value to adjust boost up
                         that.velocity.y = -2000
                         break;
+                    case "thumb":
+                        
+                        that.multiplied = true;                        
+                }
+                if(that.multiplied) {
+                    that.game.camera.score += 200;
+                } else if(that.elapsedTime > 15) {
+                    that.elapsedTime = 0;
+                    that.multiplied = false;
+                    that.game.camera.score += 100;
                 }
             }
 

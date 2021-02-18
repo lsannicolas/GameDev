@@ -6,13 +6,15 @@ class SceneManager {
         this.y = -300;
         this.lastCamY = 0;
         this.yFlag = true;
-        this.lastBrickY = 0;
-        // this.bricky = 0;
-        //this.ninja = new Ninja(this.game, 0 * PARAMS.BLOCKWIDTH, 2.5 * PARAMS.BLOCKWIDTH, true);
+        this.score = 0;
+        this.highScore = 0;
+        this.elapsedTime = 0;
+        this.scrollSpeed = .75;
 
+        this.lastBrickY = 0;
 
         this.level = levelOne;
-        this.platforms = levelOne.platforms
+        this.platforms = levelOne.platforms;
         this.loadLevel(this.level);
 
 
@@ -54,6 +56,7 @@ class SceneManager {
         if (level.enemies) {
             for (let i = 0; i < level.enemies.length; i++) {
                 let zombie = level.enemies[i]
+                //works ?
                 this.game.addEntity(new Zombie(this.game, zombie.x, zombie.y, zombie.isBoy));
             }
         }
@@ -142,6 +145,10 @@ class SceneManager {
 
     update() {
         if (this.ninja.dead) {
+            //set highscore on death and reset old score.
+            this.highScore = Math.max(this.highScore, this.score);
+            this.score = 0;
+
             this.ninja.dead = false;
             this.game.entities = [];
             this.game.platforms = [];
@@ -164,17 +171,46 @@ class SceneManager {
                     this.y -= 3
                 }
             }
-
+            if(this.game.ninja.multiplied){
+                this.elapsedTime += this.game.clockTick;
+                this.score += (.1 * 2);
+            }  else {
+                this.score += .08;
+            }
+            if(this.elapsedTime > 10){
+                this.elapsedTime = 0;
+                this.game.ninja.multiplied = false;
+            }
             if (this.yFlag) {
                 this.y = this.ninja.y - midpointY;
                 this.yFlag = false;
             }
-            this.y -= .75;
+
+            //increment score as game plays
+            
+            
+            //scroll map
+            this.y -= this.scrollSpeed; 
+
+            //follow the player
+            if (this.y > this.game.ninja.y - midpointY) this.y = this.game.ninja.y - midpointY;
         }
+
     };
 
     draw(ctx) {
+
+        let score = "Score " + Math.ceil(this.score + " ");
+        ctx.font = 30 + 'px "Play"';
+        ctx.fillStyle = "White";
+        ctx.fillText(score, 550, 35);
+
+        let highscore = "High Score " + Math.ceil(this.highScore) + " ";
+        ctx.font = 30 + 'px "Play"';
+        ctx.fillStyle = "White";
+        ctx.fillText(highscore, 700, 35);
         this.checkBrickAndDecor();
+
         // Make it a larger window to hold more platforms 
         // Remove/Add based on distance
         let lowest = this.game.platforms[0];

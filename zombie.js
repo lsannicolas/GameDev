@@ -18,10 +18,12 @@ class Zombie {
         this.facing = 1; //0 for right, 1 for left
         this.state = 0;  //0 for idle, 1 for walking
         this.dead = false;
+        this.ninjaCollide = false;
         this.velocity = { x: 0, y: 0 };
         this.canFall = true;
         this.leftBound = 0;
         this.rightBound = 0;
+        this.zombieScore = 0;
         this.updateBB();
         this.animations = [];
         this.loadAnimations();
@@ -77,12 +79,12 @@ class Zombie {
     updateBB() {
         this.lastBB = this.BB;
         //incase you want to change based on direction facing
-        let bHeight = 80;
-        let bWidth = 35;
+        this.ABB = new BoundingBox(0, 0, 0, 0);
+
         if (this.facing === 0) {
-            this.BB = new BoundingBox(this.x + 15, this.y, bWidth, bHeight);
+            this.BB = new BoundingBox(this.x + 15, this.y, 35, 80);
         } else {
-            this.BB = new BoundingBox(this.x + 20, this.y, bWidth, bHeight);
+            this.BB = new BoundingBox(this.x + 20, this.y, 35, 80);
         }
         if (this.state === 2) {
             if (this.facing === 0) {
@@ -99,16 +101,23 @@ class Zombie {
         this.velocity.x = 0
         this.time1 = this.testTimer.getTime();
         this.dead = true;
+        //this.game.addEntity(new Score(this.x, this.y, 200));
+        this.game.camera.score += this.zombieScore;
+        this.removeFromWorld = true;
+
+        // if(that.Ninja.isPoweredUp){
+        //     this.game.addEntity(new Score(this.game, this.x, this.y, 200));    
+        // }
+        
         // if (this.state === 3) {
         //     this.removeFromWorld = true;
         // }
     }
 
     update() {
-        if (this.state === 3) {
-            this.time2 = this.testTimer.getTime();
-        }
-        // console.log(this.time2 - this.time1);
+
+        this.ninjaCollide = false;
+        //console.log(this.state);
         const TICK = this.game.clockTick;
         const MAX_WALK = 100;
         const MAX_FALL = 100;
@@ -127,49 +136,34 @@ class Zombie {
             })
             this.game.entities.forEach(function (entity) {
                 if (entity.BB && that.BB.collide(entity.BB)) {
-                    // if (entity instanceof Platform) {
-                    //     that.canFall = false;
-                    //     if (that.BB.bottom - entity.BB.top > 0 && that.BB.bottom - entity.BB.bottom < 50) { //if on top/falling
-                    //         that.velocity.y = 0;
-                    //         that.y = entity.BB.top - that.BB.height;
-                    //         that.leftBound = entity.BB.left;
-                    //         that.rightBound = entity.BB.right;
-                    //     }
-
-                    // }
                     if (entity instanceof Ninja) {
-                        if (entity.BB.right - that.BB.left > 0 && entity.BB.left - that.BB.left < 0) {
-                            that.facing = 1;
-                        } else {
-                            that.facing = 0;
-                        }
+                        that.ninjaCollide = true;
                         that.state = 2;
-                        that.velocity.x = 0;
-                    } else {
-                        that.state = 1;
+                        if (that.BB.left < entity.BB.left) {
+                            //console.log("heard ->")
+                            //console.log(that.BB.right + " " + entity.BB.left);
+                            that.facing = 0;
+                            that.state = 2;
+                            that.velocity.x = 0;
+                        } else if (that.BB.right > entity.BB.right) {
+                            //console.log("heard <-")
+                            that.facing = 1;
+                            that.state = 2;
+                            that.velocity.x = 0;
+                        }
                     }
                 }
-
-                if ((entity.BB && that.BB.collide(entity.BB))
-                && (entity instanceof Ninja) && !that.isPoweredUp) {  
-                   entity.hp -= 5;
-                   if(entity.hp <= 0) {
-                       entity.hp = 5;
-                       entity.die();
-                   } else if(entity.hp > entity.maxHP) {
-                        entity.hp = entity.maxHP;
-                   }
-                    
-            }
             });
-
+            if (!that.ninjaCollide) {
+                that.state = 1;
+                this.facing === 0 ? this.velocity.x = MAX_WALK : this.velocity.x = -MAX_WALK
+            }
             //platform walking physics
-            if (!this.canFall) {
+            if (!this.canFall && !this.ninjaCollide) {
                 if (this.leftBound > this.x) {
                     this.state = 1;
                     this.facing = 0;
                     this.velocity.x += MAX_WALK;
-                    this.initialMove = false;
                 } else if (this.rightBound - this.x < 70) {
                     this.state = 1;
                     this.facing = 1;
@@ -193,9 +187,12 @@ class Zombie {
                 this.y += this.velocity.y;
 
             }
-            if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
-            if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
-            this.x += this.velocity.x * TICK * PARAMS.SCALE;
+            if (!this.ninjaCollide) {
+                if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
+                if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
+                this.x += this.velocity.x * TICK * PARAMS.SCALE;
+            }
+
             this.updateBB();
 
             //if dead
