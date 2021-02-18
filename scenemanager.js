@@ -162,21 +162,14 @@ class SceneManager {
             }
             let midpointY = PARAMS.CANVAS_HEIGHT / 2 - 10;
             this.x = 0;
-            if (this.y > this.ninja.y - 200) {
-                // this.y = this.ninja.y - midpointY
-                if (this.ninja.isPoweredUp) {
-                    this.y -= 12
-                } else {
-                    this.y -= 3
-                }
-            }
-            if(this.game.ninja.multiplied){
+
+            if (this.game.ninja.multiplied) {
                 this.elapsedTime += this.game.clockTick;
                 this.score += (.1 * 2);
-            }  else {
+            } else {
                 this.score += .08;
             }
-            if(this.elapsedTime > 10){
+            if (this.elapsedTime > 10) {
                 this.elapsedTime = 0;
                 this.game.ninja.multiplied = false;
             }
@@ -186,10 +179,10 @@ class SceneManager {
             }
 
             //increment score as game plays
-            
-            
+
+
             //scroll map
-            this.y -= this.scrollSpeed; 
+            this.y -= this.scrollSpeed;
 
             //follow the player
             if (this.y > this.game.ninja.y - midpointY) this.y = this.game.ninja.y - midpointY;
@@ -198,19 +191,18 @@ class SceneManager {
     };
 
     draw(ctx) {
-        
-
+        if (PARAMS.START) {
             let score = "Score " + Math.ceil(this.score + " ");
             ctx.font = 30 + 'px "Play"';
             ctx.fillStyle = "White";
-            ctx.fillText(score, 450, 35);
-
+            ctx.fillText(score, 525, 35);
             let highscore = "High Score " + Math.ceil(this.highScore) + " ";
             ctx.font = 30 + 'px "Play"';
             ctx.fillStyle = "White";
             ctx.fillText(highscore, 700, 35);
-            this.checkBrickAndDecor();
-        
+        }
+        this.checkBrickAndDecor();
+
         // Make it a larger window to hold more platforms 
         // Remove/Add based on distance
         let lowest = this.game.platforms[0];
