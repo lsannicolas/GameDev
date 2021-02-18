@@ -216,8 +216,11 @@ class SceneManager {
             // this.cleanUp();
 
             this.game.platforms.shift();
-
+            
             this.game.platforms.push(this.generateNewPlatform())
+            
+            this.game.addEntity(this.healthbar);
+            
         }
     };
 };
