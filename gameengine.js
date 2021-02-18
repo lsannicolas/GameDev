@@ -130,6 +130,10 @@ class GameEngine {
         this.entities.push(entity);
     };
 
+    pushEntity(entity) {
+        this.entities.unshift(entity);
+    };
+
     addPlatform(entity) {
         this.platforms.push(entity);
     };
