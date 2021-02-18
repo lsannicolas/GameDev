@@ -198,18 +198,19 @@ class SceneManager {
     };
 
     draw(ctx) {
+        
 
-        let score = "Score " + Math.ceil(this.score + " ");
-        ctx.font = 30 + 'px "Play"';
-        ctx.fillStyle = "White";
-        ctx.fillText(score, 550, 35);
+            let score = "Score " + Math.ceil(this.score + " ");
+            ctx.font = 30 + 'px "Play"';
+            ctx.fillStyle = "White";
+            ctx.fillText(score, 450, 35);
 
-        let highscore = "High Score " + Math.ceil(this.highScore) + " ";
-        ctx.font = 30 + 'px "Play"';
-        ctx.fillStyle = "White";
-        ctx.fillText(highscore, 700, 35);
-        this.checkBrickAndDecor();
-
+            let highscore = "High Score " + Math.ceil(this.highScore) + " ";
+            ctx.font = 30 + 'px "Play"';
+            ctx.fillStyle = "White";
+            ctx.fillText(highscore, 700, 35);
+            this.checkBrickAndDecor();
+        
         // Make it a larger window to hold more platforms 
         // Remove/Add based on distance
         let lowest = this.game.platforms[0];
