@@ -63,7 +63,8 @@ class SceneManager {
 
         this.ninja = new Ninja(this.game, 200, 0, true);
         this.game.addEntity(this.ninja);
-
+        this.healthbar = new HPBar(this.ninja);
+        this.game.addEntity(this.healthbar);
         this.startMenu = new StartMenu(this.game);
         this.game.addEntity(this.startMenu);
     }
@@ -191,17 +192,20 @@ class SceneManager {
     };
 
     draw(ctx) {
+
         if (PARAMS.START) {
             let score = "Score " + Math.ceil(this.score + " ");
             ctx.font = 30 + 'px "Play"';
             ctx.fillStyle = "White";
             ctx.fillText(score, 525, 35);
+
             let highscore = "High Score " + Math.ceil(this.highScore) + " ";
             ctx.font = 30 + 'px "Play"';
             ctx.fillStyle = "White";
             ctx.fillText(highscore, 700, 35);
+
+            this.checkBrickAndDecor();
         }
-        this.checkBrickAndDecor();
 
         // Make it a larger window to hold more platforms 
         // Remove/Add based on distance
