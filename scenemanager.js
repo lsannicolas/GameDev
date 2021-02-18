@@ -162,21 +162,14 @@ class SceneManager {
             }
             let midpointY = PARAMS.CANVAS_HEIGHT / 2 - 10;
             this.x = 0;
-            if (this.y > this.ninja.y - 200) {
-                // this.y = this.ninja.y - midpointY
-                if (this.ninja.isPoweredUp) {
-                    this.y -= 12
-                } else {
-                    this.y -= 3
-                }
-            }
-            if(this.game.ninja.multiplied){
+
+            if (this.game.ninja.multiplied) {
                 this.elapsedTime += this.game.clockTick;
                 this.score += (.1 * 2);
-            }  else {
+            } else {
                 this.score += .08;
             }
-            if(this.elapsedTime > 10){
+            if (this.elapsedTime > 10) {
                 this.elapsedTime = 0;
                 this.game.ninja.multiplied = false;
             }
@@ -186,10 +179,10 @@ class SceneManager {
             }
 
             //increment score as game plays
-            
-            
+
+
             //scroll map
-            this.y -= this.scrollSpeed; 
+            this.y -= this.scrollSpeed;
 
             //follow the player
             if (this.y > this.game.ninja.y - midpointY) this.y = this.game.ninja.y - midpointY;
