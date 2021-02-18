@@ -14,6 +14,9 @@ ASSET_MANAGER.queueDownload('./sprites/ninjaGirlLeft.png');
 ASSET_MANAGER.queueDownload('./sprites/throwRight.png');
 ASSET_MANAGER.queueDownload('./sprites/throwLeft.png');
 
+ASSET_MANAGER.queueDownload('./sprites/Kunai.png');
+ASSET_MANAGER.queueDownload('./sprites/Kunai_left.png');
+
 ASSET_MANAGER.queueDownload('./sprites/thumb.png');
 ASSET_MANAGER.queueDownload('./sprites/up.png');
 ASSET_MANAGER.queueDownload('./sprites/heart.png');

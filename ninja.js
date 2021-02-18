@@ -25,7 +25,10 @@ class Ninja {
         this.visualRadius = 100;
         this.hp = 1000;
         this.maxHP = 1000;
-        //this.healthbar = new HPBar(this);
+        this.healthbar = new HPBar(this);
+        this.elapsedTime = 0;
+        this.attackTime = 0;
+        this.throwTime = 0;
     }
 
     fillAnimations() {
@@ -107,33 +110,6 @@ class Ninja {
                 this.ABB = new BoundingBox(this.x - 50, this.y, 50, 90);
             }
         }
-
-        // //below if you set PARAMS.SCALE/4 in draw method at bottom
-        // if (this.facing === 0 && this.state === 1) {
-        //     this.BB = new BoundingBox(this.x + 15, this.y, 70, 113);
-        // } else if (this.facing === 1 && this.state === 1) {
-        //     this.BB = new BoundingBox(this.x + 8, this.y, 70, 113);
-        // } else if (this.state === 3 && this.facing === 0) {
-        //     this.BB = new BoundingBox(this.x + 10, this.y, 70, 113);
-        // } else if (this.state === 3 && this.facing === 1) {
-        //     this.BB = new BoundingBox(this.x - 65, this.y, 70, 113);
-        // } else {
-        //     this.BB = new BoundingBox(this.x, this.y, 60, 113);
-        // }
-
-
-        // // use below if you set PARAMS.SCALE/5 in draw method at bottom
-        // if (this.facing === 0 && this.state === 1) {
-        //     this.BB = new BoundingBox(this.x + 5, this.y, 60, 90);
-        // } else if (this.facing === 1 && this.state === 1) {
-        //     this.BB = new BoundingBox(this.x + 8, this.y, 60, 90);
-        // } else if (this.state === 3 && this.facing === 0) {
-        //     this.BB = new BoundingBox(this.x + 10, this.y, 60, 90);
-        // } else if (this.state === 3 && this.facing === 1) {
-        //     this.BB = new BoundingBox(this.x - 10, this.y, 60, 90);
-        // } else { //idle either way
-        //     this.BB = new BoundingBox(this.x, this.y, 50, 90);
-        // }
     };
 
     die() {
@@ -143,16 +119,19 @@ class Ninja {
         this.dead = true;
     };
     update() {
+        this.elapsedTime += this.game.clockTick;
+        this.attackTime += this.game.clockTick;
+        this.throwTime += this.game.clockTick;
         const TICK = this.game.clockTick;
         //die if you fall of screen
         if (this.y - this.game.camera.y > 760) this.die();
         //adjust constants to alter physics
         //run
         const MAX_RUN = 1000; //adjust for maximum run speed
-        const ACC_RUN = 600;  //adjust for maximum acceleration
+        // const ACC_RUN = 600;  //adjust for maximum acceleration
         //skids
-        const DEC_SKID = 1850;
-        const TURN_SKID = 65;
+        // const DEC_SKID = 1850;
+        // const TURN_SKID = 65;
         //jump
         const JUMP_ACC = 900;  //adjust for maximum jump acc      //JUMP_ACC & MAX_JUMP
         const MAX_JUMP = 1500;  //adjust for maximum jump height   //NEED TO BOTH BE ADJUSTED
@@ -160,7 +139,7 @@ class Ninja {
         const MAX_FALL = 700;  //adjust for fall speed
         const STOP_FALL = 1800;
         //in air deceleration
-        const AIR_DEC = 2;
+        // const AIR_DEC = 2;
 
         //SET SCREEN BOUNDS (MAYBE DO BOUNDING BOX LATER
         const SCREEN_BOUND_LEFT = 170;
@@ -203,33 +182,6 @@ class Ninja {
             }
         })
         this.game.entities.forEach(function (entity) {
-            // if ((entity.BB && that.BB.collide(entity.BB))
-            //     && (entity instanceof Platform)) {
-            //     if (that.BB.bottom - entity.BB.top < 20 && that.velocity.y >= 0) { //if on top/falling
-            //         that.y = entity.BB.top - that.BB.height + 1;
-            //         that.velocity.y = 0;
-            //         canFall = false;
-            //         if (that.isPoweredUp) {
-            //             that.isPoweredUp = false
-            //             that.state = 0;
-            //         }
-            //         that.updateBB();
-            //     } if (that.lastBB.top >= entity.BB.bottom && !that.isPoweredUp) {
-            //         that.y = that.lastBB.top;
-            //         that.x = that.BB.x;
-            //         that.velocity.y = 5
-            //         that.updateBB();
-            //     }
-            //     if (that.lastBB.left >= entity.BB.right && !that.isPoweredUp) { //collisions ->
-            //         that.x = that.lastBB.left;
-            //         that.velocity.x *= .8
-            //         that.updateBB();
-            //     } if (that.lastBB.right <= entity.BB.left && !that.isPoweredUp) {  //collisions <-
-            //         that.x = that.lastBB.left;
-            //         that.velocity.x *= .8
-            //         that.updateBB();
-            //     }
-            // }
             // Ninja dies if the Zombie collides with it.
            
             if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
@@ -264,19 +216,35 @@ class Ninja {
             }
           
         });
-        let yVel = Math.abs(this.velocity.y);
+
         //physics
         // let yTest = this.velocity.y;
         //this physics will need a fine tuning;
+
         if (this.dead) {
             this.facing = 0;
             this.state = 4;
-        } else { //set facing state field
+        }
+        else if (this.state === 3 && this.attackTime <= .5) {
+            this.updateMovement();
+        }
+        else if (this.state === 5 && this.throwTime <= .45) {
+            this.updateMovement();
+        }
+        else { //set facing state field
+            this.attackTime = 0
+            this.throwTime = 0
             if (this.game.right) { //face right walk right
+
                 this.facing = 0;
                 this.state = 1;
             } else if (this.game.C) {
-                this.state = 5;
+                if (this.elapsedTime > .4) {
+                    this.elapsedTime = 0
+                    const isLeft = this.facing === 1;
+                    this.game.addEntity(new Kunai(this.game, this.x, this.y - this.game.camera.y + 25, isLeft))
+                    this.state = 5;
+                }
             } else if (this.game.left) { //face left walk left
                 this.facing = 1;
                 this.state = 1;
@@ -287,49 +255,7 @@ class Ninja {
             } else if (!this.game.A && !this.game.B && !this.game.right && !this.game.left) {
                 this.state = 0;       //state idle if nothing pressed
             }
-
             //if moving right and then face left, skid
-            if (this.game.left && this.velocity.x > 0 && yVel < 20) {
-                this.velocity.x -= TURN_SKID;
-            }
-            //if moving left ann then face right, skid
-            if (this.game.right && this.velocity.x < 0 && yVel < 20) {
-                this.velocity.x += TURN_SKID;
-            }
-            //if you unpress left and right while moving right
-            if (!this.game.right && !this.game.left) {
-                if (this.facing === 0) { //moving right
-                    if (this.velocity.x > 0 && yVel < 20) {
-                        this.velocity.x -= DEC_SKID * TICK;
-                    } else if (yVel < 20) {
-                        this.velocity.x = 0;
-                    } else if (this.velocity.x > 0) { //this is where you control horizontal deceleration when in air
-                        this.velocity.x -= AIR_DEC;
-                    }
-                } else { //if you unpress left and right while moving left
-                    if (this.velocity.x < 0 && yVel < 20) {
-                        this.velocity.x += DEC_SKID * TICK;
-                    } else if (yVel < 20) {
-                        this.velocity.x = 0;
-                    } else if (this.velocity.x < 0) { //this is where you control horizontal deceleration when in air
-                        this.velocity.x += AIR_DEC;
-                    }
-                }
-            }
-            //Run physics
-            if (this.facing === 0) {                        //facing right
-                if (this.game.right && !this.game.left) {   //and pressing right.
-                    if (yVel < 10 && !this.game.B) {        //makes sure you are on ground
-                        this.velocity.x += ACC_RUN * TICK;
-                    }
-                }
-            } else if (this.facing === 1) {                  //facing left
-                if (!this.game.right && this.game.left) {   //and pressing left.
-                    if (yVel < 10 && !this.game.B) {        //makes sure you are on ground
-                        this.velocity.x -= ACC_RUN * TICK;
-                    }
-                }
-            }
             if (this.game.B) {
                 canFall = true;
                 if (this.velocity.y == 0) {      // this is where you alter jump physics
@@ -344,7 +270,9 @@ class Ninja {
                 if (canFall && this.game.left) {
                     this.velocity.x -= 450 * TICK;
                 }
+
             }
+            this.updateMovement();
         }
 
         // max speed calculation
@@ -370,6 +298,59 @@ class Ninja {
         this.updateBB(); //Update your bounding box every tick
 
     };
+
+    updateMovement() {
+        const TICK = this.game.clockTick;
+        let yVel = Math.abs(this.velocity.y);
+        const ACC_RUN = 600;  //adjust for maximum acceleration
+        //skids
+        const DEC_SKID = 1850;
+        const TURN_SKID = 65;
+        //in air deceleration
+        const AIR_DEC = 2;
+        if (this.game.left && this.velocity.x > 0 && yVel < 20) {
+            this.velocity.x -= TURN_SKID;
+        }
+        //if moving left ann then face right, skid
+        if (this.game.right && this.velocity.x < 0 && yVel < 20) {
+            this.velocity.x += TURN_SKID;
+        }
+        //if you unpress left and right while moving right
+        if (!this.game.right && !this.game.left) {
+            if (this.facing === 0) { //moving right
+                if (this.velocity.x > 0 && yVel < 20) {
+                    this.velocity.x -= DEC_SKID * TICK;
+                } else if (yVel < 20) {
+                    this.velocity.x = 0;
+                } else if (this.velocity.x > 0) { //this is where you control horizontal deceleration when in air
+                    this.velocity.x -= AIR_DEC;
+                }
+            } else { //if you unpress left and right while moving left
+                if (this.velocity.x < 0 && yVel < 20) {
+                    this.velocity.x += DEC_SKID * TICK;
+                } else if (yVel < 20) {
+                    this.velocity.x = 0;
+                } else if (this.velocity.x < 0) { //this is where you control horizontal deceleration when in air
+                    this.velocity.x += AIR_DEC;
+                }
+            }
+        }
+        //Run physics
+        if (this.facing === 0) {                        //facing right
+            if (this.game.right && !this.game.left) {   //and pressing right.
+                if (yVel < 10 && !this.game.B) {        //makes sure you are on ground
+                    this.velocity.x += ACC_RUN * TICK;
+                }
+            }
+        }
+        else if (this.facing === 1) {                  //facing left
+            if (!this.game.right && this.game.left) {   //and pressing left.
+                if (yVel < 10 && !this.game.B) {        //makes sure you are on ground
+                    this.velocity.x -= ACC_RUN * TICK;
+                }
+            }
+        }
+    }
 
     draw(ctx) {
         //right now we have PARAMS.SCALE/4, if you alter we will need to adjust BB offsets here and above
