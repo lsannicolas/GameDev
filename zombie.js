@@ -103,7 +103,6 @@ class Zombie {
         this.dead = true;
         //this.game.addEntity(new Score(this.x, this.y, 200));
         this.game.camera.score += this.zombieScore;
-        this.removeFromWorld = true;
 
         // if(that.Ninja.isPoweredUp){
         //     this.game.addEntity(new Score(this.game, this.x, this.y, 200));    
@@ -115,6 +114,12 @@ class Zombie {
     }
 
     update() {
+        if (this.dead) {
+            this.time2 = this.testTimer.getTime();
+            if (this.time2 - this.time1 > 5000) {
+                this.removeFromWorld = true;
+            }
+        }
 
         this.ninjaCollide = false;
         //console.log(this.state);
