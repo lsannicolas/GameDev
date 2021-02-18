@@ -56,6 +56,9 @@ class SceneManager {
         this.ninja = new Ninja(this.game, 200, 0, true);
         this.game.addEntity(this.ninja);
         
+        this.healthbar = new HPBar(this.ninja);
+        this.game.addEntity(this.healthbar);
+        
         this.startMenu = new StartMenu(this.game);
         this.game.addEntity(this.startMenu);
 

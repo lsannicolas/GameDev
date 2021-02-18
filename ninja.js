@@ -25,7 +25,7 @@ class Ninja {
         this.visualRadius = 100;
         this.hp = 1000;
         this.maxHP = 1000;
-        this.healthbar = new HPBar(this);
+        //this.healthbar = new HPBar(this);
     }
 
     fillAnimations() {
@@ -411,7 +411,7 @@ class Ninja {
                 ctx.strokeRect(this.ABB.x, this.ABB.y - this.game.camera.y, this.ABB.width, this.ABB.height);
             }
         }
-        this.healthbar.draw(ctx);
+        //this.healthbar.draw(ctx);
 
     };
 }
