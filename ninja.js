@@ -200,7 +200,7 @@ class Ninja {
                 that.hp -= 5;
                 if(that.hp <= 0) {
                     that.hp = 5;
-                    that.die();
+                    //that.die();
                 } else if(entity.hp > entity.maxHP) {
                     that.hp = entity.maxHP;
                 }
