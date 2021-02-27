@@ -2,7 +2,6 @@ class Kunai {
 
     constructor(game, x, y, left) {
         Object.assign(this, { game, x, y, left });
-        console.log(this.left)
         if (this.left) {
             this.spritesheet = ASSET_MANAGER.getAsset('./sprites/Kunai_left.png');
         } else {
@@ -28,13 +27,15 @@ class Kunai {
 
 
     update() {
+        if (this.x < 0 || this.x > 900) this.removeFromWorld = true;
         this.updateBB();
         var that = this;
         this.game.entities.forEach(function (entity) {
             // Ninja dies if the Zombie collides with it.
-            if ((entity.BB && that.BB.collide(entity.BB))
-                && (entity instanceof Zombie)) {
+            if (entity instanceof Zombie && that.BB.collide(entity.BB)) {
                 entity.die();
+                that.game.camera.score += 200;
+                that.removeFromWorld = true;
             }
         });
         if (this.left) {
@@ -46,7 +47,7 @@ class Kunai {
 
     }
     draw(ctx) {
-
+        console.log(this.y)
         if (this.left) {
             this.animations.drawFrame(this.game.clockTick, ctx, this.x - 40, this.y + 15, .3)
         } else {
