@@ -61,12 +61,11 @@ class SceneManager {
         if (level.enemies) {
             for (let i = 0; i < level.enemies.length; i++) {
                 let zombie = level.enemies[i]
-                //works ?
                 this.game.addEntity(new Zombie(this.game, zombie.x, zombie.y, zombie.isBoy));
             }
         }
 
-        this.ninja = new Ninja(this.game, 200, 0, true);
+        this.ninja = new Ninja(this.game, 200, 0, false);
         this.game.addEntity(this.ninja);
         this.healthbar = new HPBar(this.ninja);
         this.game.addEntity(this.healthbar);
@@ -76,25 +75,32 @@ class SceneManager {
 
     generateNewPlatform() {
         let last = this.game.platforms[this.game.platforms.length - 1]
-        // const CENTER = 450;
 
+        let x;
 
-        let x = randomInRange(150, 500);
-
+        if (last.x < 450) {
+            x = randomInRange(last.x, 500)
+        } else {
+            x = randomInRange(150, last.x)
+        }
+        // new Platform values
         let y = last.y - randomInRange(150, 215);
-
         let width = randomInRange(125, 400)
 
-        if (Math.abs(x - last.x) < 100) {
+        // if the x coord for the old and new are too close 
+        if (Math.abs(x - last.x) < 400) {
+            // if on the left, put on the right 
             if (last.x < 450) {
-                x + 125
-            } else {
-                x - 125
+                x = randomInRange(last.x, 600)
+            } else { //if more on the right, put on the left
+                x = randomInRange(150, last.x)
             }
         }
 
+
+
         if (x + width > 700) {
-            width = Math.max(700 - x, 100)
+            width = 700 - x
         }
 
         //Place an enemy if platform is wide
@@ -106,7 +112,7 @@ class SceneManager {
                 if (gender > 50) {
                     isGirl = !isGirl
                 }
-                this.game.addEntity(new Zombie(this.game, x, y, isGirl))
+                this.game.pushEntity(new Zombie(this.game, x, y, isGirl))
             }
         }
 
@@ -141,12 +147,19 @@ class SceneManager {
     checkBrickAndDecor() {
         if (Math.abs(this.game.camera.y - this.lastBrickY) > 2000) {
             this.lastBrickY = this.game.camera.y;
-            this.game.addEntity(new Brick(this.game, 0, this.game.camera.y - 2470))
-            this.game.addEntity(new Decor(this.game, 0, this.game.camera.y - 2470))
+            this.game.pushEntity(new Brick(this.game, 0, this.game.camera.y - 2470))
+            this.game.pushEntity(new Decor(this.game, 0, this.game.camera.y - 2470))
         }
     }
 
-
+    cleanUp() {
+        let that = this;
+        this.game.entities.forEach(function (entity) {
+            if (entity.y - that.game.camera.y > 1000 && !(entity instanceof Kunai)) {
+                entity.removeFromWorld = true;
+            }
+        })
+    }
 
     update() {
         if (this.ninja.dead) {
@@ -197,7 +210,6 @@ class SceneManager {
     };
 
     draw(ctx) {
-
         if (PARAMS.START) {
             let score = "Score " + Math.ceil(this.score + " ");
             ctx.font = 30 + 'px "Play"';
@@ -208,7 +220,6 @@ class SceneManager {
             ctx.font = 30 + 'px "Play"';
             ctx.fillStyle = "White";
             ctx.fillText(highscore, 700, 35);
-
             this.checkBrickAndDecor();
         }
 
@@ -221,11 +232,10 @@ class SceneManager {
             // this.cleanUp();
 
             this.game.platforms.shift();
-            
+
             this.game.platforms.push(this.generateNewPlatform())
-            
-            this.game.addEntity(this.healthbar);
-            
+
+            this.cleanUp()
         }
     };
 };

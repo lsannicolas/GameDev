@@ -9,15 +9,21 @@ class Ninja {
         this.facing = 0; //0: right, 1: left
         this.state = 0;//0: idle, 1: running, 2: jumping, 3: attacking, 4: death, 5: throwing
         this.animations = [];
-        this.throwRight = ASSET_MANAGER.getAsset('./sprites/throwRight.png');
-        this.throwLeft = ASSET_MANAGER.getAsset('./sprites/throwLeft.png');
         if (!isBoy) {
             this.spritesheetright = ASSET_MANAGER.getAsset('./sprites/ninjaGirl.png');
             this.spritesheetleft = ASSET_MANAGER.getAsset('./sprites/ninjaGirlLeft.png');
+            this.throwRight = ASSET_MANAGER.getAsset('./sprites/throwRightGirl.png');
+            this.throwLeft = ASSET_MANAGER.getAsset('./sprites/throwLeftGirl.png');
+            this.girlYOffset = 10;
+            this.girlXOffset = 5;
             this.loadGirlAnimations();
         } else {
             this.spritesheetright = ASSET_MANAGER.getAsset('./sprites/BoyNinja.png');
             this.spritesheetleft = ASSET_MANAGER.getAsset('./sprites/BoyNinjaLeft.png');
+            this.throwRight = ASSET_MANAGER.getAsset('./sprites/throwRight.png');
+            this.throwLeft = ASSET_MANAGER.getAsset('./sprites/throwLeft.png');
+            this.girlYOffset = 0;
+            this.girlXOffset = 0;
             this.loadBoyAnimations();
         }
         this.isPoweredUp = false;
@@ -30,6 +36,7 @@ class Ninja {
         this.elapsedTime = 0;
         this.attackTime = 0;
         this.throwTime = 0;
+
     }
 
     fillAnimations() {
@@ -95,8 +102,8 @@ class Ninja {
         this.animations[4][1] = new Animator(this.spritesheetleft, 30, 2250, 530, 540, 10, .05, 58, true, true);
 
         // Throw
-        this.animations[5][0] = new Animator(this.throwRight, 60, 0, 400 - 60, 460, 9, .5, 10, false, true);
-        // this.animations[5][1] = new Animator(this.spritesheetleft, 30, 2250, 530, 540, 10, .05, 58, true, true);
+        this.animations[5][0] = new Animator(this.throwRight, 20, 0, 410 - 35, 524, 9, .05, 18, false, true);
+        this.animations[5][1] = new Animator(this.throwLeft, 237, 0, 410 - 35, 525, 9, .05, 18, true, true);
     }
 
     updateBB() {
@@ -184,11 +191,11 @@ class Ninja {
         })
         this.game.entities.forEach(function (entity) {
             // Ninja dies if the Zombie collides with it.
-           
+
             if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
                 //entity.removeFromWorld = true;
-                if(that.multiplied){
+                if (that.multiplied) {
                     entity.zombieScore = 400;
                 } else {
                     entity.zombieScore = 200;
@@ -198,10 +205,10 @@ class Ninja {
 
             if (entity instanceof Zombie && that.BB.collide(entity.ABB)) {
                 that.hp -= 5;
-                if(that.hp <= 0) {
+                if (that.hp <= 0) {
                     that.hp = 5;
-                    that.die();
-                } else if(entity.hp > entity.maxHP) {
+                    //that.die();
+                } else if (entity.hp > entity.maxHP) {
                     that.hp = entity.maxHP;
                 }
             }
@@ -217,12 +224,11 @@ class Ninja {
                         that.velocity.y = -2000
                         break;
                     case "thumb":
-                        
-                        that.multiplied = true;                        
+                        that.multiplied = true;
                 }
-                if(that.multiplied) {
+                if (that.multiplied) {
                     that.game.camera.score += 200;
-                } else if(that.elapsedTime > 15) {
+                } else if (that.elapsedTime > 15) {
                     that.elapsedTime = 0;
                     that.multiplied = false;
                     that.game.camera.score += 100;
@@ -235,16 +241,16 @@ class Ninja {
                 switch (entity.name) {
                     case "heart":
                         that.isPoweredUp = true;
-                        if(that.hp + 100 > that.maxHP) {
+                        if (that.hp + 100 > that.maxHP) {
                             that.hp = that.maxHP;
                         }
-                        if(that.hp != that.maxHP) {
+                        if (that.hp != that.maxHP) {
                             that.hp += 100;
                         }
                         break;
                 }
             }
-          
+
         });
 
         //physics
@@ -383,39 +389,34 @@ class Ninja {
     }
 
     draw(ctx) {
-        //right now we have PARAMS.SCALE/4, if you alter we will need to adjust BB offsets here and above
-        // if (this.dead) {
-        //     //TODO
-        // } else if (this.state === 3 && this.facing === 1) { //need to offset so our player doesn't shift when attacking left
-        //     this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x - 50, this.y - this.game.camera.y, PARAMS.SCALE/5);
-        // } else {
-        //     this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE/5);
-        // }
-        // if (PARAMS.DEBUG) {
-        //     ctx.strokeStyle = 'Red';
-        //     ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
-        // }
-        //with x side scrolling above without below
-        //right now we have PARAMS.SCALE/4, if you alter we will need to adjust BB offsets here and above
-
         if (this.dead === true) {
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 0, this.y - this.game.camera.y, PARAMS.SCALE / 5);
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 0 - this.girlXOffset, this.y - this.game.camera.y - this.girlYOffset, PARAMS.SCALE / 5);
         } else if (this.state === 1 && this.facing === 1) {
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 20, this.y - this.game.camera.y, PARAMS.SCALE / 5);
-        } else if (this.state === 5) {
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 20 - this.girlXOffset, this.y - this.game.camera.y - this.girlYOffset, PARAMS.SCALE / 5);
+        } else if (this.state === 5) { //throwing
             if (this.facing === 0) {
-                this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 12, this.y - this.game.camera.y, PARAMS.SCALE / 5);
+                let offSetThrowX = 0;
+                let offSetThrowY = 0;
+                if (!this.isBoy) {
+                    offSetThrowX = 6
+                    offSetThrowY = 2
+                }
+                this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 12 - this.girlXOffset + offSetThrowX, this.y - this.game.camera.y - this.girlYOffset - offSetThrowY, PARAMS.SCALE / 5);
             }
             else {
-                this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 8, this.y - this.game.camera.y, PARAMS.SCALE / 5);
+                let offSetThrowY = 0;
+                if (!this.isBoy) {
+                    offSetThrowY = 2
+                }
+                this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 8 - this.girlXOffset, this.y - this.game.camera.y - this.girlYOffset - offSetThrowY, PARAMS.SCALE / 5);
             }
         }
         else if (this.state === 3 && this.facing === 1) { //need to offset so our player doesn't shift when attacking left
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 50, this.y - this.game.camera.y, PARAMS.SCALE / 5);
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 50 - this.girlXOffset, this.y - this.game.camera.y - this.girlYOffset, PARAMS.SCALE / 5);
         } else {
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y, PARAMS.SCALE / 5);
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - this.girlXOffset, this.y - this.game.camera.y - this.girlYOffset, PARAMS.SCALE / 5);
         }
-        if (PARAMS.DEBUG) {
+        if (true) {
             ctx.strokeStyle = 'blue';
             ctx.strokeRect(this.BB.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
             if (this.state === 3) {

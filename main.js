@@ -13,6 +13,8 @@ ASSET_MANAGER.queueDownload('./sprites/ninjaGirlLeft.png');
 
 ASSET_MANAGER.queueDownload('./sprites/throwRight.png');
 ASSET_MANAGER.queueDownload('./sprites/throwLeft.png');
+ASSET_MANAGER.queueDownload('./sprites/throwRightGirl.png');
+ASSET_MANAGER.queueDownload('./sprites/throwLeftGirl.png');
 
 ASSET_MANAGER.queueDownload('./sprites/Kunai.png');
 ASSET_MANAGER.queueDownload('./sprites/Kunai_left.png');
@@ -44,7 +46,7 @@ ASSET_MANAGER.downloadAll(function () {
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 
 	let canvas = document.getElementById('gameWorld');
-	
+
 	let ctx = canvas.getContext('2d');
 
 	PARAMS.CANVAS_WIDTH = canvas.width;
