@@ -1,4 +1,5 @@
 var levelOne = {
+    music: "./music/backgroundVinyl.mp3",
     bricks: [
         { x: 0, y: -2000 },
         { x: 0, y: -4100 },
