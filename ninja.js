@@ -260,7 +260,7 @@ class Ninja {
         if (this.dead) {
             this.facing = 0;
             this.state = 4;
-            ASSET_MANAGER.pauseBackGroundMusic();
+            
         }
         else if (this.state === 3 && this.attackTime <= .5) {
             this.updateMovement();
@@ -281,9 +281,9 @@ class Ninja {
                     this.elapsedTime = 0
                     const isLeft = this.facing === 1;
                     this.game.addEntity(new Kunai(this.game, this.x, this.y - this.game.camera.y + 25, isLeft));
-                    ASSET_MANAGER.playAsset("./audio/kunai.wav");
                     this.state = 5;
                 }
+                ASSET_MANAGER.playAsset("./audio/kunai.wav");
             } else if (this.game.left) { //face left walk left
                 this.facing = 1;
                 this.state = 1;
@@ -291,7 +291,7 @@ class Ninja {
                 this.state = 2;
             } else if (this.game.A) { //set attacking state
                 this.state = 3;
-                ASSET_MANAGER.playAsset("./audio/dagger.wav");
+                ASSET_MANAGER.playAsset("./audio/swingSword.wav");
             } else if (!this.game.A && !this.game.B && !this.game.right && !this.game.left) {
                 this.state = 0;       //state idle if nothing pressed
             }

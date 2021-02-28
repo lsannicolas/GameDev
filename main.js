@@ -2,7 +2,10 @@
 
 var ASSET_MANAGER = new AssetManager();
 
-ASSET_MANAGER.queueDownload("./sprites/start.png");
+ASSET_MANAGER.queueDownload("./sprites/start_menu.png");
+ASSET_MANAGER.queueDownload("./sprites/intro_menu.png");
+ASSET_MANAGER.queueDownload("./sprites/pause_menu.png");
+
 
 ASSET_MANAGER.queueDownload("./sprites/zombieboynew.png");
 ASSET_MANAGER.queueDownload("./sprites/zombiegirlnew.png");
@@ -36,13 +39,11 @@ ASSET_MANAGER.queueDownload("./sprites/layers/decor.png");
 ASSET_MANAGER.queueDownload("./music/backgroundVinyl.mp3");
 
 //audio
-ASSET_MANAGER.queueDownload("./audio/swingSword.mp3");
-ASSET_MANAGER.queueDownload("./audio/dagger.wav");
+ASSET_MANAGER.queueDownload("./audio/swingSword.wav");
 ASSET_MANAGER.queueDownload("./audio/kunai.wav");
 ASSET_MANAGER.queueDownload("./audio/zombieHit.wav");
 ASSET_MANAGER.queueDownload("./audio/zombieDie.mp3");
-//Music
-ASSET_MANAGER.queueDownload("./music/backgroundVinyl.mp3");
+
 
 
 
