@@ -279,7 +279,7 @@ class Ninja {
                 this.state = 1;
             } else if (this.game.C) {
                 if (this.elapsedTime > .4) {
-                    this.elapsedTime = 0
+                    this.elapsedTime = 0;
                     const isLeft = this.facing === 1;
                     this.game.addEntity(new Kunai(this.game, this.x, this.y - this.game.camera.y + 25, isLeft));
                     this.state = 5;

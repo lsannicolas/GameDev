@@ -15,10 +15,6 @@ class SceneManager {
         this.level = levelOne;
         this.platforms = levelOne.platforms;
         this.loadLevel(this.level);
-<<<<<<< HEAD
-
-=======
->>>>>>> cc9fc0ebd308e190f0199a2fec2359d11e6d0254
 
     };
 
@@ -172,11 +168,7 @@ class SceneManager {
     }
 
     update() {
-        if (PARAMS.PLAY === true) {
-<<<<<<< HEAD
-            this.isPlaying = true;
-=======
->>>>>>> cc9fc0ebd308e190f0199a2fec2359d11e6d0254
+        if (PARAMS.PLAY) {
             ASSET_MANAGER.pauseBackGroundMusic();
             ASSET_MANAGER.playAsset(this.level.music);
         } 
