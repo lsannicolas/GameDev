@@ -28,7 +28,7 @@ class SceneManager {
         if (levelOne.music && !this.startMenu) {
             ASSET_MANAGER.pauseBackGroundMusic();
             ASSET_MANAGER.playAsset(levelOne.music);
-        } 
+        }
 
         if (level.bricks) {
             for (let i = 0; i < level.bricks.length; i++) {
@@ -211,6 +211,7 @@ class SceneManager {
 
     draw(ctx) {
         if (PARAMS.START) {
+            // ASSET_MANAGER.playAsset("./music/backgroundVinyl.mp3");
             let score = "Score " + Math.ceil(this.score + " ");
             ctx.font = 30 + 'px "Play"';
             ctx.fillStyle = "White";
