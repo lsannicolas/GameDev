@@ -44,6 +44,8 @@ class GameEngine {
                 console.log(click);
                 if (click.x > 230 && click.x < 396 && click.y > 467 && click.y < 525) {
                     PARAMS.PLAY = true;
+                   // ASSET_MANAGER.pauseBackGroundMusic();
+                   // ASSET_MANAGER.playAsset(levelOne.music);
                 } else if (click.x > 544 && click.x < 716 && click.y > 467 && click.y < 525) {
                     PARAMS.LEVELS = true;
                 }
