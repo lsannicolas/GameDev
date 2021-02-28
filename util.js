@@ -38,8 +38,14 @@ const PARAMS = {
     START: false,
     PLAY: false,
     LEVELS: false,
+    CONTROLS: false,
+    PAUSE: false,
     SCALE: 1,
     BITWIDTH: 16,
-    SCORE: 0
-
+    SCORE: 0,
+    DIFFICULTY: .75,
+    EASY: .5,
+    NORMAL: .75,
+    HARD : 1.25,
+    //VOLUME: 30,
 };

@@ -9,7 +9,6 @@ class SceneManager {
         this.score = 0;
         this.highScore = 0;
         this.elapsedTime = 0;
-        this.scrollSpeed = .75;
 
         this.lastBrickY = 0;
 
@@ -25,7 +24,7 @@ class SceneManager {
         this.game.platforms = [];
         this.x = 0;
 
-        
+       
 
         if (level.bricks) {
             for (let i = 0; i < level.bricks.length; i++) {
@@ -66,16 +65,13 @@ class SceneManager {
         this.game.addEntity(this.ninja);
         this.healthbar = new HPBar(this.ninja);
         this.game.addEntity(this.healthbar);
-        this.startMenu = new StartMenu(this.game);
+        //menu stuff
+        this.startMenu = new Menus(this.game);
         this.game.addEntity(this.startMenu);
-
-       
-        /*if (PARAMS.PLAY) {
-            console.log(level.music);
-            this.isPlaying = true;
-            ASSET_MANAGER.pauseBackGroundMusic();
-            ASSET_MANAGER.playAsset(level.music);
-        }*/
+        this.volumeSlider = new VolumeSlider();
+        this.game.addEntity(this.volumeSlider);
+        this.difficulty = new Difficulty();
+        this.game.addEntity(this.difficulty);
     }
 
     generateNewPlatform() {
@@ -166,16 +162,28 @@ class SceneManager {
         })
     }
 
+    updateAudio() {
+        var mute = document.getElementById("mute").checked;
+        var volume = document.getElementById("volume").value;
+
+        ASSET_MANAGER.muteAudio(mute);
+        ASSET_MANAGER.adjustVolume(volume);
+    }
+
     update() {
-        if (PARAMS.PLAY === true) {
+        if (PARAMS.PLAY === true && this.isPlaying === false) {
             this.isPlaying = true;
             ASSET_MANAGER.pauseBackGroundMusic();
             ASSET_MANAGER.playAsset(this.level.music);
         } 
-        if (this.startMenu) {
-            //ASSET_MANAGER.pauseBackGroundMusic();
-           // PARAMS.START = false;
+        this.updateAudio();
+        if (PARAMS.CONTROLS === true) {
+            if (this.startMenu) {
+                this.startMenu.exists = false;
+                this.startMenu.optionsExists = true;
+            }
         }
+
         if (this.ninja.dead) {
             ASSET_MANAGER.pauseBackGroundMusic();
             //set highscore on death and reset old score.
@@ -190,7 +198,7 @@ class SceneManager {
             PARAMS.START = false;
         };
         PARAMS.DEBUG = false;
-        if (PARAMS.START === true) {
+        if (PARAMS.START === true && !PARAMS.PAUSE) {
             if (this.startMenu) {
                 this.startMenu.exists = false;
             }
@@ -216,7 +224,7 @@ class SceneManager {
 
 
             //scroll map
-            this.y -= this.scrollSpeed;
+            this.y -= PARAMS.DIFFICULTY;
 
             //follow the player
             if (this.y > this.game.ninja.y - midpointY) this.y = this.game.ninja.y - midpointY;
@@ -225,6 +233,12 @@ class SceneManager {
     };
 
     draw(ctx) {
+        if (PARAMS.PAUSE) {
+            //<input type ="checkbox" id="mute">Mute <input type="range" id="volume" min="0" max="1" value="0.2" step="0.05"> Volume
+            this.volumeSlider.draw(ctx)
+            this.difficulty.draw(ctx);
+
+        }
         if (PARAMS.START) {
             // ASSET_MANAGER.playAsset("./music/backgroundVinyl.mp3");
             let score = "Score " + Math.ceil(this.score + " ");

@@ -158,182 +158,181 @@ class Ninja {
         let that = this;
         let canFall = true;
 
-
-        // Ninja falls from map dies.
-        if (this.y > PARAMS.BLOCKWIDTH * 16) this.die();
-        //collision system needs a rework
-        this.game.platforms.forEach(function (entity) {
-            if ((entity.BB && that.BB.collide(entity.BB))) {
-                if (that.BB.bottom - entity.BB.top < 20 && that.velocity.y >= 0) { //if on top/falling
-                    that.y = entity.BB.top - that.BB.height + 1;
-                    that.velocity.y = 0;
-                    canFall = false;
-                    if (that.isPoweredUp) {
-                        that.isPoweredUp = false
-                        that.state = 0;
+        if (PARAMS.START && !PARAMS.PAUSE) {
+            // Ninja falls from map dies.
+            if (this.y > PARAMS.BLOCKWIDTH * 16) this.die();
+            //collision system needs a rework
+            this.game.platforms.forEach(function (entity) {
+                if ((entity.BB && that.BB.collide(entity.BB))) {
+                    if (that.BB.bottom - entity.BB.top < 20 && that.velocity.y >= 0) { //if on top/falling
+                        that.y = entity.BB.top - that.BB.height + 1;
+                        that.velocity.y = 0;
+                        canFall = false;
+                        if (that.isPoweredUp) {
+                            that.isPoweredUp = false
+                            that.state = 0;
+                        }
+                        that.updateBB();
                     }
-                    that.updateBB();
-                } if (that.lastBB.top >= entity.BB.bottom && !that.isPoweredUp) {
-                    // that.y = that.lastBB.top;
-                    // that.x = that.BB.x;
-                    // that.velocity.y = 5
-                    // that.updateBB();
+                    if (that.lastBB.top >= entity.BB.bottom && !that.isPoweredUp) {
+                        // that.y = that.lastBB.top;
+                        // that.x = that.BB.x;
+                        // that.velocity.y = 5
+                        // that.updateBB();
+                    }
+                    if (that.lastBB.left >= entity.BB.right && !that.isPoweredUp) { //collisions ->
+                        that.x = that.lastBB.left;
+                        that.velocity.x *= .8
+                        that.updateBB();
+                    }
+                    if (that.lastBB.right <= entity.BB.left && !that.isPoweredUp) {  //collisions <-
+                        that.x = that.lastBB.left;
+                        that.velocity.x *= .8
+                        that.updateBB();
+                    }
                 }
-                if (that.lastBB.left >= entity.BB.right && !that.isPoweredUp) { //collisions ->
-                    that.x = that.lastBB.left;
-                    that.velocity.x *= .8
-                    that.updateBB();
-                } if (that.lastBB.right <= entity.BB.left && !that.isPoweredUp) {  //collisions <-
-                    that.x = that.lastBB.left;
-                    that.velocity.x *= .8
-                    that.updateBB();
+            })
+            this.game.entities.forEach(function (entity) {
+                // Ninja dies if the Zombie collides with it.
+
+                if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
+                    && (entity instanceof Zombie)) {
+                    //entity.removeFromWorld = true;
+                    if (that.multiplied) {
+                        entity.zombieScore = 400;
+                    } else {
+                        entity.zombieScore = 200;
+                    }
+                    entity.die();
                 }
-            }
-        })
-        this.game.entities.forEach(function (entity) {
-            // Ninja dies if the Zombie collides with it.
 
-            if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
-                && (entity instanceof Zombie)) {
-                //entity.removeFromWorld = true;
-                if (that.multiplied) {
-                    entity.zombieScore = 400;
-                } else {
-                    entity.zombieScore = 200;
+                if (entity instanceof Zombie && that.BB.collide(entity.ABB)) {
+                    that.hp -= 5;
+                    if (that.hp <= 0) {
+                        that.hp = 5;
+                        that.die();
+                    } else if (entity.hp > entity.maxHP) {
+                        that.hp = entity.maxHP;
+                    }
                 }
-                entity.die();
-            }
 
-            if (entity instanceof Zombie && that.BB.collide(entity.ABB)) {
-                that.hp -= 5;
-                if (that.hp <= 0) {
-                    that.hp = 5;
-                    that.die();
-                } else if (entity.hp > entity.maxHP) {
-                    that.hp = entity.maxHP;
+                if ((entity.BB && that.BB.collide(entity.BB))
+                    && (entity instanceof Item)) {
+                    entity.removeFromWorld = true;
+                    switch (entity.name) {
+                        case "up":
+                            that.state = 2;
+                            that.isPoweredUp = true;
+                            // Play with this value to adjust boost up
+                            that.velocity.y = -2000
+                            break;
+                        case "thumb":
+                            that.multiplied = true;
+                    }
+                    if (that.multiplied) {
+                        that.game.camera.score += 200;
+                    } else if (that.elapsedTime > 15) {
+                        that.elapsedTime = 0;
+                        that.multiplied = false;
+                        that.game.camera.score += 100;
+                    }
                 }
-            }
 
-            if ((entity.BB && that.BB.collide(entity.BB))
-                && (entity instanceof Item)) {
-                entity.removeFromWorld = true;
-                switch (entity.name) {
-                    case "up":
-                        that.state = 2;
-                        that.isPoweredUp = true;
-                        // Play with this value to adjust boost up
-                        that.velocity.y = -2000
-                        break;
-                    case "thumb":
-                        that.multiplied = true;
+                if ((entity.BB && that.BB.collide(entity.BB))
+                    && (entity instanceof Item)) {
+                    entity.removeFromWorld = true;
+                    switch (entity.name) {
+                        case "heart":
+                            that.isPoweredUp = true;
+                            if (that.hp + 100 > that.maxHP) {
+                                that.hp = that.maxHP;
+                            }
+                            if (that.hp != that.maxHP) {
+                                that.hp += 100;
+                            }
+                            break;
+                    }
                 }
-                if (that.multiplied) {
-                    that.game.camera.score += 200;
-                } else if (that.elapsedTime > 15) {
-                    that.elapsedTime = 0;
-                    that.multiplied = false;
-                    that.game.camera.score += 100;
-                }
-            }
 
-            if ((entity.BB && that.BB.collide(entity.BB))
-                && (entity instanceof Item)) {
-                entity.removeFromWorld = true;
-                switch (entity.name) {
-                    case "heart":
-                        that.isPoweredUp = true;
-                        if (that.hp + 100 > that.maxHP) {
-                            that.hp = that.maxHP;
-                        }
-                        if (that.hp != that.maxHP) {
-                            that.hp += 100;
-                        }
-                        break;
-                }
-            }
+            });
 
-        });
+            //physics
+            // let yTest = this.velocity.y;
+            //this physics will need a fine tuning;
 
-        //physics
-        // let yTest = this.velocity.y;
-        //this physics will need a fine tuning;
-
-        if (this.dead) {
-            this.facing = 0;
-            this.state = 4;
-        }
-        else if (this.state === 3 && this.attackTime <= .5) {
-            this.updateMovement();
-        }
-        else if (this.state === 5 && this.throwTime <= .45) {
-            this.updateMovement();
-        }
-        else { //set facing state field
-            this.attackTime = 0
-            this.throwTime = 0
-            if (this.game.right) { //face right walk right
-
+            if (this.dead) {
                 this.facing = 0;
-                this.state = 1;
-            } else if (this.game.C) {
-                if (this.elapsedTime > .4) {
-                    this.elapsedTime = 0
-                    const isLeft = this.facing === 1;
-                    this.game.addEntity(new Kunai(this.game, this.x, this.y - this.game.camera.y + 25, isLeft))
-                    this.state = 5;
+                this.state = 4;
+            } else if (this.state === 3 && this.attackTime <= .5) {
+                this.updateMovement();
+            } else if (this.state === 5 && this.throwTime <= .45) {
+                this.updateMovement();
+            } else { //set facing state field
+                this.attackTime = 0
+                this.throwTime = 0
+                if (this.game.right) { //face right walk right
+
+                    this.facing = 0;
+                    this.state = 1;
+                } else if (this.game.C) {
+                    if (this.elapsedTime > .4) {
+                        this.elapsedTime = 0
+                        const isLeft = this.facing === 1;
+                        this.game.addEntity(new Kunai(this.game, this.x, this.y - this.game.camera.y + 25, isLeft))
+                        this.state = 5;
+                    }
+                } else if (this.game.left) { //face left walk left
+                    this.facing = 1;
+                    this.state = 1;
+                } else if (this.game.B) { //set jumping state
+                    this.state = 2;
+                } else if (this.game.A) { //set attacking state
+                    this.state = 3;
+                } else if (!this.game.A && !this.game.B && !this.game.right && !this.game.left) {
+                    this.state = 0;       //state idle if nothing pressed
                 }
-            } else if (this.game.left) { //face left walk left
-                this.facing = 1;
-                this.state = 1;
-            } else if (this.game.B) { //set jumping state
-                this.state = 2;
-            } else if (this.game.A) { //set attacking state
-                this.state = 3;
-            } else if (!this.game.A && !this.game.B && !this.game.right && !this.game.left) {
-                this.state = 0;       //state idle if nothing pressed
+                //if moving right and then face left, skid
+                if (this.game.B) {
+                    canFall = true;
+                    if (this.velocity.y == 0) {      // this is where you alter jump physics
+                        this.velocity.y -= JUMP_ACC; //we have the option of double jumping or jumping higher
+                        this.fallAcc = STOP_FALL;    //if you hold b longer
+                    }
+                    // This part makes is so that the player can gain acceleration if they press a directional key
+                    // at the same time as the jump key. if falling in air they can change their direction this way.
+                    if (canFall && this.game.right) {
+                        this.velocity.x += 450 * TICK;
+                    }
+                    if (canFall && this.game.left) {
+                        this.velocity.x -= 450 * TICK;
+                    }
+
+                }
+                this.updateMovement();
             }
-            //if moving right and then face left, skid
-            if (this.game.B) {
-                canFall = true;
-                if (this.velocity.y == 0) {      // this is where you alter jump physics
-                    this.velocity.y -= JUMP_ACC; //we have the option of double jumping or jumping higher
-                    this.fallAcc = STOP_FALL;    //if you hold b longer
-                }
-                // This part makes is so that the player can gain acceleration if they press a directional key
-                // at the same time as the jump key. if falling in air they can change their direction this way.
-                if (canFall && this.game.right) {
-                    this.velocity.x += 450 * TICK;
-                }
-                if (canFall && this.game.left) {
-                    this.velocity.x -= 450 * TICK;
-                }
 
+            // max speed calculation
+            if (this.velocity.x >= MAX_RUN) this.velocity.x = MAX_RUN;
+            if (this.velocity.x <= -MAX_RUN) this.velocity.x = -MAX_RUN;
+
+            // update position
+            if (canFall) { //this makes sure we aren't applying velocity if we are on ground/platform
+                this.velocity.y += this.fallAcc * TICK;
+                this.y += this.velocity.y * TICK * PARAMS.SCALE;
             }
-            this.updateMovement();
+
+            if (this.velocity.y >= MAX_FALL) this.velocity.y = MAX_FALL;
+            if (this.velocity.y <= -MAX_JUMP && !this.isPoweredUp) {
+                this.velocity.y = -MAX_FALL;
+                this.isPoweredUp = false;
+            } else if (this.velocity.y < -MAX_JUMP && this.isPoweredUp) this.velocity.y *= .8
+
+            this.x += this.velocity.x * TICK * PARAMS.SCALE;
+            if (this.x < SCREEN_BOUND_LEFT) this.x = SCREEN_BOUND_LEFT;
+
+            if (this.x > SCREEN_BOUND_RIGHT) this.x = SCREEN_BOUND_RIGHT;
+            this.updateBB(); //Update your bounding box every tick
         }
-
-        // max speed calculation
-        if (this.velocity.x >= MAX_RUN) this.velocity.x = MAX_RUN;
-        if (this.velocity.x <= -MAX_RUN) this.velocity.x = -MAX_RUN;
-
-        // update position
-        if (canFall) { //this makes sure we aren't applying velocity if we are on ground/platform
-            this.velocity.y += this.fallAcc * TICK;
-            this.y += this.velocity.y * TICK * PARAMS.SCALE;
-        }
-
-        if (this.velocity.y >= MAX_FALL) this.velocity.y = MAX_FALL;
-        if (this.velocity.y <= -MAX_JUMP && !this.isPoweredUp) {
-            this.velocity.y = -MAX_FALL;
-            this.isPoweredUp = false;
-        } else if (this.velocity.y < -MAX_JUMP && this.isPoweredUp) this.velocity.y *= .8
-
-        this.x += this.velocity.x * TICK * PARAMS.SCALE;
-        if (this.x < SCREEN_BOUND_LEFT) this.x = SCREEN_BOUND_LEFT;
-
-        if (this.x > SCREEN_BOUND_RIGHT) this.x = SCREEN_BOUND_RIGHT;
-        this.updateBB(); //Update your bounding box every tick
-
     };
 
     updateMovement() {
