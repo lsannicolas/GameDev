@@ -18,7 +18,6 @@ class SceneManager {
         this.loadLevel(this.level);
         this.isPlaying = false;
 
-
     };
 
     loadLevel(level) {
@@ -178,6 +177,7 @@ class SceneManager {
            // PARAMS.START = false;
         }
         if (this.ninja.dead) {
+            ASSET_MANAGER.pauseBackGroundMusic();
             //set highscore on death and reset old score.
             this.highScore = Math.max(this.highScore, this.score);
             this.score = 0;
