@@ -117,13 +117,11 @@ class GameEngine {
                     break;
                 case "KeyX":
                 case "Period":
-                    that.A = false;
-                    //ASSET_MANAGER.playAsset("./audio/dagger.wav");
+                    that.A = false;   
                     break;
                 case "KeyC":
                     // case "Period":
                     that.C = false;
-                    //ASSET_MANAGER.playAsset("./audio/kunai.wav");
                     break;
             }
         }, false);

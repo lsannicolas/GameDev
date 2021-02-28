@@ -24,7 +24,7 @@ class SceneManager {
         this.game.entities = [];
         this.game.platforms = [];
         this.x = 0;
-
+        
         /*if (levelOne.music && !this.start) {
             ASSET_MANAGER.pauseBackGroundMusic();
             ASSET_MANAGER.playAsset(levelOne.music);
@@ -65,7 +65,7 @@ class SceneManager {
             }
         }
 
-        this.ninja = new Ninja(this.game, 200, 0, false);
+        this.ninja = new Ninja(this.game, 200, 0, true);
         this.game.addEntity(this.ninja);
         this.healthbar = new HPBar(this.ninja);
         this.game.addEntity(this.healthbar);
@@ -162,7 +162,14 @@ class SceneManager {
     }
 
     update() {
+        if (this.level.music && !this.isPlaying) {
+            this.isPlaying = !this.isPlaying
+            ASSET_MANAGER.pauseBackGroundMusic();
+            ASSET_MANAGER.playAsset(this.level.music);
+
+        }
         if (this.ninja.dead) {
+            ASSET_MANAGER.pauseBackGroundMusic();
             //set highscore on death and reset old score.
             this.highScore = Math.max(this.highScore, this.score);
             this.score = 0;
@@ -174,6 +181,8 @@ class SceneManager {
             this.y = -300;
             PARAMS.START = false;
         };
+
+        
         PARAMS.DEBUG = false;
         if (PARAMS.START === true) {
             if (this.startMenu) {

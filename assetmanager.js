@@ -16,14 +16,38 @@ class AssetManager {
     };
 
     downloadAll(callback) {
+        /* if (this.downloadQueue.length === 0) setTimeout(callback, 10);
+         for (var i = 0; i < this.downloadQueue.length; i++) {
+             var img = new Image();
+             var that = this;
+ 
+             var path = this.downloadQueue[i];
+             console.log(path);
+ 
+             img.addEventListener("load", function () {
+                 console.log("Loaded " + this.src);
+                 that.successCount++;
+                 if (that.isDone()) callback();
+             });
+ 
+             img.addEventListener("error", function () {
+                 console.log("Error loading " + this.src);
+                 that.errorCount++;
+                 if (that.isDone()) callback();
+             });
+ 
+             img.src = path;
+             this.cache[path] = img;
+         } */
         if (this.downloadQueue.length === 0) setTimeout(callback, 10);
         for (var i = 0; i < this.downloadQueue.length; i++) {
-            var img = new Image();
             var that = this;
 
             var path = this.downloadQueue[i];
             console.log(path);
             var ext = path.substring(path.length - 3);
+            console.log(ext);
+
             switch (ext) {
                 case 'png':
                     var img = new Image();
@@ -34,7 +58,7 @@ class AssetManager {
                     });
 
                     img.addEventListener("error", function () {
-                        console.log("Error loading " + this.src);
+                        console.log("Error loading" + this.src);
                         that.errorCount++;
                         if (that.isDone()) callback();
                     });
@@ -42,55 +66,35 @@ class AssetManager {
                     img.src = path;
                     this.cache[path] = img;
                     break;
+                    
+                case 'wav':
                 case 'mp3':
                     var aud = new Audio();
                     aud.addEventListener("loadeddata", function () {
-                        console.log("Loaded" + this.src);
+                        console.log("Loaded " + this.src);
                         that.successCount++;
-                    if (that.isDone()) callback();
+                        if (that.isDone()) callback();
                     });
 
-                    aud.addEventListener("error", function() {
-                        console.log("Error Loading" + this.src);
+                    aud.addEventListener("error", function () {
+                        console.log("Error loading " + this.src);
                         that.errorCount++;
                         if (that.isDone()) callback();
                     });
 
-                    aud.addEventListener("ended" , function(){
+                    aud.addEventListener("ended", function () {
                         aud.pause();
                         aud.currentTime = 0;
                     });
+
                     aud.src = path;
                     aud.load();
 
                     this.cache[path] = aud;
-                    break;
-
-                    case 'wav':
-                        var aud = new Audio();
-                        aud.addEventListener("loadeddata", function () {
-                            console.log("Loaded" + this.src);
-                            that.successCount++;
-                        if (that.isDone()) callback();
-                        });
-    
-                        aud.addEventListener("error", function() {
-                            console.log("Error Loading" + this.src);
-                            that.errorCount++;
-                            if (that.isDone()) callback();
-                        });
-    
-                        aud.addEventListener("ended" , function(){
-                            aud.pause();
-                            aud.currentTime = 0;
-                        });
-                        aud.src = path;
-                        aud.load();
-    
-                        this.cache[path] = aud;
-                        break;
-            }
+                    break
+                 }
         }
+
     };
 
     getAsset(path) {
@@ -100,9 +104,10 @@ class AssetManager {
     playAsset(path) {
         let audio = this.cache[path];
         audio.currentTime = 0;
+        audio.muted = false
         audio.play();
     };
-    
+
     muteAudio(mute) {
         for (var key in this.cache) {
             let asset = this.cache[key];
@@ -133,7 +138,7 @@ class AssetManager {
 
     autoRepeat(path) {
         var aud = this.cache[path];
-        aud.addEventListener("ended", function() {
+        aud.addEventListener("ended", function () {
             aud.play();
         });
     };

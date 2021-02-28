@@ -260,6 +260,7 @@ class Ninja {
         if (this.dead) {
             this.facing = 0;
             this.state = 4;
+            ASSET_MANAGER.pauseBackGroundMusic();
         }
         else if (this.state === 3 && this.attackTime <= .5) {
             this.updateMovement();
