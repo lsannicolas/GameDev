@@ -41,10 +41,30 @@ class GameEngine {
         if (PARAMS.START === false) {
             this.ctx.canvas.addEventListener("click", function (e) {
                 let click = getXandY(e);
+                console.log(click);
                 if (click.x > 230 && click.x < 396 && click.y > 467 && click.y < 525) {
                     PARAMS.PLAY = true;
                 } else if (click.x > 544 && click.x < 716 && click.y > 467 && click.y < 525) {
                     PARAMS.LEVELS = true;
+                }
+                if (PARAMS.CONTROLS && click) {
+                    PARAMS.CONTROLS = false;
+                    PARAMS.START = true;
+                }
+                if (PARAMS.PAUSE) {
+                    if (click.y > 485 && click.y < 512) {
+                        if (click.x > 420 && click.x < 471) {
+                            PARAMS.VOLUME = 0;
+                        } else if (click.x > 480 && click.x < 630) {
+                            PARAMS.VOLUME = Math.floor((click.x - 480)/1.5);
+                            console.log(PARAMS.VOLUME);
+                        }
+
+                    } else if (click.y > 534 && click.y < 587) {
+                        if (click.x > 439 && click.x < 487) PARAMS.DIFFICULTY = PARAMS.EASY;
+                        if (click.x > 500 && click.x < 544) PARAMS.DIFFICULTY = PARAMS.NORMAL;
+                        if (click.x > 587 && click.x < 640) PARAMS.DIFFICULTY = PARAMS.HARD;
+                    }
                 }
             }, false);
         }
@@ -87,6 +107,12 @@ class GameEngine {
                 case "KeyC":
                     // case "Period":
                     that.C = true;
+                    break;
+                case "Escape":
+                    if (PARAMS.START) {
+                        PARAMS.PAUSE = !PARAMS.PAUSE;
+                    }
+
                     break;
             }
         }, false);

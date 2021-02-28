@@ -9,7 +9,6 @@ class SceneManager {
         this.score = 0;
         this.highScore = 0;
         this.elapsedTime = 0;
-        this.scrollSpeed = .75;
 
         this.lastBrickY = 0;
 
@@ -64,8 +63,13 @@ class SceneManager {
         this.game.addEntity(this.ninja);
         this.healthbar = new HPBar(this.ninja);
         this.game.addEntity(this.healthbar);
-        this.startMenu = new StartMenu(this.game);
+        //menu stuff
+        this.startMenu = new Menus(this.game);
         this.game.addEntity(this.startMenu);
+        this.volumeSlider = new VolumeSlider();
+        this.game.addEntity(this.volumeSlider);
+        this.difficulty = new Difficulty();
+        this.game.addEntity(this.difficulty);
     }
 
     generateNewPlatform() {
@@ -157,6 +161,13 @@ class SceneManager {
     }
 
     update() {
+        if (PARAMS.CONTROLS === true) {
+            if (this.startMenu) {
+                this.startMenu.exists = false;
+                this.startMenu.optionsExists = true;
+            }
+        }
+
         if (this.ninja.dead) {
             //set highscore on death and reset old score.
             this.highScore = Math.max(this.highScore, this.score);
@@ -170,7 +181,7 @@ class SceneManager {
             PARAMS.START = false;
         };
         PARAMS.DEBUG = false;
-        if (PARAMS.START === true) {
+        if (PARAMS.START === true && !PARAMS.PAUSE) {
             if (this.startMenu) {
                 this.startMenu.exists = false;
             }
@@ -196,7 +207,7 @@ class SceneManager {
 
 
             //scroll map
-            this.y -= this.scrollSpeed;
+            this.y -= PARAMS.DIFFICULTY;
 
             //follow the player
             if (this.y > this.game.ninja.y - midpointY) this.y = this.game.ninja.y - midpointY;
@@ -205,6 +216,12 @@ class SceneManager {
     };
 
     draw(ctx) {
+        if (PARAMS.PAUSE) {
+            //<input type ="checkbox" id="mute">Mute <input type="range" id="volume" min="0" max="1" value="0.2" step="0.05"> Volume
+            this.volumeSlider.draw(ctx)
+            this.difficulty.draw(ctx);
+
+        }
         if (PARAMS.START) {
             let score = "Score " + Math.ceil(this.score + " ");
             ctx.font = 30 + 'px "Play"';
