@@ -16,7 +16,7 @@ class SceneManager {
         this.level = levelOne;
         this.platforms = levelOne.platforms;
         this.loadLevel(this.level);
-
+        this.isPlaying = false;
 
     };
 
@@ -24,11 +24,6 @@ class SceneManager {
         this.game.entities = [];
         this.game.platforms = [];
         this.x = 0;
-
-        if (levelOne.music && !this.startMenu) {
-            ASSET_MANAGER.pauseBackGroundMusic();
-            ASSET_MANAGER.playAsset(levelOne.music);
-        }
 
         if (level.bricks) {
             for (let i = 0; i < level.bricks.length; i++) {
@@ -162,6 +157,12 @@ class SceneManager {
     }
 
     update() {
+        if (!this.isPlaying && PARAMS.START) {
+            this.isPlaying = !this.isPlaying
+            ASSET_MANAGER.pauseBackGroundMusic();
+            ASSET_MANAGER.playAsset(this.level.music);
+
+        }
         if (this.ninja.dead) {
             //set highscore on death and reset old score.
             this.highScore = Math.max(this.highScore, this.score);

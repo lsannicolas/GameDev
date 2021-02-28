@@ -1,4 +1,4 @@
-class StartMenu{
+class StartMenu {
     constructor(game) {
         Object.assign(this, { game });
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/start.png");
@@ -14,6 +14,7 @@ class StartMenu{
 
 
     update() {
+
         if (this.exists) {
             if (PARAMS.PLAY) {
                 this.playCounter++;
@@ -35,7 +36,7 @@ class StartMenu{
             }
         }
     };
-    draw(ctx){
+    draw(ctx) {
         if (this.exists) {
             if (!PARAMS.PLAY && !PARAMS.LEVELS) {
                 ctx.drawImage(this.spritesheet, 0, 0, 950, 750, 0, 0, 950, 750);
