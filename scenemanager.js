@@ -23,7 +23,7 @@ class SceneManager {
         this.game.platforms = [];
         this.x = 0;
 
-       
+        
 
         if (level.bricks) {
             for (let i = 0; i < level.bricks.length; i++) {

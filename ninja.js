@@ -125,6 +125,7 @@ class Ninja {
         this.velocity.x = 0;
         this.velocity.y = 0;
         this.dead = true;
+        PARAMS.PLAY = false;
         ASSET_MANAGER.pauseBackGroundMusic();
     };
     update() {

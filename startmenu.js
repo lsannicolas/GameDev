@@ -18,10 +18,10 @@ class StartMenu {
         if (this.exists) {
             if (PARAMS.PLAY) {
                 this.playCounter++;
-               /* if (this.playCounter > 5) {
-                    PARAMS.START = true;
+                if (this.playCounter > 5) {
+                    //PARAMS.START = true;
                     PARAMS.PLAY = false;
-                } */
+                } 
             } else if (PARAMS.LEVELS) {
                 this.levelCounter++;
                 if (this.levelCounter > 5) {
