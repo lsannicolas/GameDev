@@ -171,7 +171,7 @@ class SceneManager {
     }
 
     update() {
-        if (PARAMS.PLAY === true && this.isPlaying === false) {
+        if (PARAMS.PLAY === true) {
             this.isPlaying = true;
             ASSET_MANAGER.pauseBackGroundMusic();
             ASSET_MANAGER.playAsset(this.level.music);
