@@ -15,7 +15,6 @@ class SceneManager {
         this.level = levelOne;
         this.platforms = levelOne.platforms;
         this.loadLevel(this.level);
-        this.isPlaying = false;
 
     };
 
@@ -171,8 +170,7 @@ class SceneManager {
     }
 
     update() {
-        if (PARAMS.PLAY === true && this.isPlaying === false) {
-            this.isPlaying = true;
+        if (PARAMS.PLAY === true) {
             ASSET_MANAGER.pauseBackGroundMusic();
             ASSET_MANAGER.playAsset(this.level.music);
         } 
