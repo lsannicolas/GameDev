@@ -188,7 +188,6 @@ class Ninja {
                     that.velocity.x *= .8
                     that.updateBB();
                 }
-<<<<<<< HEAD
             }
         })
         this.game.entities.forEach(function (entity) {
@@ -212,17 +211,6 @@ class Ninja {
                     that.die();
                 } else if (entity.hp > entity.maxHP) {
                     that.hp = entity.maxHP;
-=======
-
-                if (entity instanceof Zombie && that.BB.collide(entity.ABB)) {
-                    that.hp -= 5;
-                    if (that.hp <= 0) {
-                        that.hp = 5;
-                        that.die();
-                    } else if (entity.hp > entity.maxHP) {
-                        that.hp = entity.maxHP;
-                    }
->>>>>>> 1dc749c398c106888a65aafea700909a5eab4fdc
                 }
             }
 

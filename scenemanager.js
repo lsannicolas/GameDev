@@ -24,8 +24,6 @@ class SceneManager {
         this.game.platforms = [];
         this.x = 0;
 
-       
-
         if (level.bricks) {
             for (let i = 0; i < level.bricks.length; i++) {
                 let brick = level.bricks[i]
@@ -171,19 +169,12 @@ class SceneManager {
     }
 
     update() {
-<<<<<<< HEAD
         if (PARAMS.PLAY === true) {
-=======
-        if (PARAMS.PLAY === true && this.isPlaying === false) {
->>>>>>> 1dc749c398c106888a65aafea700909a5eab4fdc
             this.isPlaying = true;
             ASSET_MANAGER.pauseBackGroundMusic();
             ASSET_MANAGER.playAsset(this.level.music);
         } 
-<<<<<<< HEAD
-=======
         this.updateAudio();
->>>>>>> 1dc749c398c106888a65aafea700909a5eab4fdc
         if (PARAMS.CONTROLS === true) {
             if (this.startMenu) {
                 this.startMenu.exists = false;
