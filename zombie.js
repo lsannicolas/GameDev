@@ -128,84 +128,85 @@ class Zombie {
         const MAX_FALL = 100;
         const FALL_ACC = .5;
         let that = this;
-        //collision system
-        if (!this.dead) {
-            this.game.platforms.forEach(function (entity) {
-                that.canFall = false;
-                if (that.BB.bottom - entity.BB.top > 0 && that.BB.bottom - entity.BB.bottom < 50) { //if on top/falling
-                    that.velocity.y = 0;
-                    that.y = entity.BB.top - that.BB.height;
-                    that.leftBound = entity.BB.left;
-                    that.rightBound = entity.BB.right;
-                }
-            })
-            this.game.entities.forEach(function (entity) {
-                if (entity.BB && that.BB.collide(entity.BB)) {
-                    if (entity instanceof Ninja) {
-                        that.ninjaCollide = true;
-                        that.state = 2;
-                        if (that.BB.left < entity.BB.left) {
-                            //console.log("heard ->")
-                            //console.log(that.BB.right + " " + entity.BB.left);
-                            that.facing = 0;
+        if (PARAMS.START && !PARAMS.PAUSE) {
+            //collision system
+            if (!this.dead) {
+                this.game.platforms.forEach(function (entity) {
+                    that.canFall = false;
+                    if (that.BB.bottom - entity.BB.top > 0 && that.BB.bottom - entity.BB.bottom < 50) { //if on top/falling
+                        that.velocity.y = 0;
+                        that.y = entity.BB.top - that.BB.height;
+                        that.leftBound = entity.BB.left;
+                        that.rightBound = entity.BB.right;
+                    }
+                })
+                this.game.entities.forEach(function (entity) {
+                    if (entity.BB && that.BB.collide(entity.BB)) {
+                        if (entity instanceof Ninja) {
+                            that.ninjaCollide = true;
                             that.state = 2;
-                            that.velocity.x = 0;
-                        } else if (that.BB.right > entity.BB.right) {
-                            //console.log("heard <-")
-                            that.facing = 1;
-                            that.state = 2;
-                            that.velocity.x = 0;
+                            if (that.BB.left < entity.BB.left) {
+                                //console.log("heard ->")
+                                //console.log(that.BB.right + " " + entity.BB.left);
+                                that.facing = 0;
+                                that.state = 2;
+                                that.velocity.x = 0;
+                            } else if (that.BB.right > entity.BB.right) {
+                                //console.log("heard <-")
+                                that.facing = 1;
+                                that.state = 2;
+                                that.velocity.x = 0;
+                            }
                         }
                     }
+                });
+                if (!that.ninjaCollide) {
+                    that.state = 1;
+                    this.facing === 0 ? this.velocity.x = MAX_WALK : this.velocity.x = -MAX_WALK
                 }
-            });
-            if (!that.ninjaCollide) {
-                that.state = 1;
-                this.facing === 0 ? this.velocity.x = MAX_WALK : this.velocity.x = -MAX_WALK
-            }
-            //platform walking physics
-            if (!this.canFall && !this.ninjaCollide) {
-                if (this.leftBound > this.x) {
-                    this.state = 1;
-                    this.facing = 0;
-                    this.velocity.x += MAX_WALK;
-                } else if (this.rightBound - this.x < 70) {
-                    this.state = 1;
-                    this.facing = 1;
-                    this.velocity.x -= MAX_WALK;
-                } else if (this.velocity.x === 0 && this.state !== 2 && this.facing === 1) {
-                    this.state = 1;
-                    this.facing = 1;
-                    this.velocity.x -= MAX_WALK;
-                } else if (this.velocity.x === 0 && this.state !== 2 && this.facing === 0) {
-                    this.state = 1;
-                    this.facing = 0;
-                    this.velocity.x += MAX_WALK;
+                //platform walking physics
+                if (!this.canFall && !this.ninjaCollide) {
+                    if (this.leftBound > this.x) {
+                        this.state = 1;
+                        this.facing = 0;
+                        this.velocity.x += MAX_WALK;
+                    } else if (this.rightBound - this.x < 70) {
+                        this.state = 1;
+                        this.facing = 1;
+                        this.velocity.x -= MAX_WALK;
+                    } else if (this.velocity.x === 0 && this.state !== 2 && this.facing === 1) {
+                        this.state = 1;
+                        this.facing = 1;
+                        this.velocity.x -= MAX_WALK;
+                    } else if (this.velocity.x === 0 && this.state !== 2 && this.facing === 0) {
+                        this.state = 1;
+                        this.facing = 0;
+                        this.velocity.x += MAX_WALK;
+                    }
                 }
+
+                // update position
+                if (this.canFall) { //this makes sure we aren't applying velocity if we are on ground/platform
+                    this.velocity.y += FALL_ACC;
+                    if (this.velocity.y >= MAX_FALL) this.velocity.y = MAX_FALL;
+                    //if (this.velocity.y <= -MAX_FALL) this.velocity.y = -MAX_FALL;
+                    this.y += this.velocity.y;
+
+                }
+                if (!this.ninjaCollide) {
+                    if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
+                    if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
+                    this.x += this.velocity.x * TICK * PARAMS.SCALE;
+                }
+
+                this.updateBB();
+
+                //if dead
+            } else {
+                this.BB = new BoundingBox(0, 0, 0, 0);
             }
 
-            // update position
-            if (this.canFall) { //this makes sure we aren't applying velocity if we are on ground/platform
-                this.velocity.y += FALL_ACC;
-                if (this.velocity.y >= MAX_FALL) this.velocity.y = MAX_FALL;
-                //if (this.velocity.y <= -MAX_FALL) this.velocity.y = -MAX_FALL;
-                this.y += this.velocity.y;
-
-            }
-            if (!this.ninjaCollide) {
-                if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
-                if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
-                this.x += this.velocity.x * TICK * PARAMS.SCALE;
-            }
-
-            this.updateBB();
-
-            //if dead
-        } else {
-            this.BB = new BoundingBox(0, 0, 0, 0);
         }
-
-
     }
 
     draw(ctx) {
