@@ -164,6 +164,7 @@ class SceneManager {
 
         }
         if (this.ninja.dead) {
+            ASSET_MANAGER.pauseBackGroundMusic();
             //set highscore on death and reset old score.
             this.highScore = Math.max(this.highScore, this.score);
             this.score = 0;
