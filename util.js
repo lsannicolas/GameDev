@@ -47,5 +47,5 @@ const PARAMS = {
     EASY: .5,
     NORMAL: .75,
     HARD : 1.25,
-    VOLUME: 30,
+    //VOLUME: 30,
 };

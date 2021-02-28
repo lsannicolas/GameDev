@@ -36,10 +36,15 @@ ASSET_MANAGER.queueDownload("./sprites/layers/land.png");
 ASSET_MANAGER.queueDownload("./sprites/layers/decor.png");
 
 
+//Music
+ASSET_MANAGER.queueDownload("./music/backgroundVinyl.mp3");
+
 
 
 ASSET_MANAGER.downloadAll(function () {
 	var gameEngine = new GameEngine();
+
+	ASSET_MANAGER.autoRepeat("./music/backgroundVinyl.mp3");
 
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 

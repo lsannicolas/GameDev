@@ -15,7 +15,7 @@ class SceneManager {
         this.level = levelOne;
         this.platforms = levelOne.platforms;
         this.loadLevel(this.level);
-
+        this.isPlaying = false;
 
     };
 
@@ -23,6 +23,8 @@ class SceneManager {
         this.game.entities = [];
         this.game.platforms = [];
         this.x = 0;
+
+       
 
         if (level.bricks) {
             for (let i = 0; i < level.bricks.length; i++) {
@@ -160,7 +162,21 @@ class SceneManager {
         })
     }
 
+    updateAudio() {
+        var mute = document.getElementById("mute").checked;
+        var volume = document.getElementById("volume").value;
+
+        ASSET_MANAGER.muteAudio(mute);
+        ASSET_MANAGER.adjustVolume(volume);
+    }
+
     update() {
+        if (PARAMS.PLAY === true && this.isPlaying === false) {
+            this.isPlaying = true;
+            ASSET_MANAGER.pauseBackGroundMusic();
+            ASSET_MANAGER.playAsset(this.level.music);
+        } 
+        this.updateAudio();
         if (PARAMS.CONTROLS === true) {
             if (this.startMenu) {
                 this.startMenu.exists = false;
@@ -169,6 +185,7 @@ class SceneManager {
         }
 
         if (this.ninja.dead) {
+            ASSET_MANAGER.pauseBackGroundMusic();
             //set highscore on death and reset old score.
             this.highScore = Math.max(this.highScore, this.score);
             this.score = 0;
@@ -223,6 +240,7 @@ class SceneManager {
 
         }
         if (PARAMS.START) {
+            // ASSET_MANAGER.playAsset("./music/backgroundVinyl.mp3");
             let score = "Score " + Math.ceil(this.score + " ");
             ctx.font = 30 + 'px "Play"';
             ctx.fillStyle = "White";
