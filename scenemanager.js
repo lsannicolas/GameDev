@@ -16,6 +16,7 @@ class SceneManager {
         this.level = levelOne;
         this.platforms = levelOne.platforms;
         this.loadLevel(this.level);
+        this.isPlaying = false;
 
 
     };
@@ -25,10 +26,7 @@ class SceneManager {
         this.game.platforms = [];
         this.x = 0;
 
-        if (levelOne.music && !this.startMenu) {
-            ASSET_MANAGER.pauseBackGroundMusic();
-            ASSET_MANAGER.playAsset(levelOne.music);
-        } 
+        
 
         if (level.bricks) {
             for (let i = 0; i < level.bricks.length; i++) {
@@ -71,6 +69,14 @@ class SceneManager {
         this.game.addEntity(this.healthbar);
         this.startMenu = new StartMenu(this.game);
         this.game.addEntity(this.startMenu);
+
+       
+        /*if (PARAMS.PLAY) {
+            console.log(level.music);
+            this.isPlaying = true;
+            ASSET_MANAGER.pauseBackGroundMusic();
+            ASSET_MANAGER.playAsset(level.music);
+        }*/
     }
 
     generateNewPlatform() {
@@ -162,6 +168,15 @@ class SceneManager {
     }
 
     update() {
+        if (PARAMS.PLAY === true) {
+            this.isPlaying = true;
+            ASSET_MANAGER.pauseBackGroundMusic();
+            ASSET_MANAGER.playAsset(this.level.music);
+        } 
+        if (this.startMenu) {
+            //ASSET_MANAGER.pauseBackGroundMusic();
+           // PARAMS.START = false;
+        }
         if (this.ninja.dead) {
             //set highscore on death and reset old score.
             this.highScore = Math.max(this.highScore, this.score);
@@ -211,6 +226,7 @@ class SceneManager {
 
     draw(ctx) {
         if (PARAMS.START) {
+            // ASSET_MANAGER.playAsset("./music/backgroundVinyl.mp3");
             let score = "Score " + Math.ceil(this.score + " ");
             ctx.font = 30 + 'px "Play"';
             ctx.fillStyle = "White";
