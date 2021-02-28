@@ -65,6 +65,30 @@ class AssetManager {
 
                     this.cache[path] = aud;
                     break;
+
+                    case 'wav':
+                        var aud = new Audio();
+                        aud.addEventListener("loadeddata", function () {
+                            console.log("Loaded" + this.src);
+                            that.successCount++;
+                        if (that.isDone()) callback();
+                        });
+    
+                        aud.addEventListener("error", function() {
+                            console.log("Error Loading" + this.src);
+                            that.errorCount++;
+                            if (that.isDone()) callback();
+                        });
+    
+                        aud.addEventListener("ended" , function(){
+                            aud.pause();
+                            aud.currentTime = 0;
+                        });
+                        aud.src = path;
+                        aud.load();
+    
+                        this.cache[path] = aud;
+                        break;
             }
         }
     };
@@ -78,7 +102,7 @@ class AssetManager {
         audio.currentTime = 0;
         audio.play();
     };
-
+    
     muteAudio(mute) {
         for (var key in this.cache) {
             let asset = this.cache[key];
@@ -106,7 +130,7 @@ class AssetManager {
             }
         }
     };
-    
+
     autoRepeat(path) {
         var aud = this.cache[path];
         aud.addEventListener("ended", function() {

@@ -87,6 +87,7 @@ class GameEngine {
                 case "KeyC":
                     // case "Period":
                     that.C = true;
+                    AuthenticatorAssertionRespons
                     break;
             }
         }, false);
@@ -117,10 +118,12 @@ class GameEngine {
                 case "KeyX":
                 case "Period":
                     that.A = false;
+                    //ASSET_MANAGER.playAsset("./audio/dagger.wav");
                     break;
                 case "KeyC":
                     // case "Period":
                     that.C = false;
+                    //ASSET_MANAGER.playAsset("./audio/kunai.wav");
                     break;
             }
         }, false);

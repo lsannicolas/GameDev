@@ -25,10 +25,10 @@ class SceneManager {
         this.game.platforms = [];
         this.x = 0;
 
-        if (levelOne.music && !this.startMenu) {
+        /*if (levelOne.music && !this.start) {
             ASSET_MANAGER.pauseBackGroundMusic();
             ASSET_MANAGER.playAsset(levelOne.music);
-        } 
+        } */
 
         if (level.bricks) {
             for (let i = 0; i < level.bricks.length; i++) {

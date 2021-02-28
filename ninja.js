@@ -195,19 +195,19 @@ class Ninja {
             if (that.state === 3 && (entity.BB && that.ABB.collide(entity.BB))
                 && (entity instanceof Zombie)) {
                 //entity.removeFromWorld = true;
+                ASSET_MANAGER.playAsset("./audio/zombieHit.wav");
                 if (that.multiplied) {
                     entity.zombieScore = 400;
                 } else {
                     entity.zombieScore = 200;
                 }
-                entity.die();
-            }
-
+                entity.die();  
+            } 
             if (entity instanceof Zombie && that.BB.collide(entity.ABB)) {
                 that.hp -= 5;
                 if (that.hp <= 0) {
                     that.hp = 5;
-                    //that.die();
+                    that.die();
                 } else if (entity.hp > entity.maxHP) {
                     that.hp = entity.maxHP;
                 }
@@ -263,6 +263,7 @@ class Ninja {
         }
         else if (this.state === 3 && this.attackTime <= .5) {
             this.updateMovement();
+
         }
         else if (this.state === 5 && this.throwTime <= .45) {
             this.updateMovement();
@@ -278,7 +279,8 @@ class Ninja {
                 if (this.elapsedTime > .4) {
                     this.elapsedTime = 0
                     const isLeft = this.facing === 1;
-                    this.game.addEntity(new Kunai(this.game, this.x, this.y - this.game.camera.y + 25, isLeft))
+                    this.game.addEntity(new Kunai(this.game, this.x, this.y - this.game.camera.y + 25, isLeft));
+                    ASSET_MANAGER.playAsset("./audio/kunai.wav");
                     this.state = 5;
                 }
             } else if (this.game.left) { //face left walk left
@@ -288,6 +290,7 @@ class Ninja {
                 this.state = 2;
             } else if (this.game.A) { //set attacking state
                 this.state = 3;
+                ASSET_MANAGER.playAsset("./audio/dagger.wav");
             } else if (!this.game.A && !this.game.B && !this.game.right && !this.game.left) {
                 this.state = 0;       //state idle if nothing pressed
             }
@@ -402,6 +405,7 @@ class Ninja {
                     offSetThrowY = 2
                 }
                 this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 12 - this.girlXOffset + offSetThrowX, this.y - this.game.camera.y - this.girlYOffset - offSetThrowY, PARAMS.SCALE / 5);
+                
             }
             else {
                 let offSetThrowY = 0;
@@ -410,6 +414,7 @@ class Ninja {
                 }
                 this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 8 - this.girlXOffset, this.y - this.game.camera.y - this.girlYOffset - offSetThrowY, PARAMS.SCALE / 5);
             }
+           // ASSET_MANAGER.playAsset("./audio/kunai.wav");
         }
         else if (this.state === 3 && this.facing === 1) { //need to offset so our player doesn't shift when attacking left
             this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 50 - this.girlXOffset, this.y - this.game.camera.y - this.girlYOffset, PARAMS.SCALE / 5);
