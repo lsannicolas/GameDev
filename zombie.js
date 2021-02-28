@@ -73,7 +73,7 @@ class Zombie {
             this.animations[3][0] = new Animator(this.spritesheet, 65, 1600, this.width + 110, this.height, 11, 0.09, 46, false, false);
             this.animations[3][1] = new Animator(this.spritesheet, 40, 1840, this.width + 110, this.height, 11, 0.09, 46, true, false);
         }
-
+        
     }
 
     updateBB() {
@@ -92,6 +92,7 @@ class Zombie {
             } else {
                 this.ABB = new BoundingBox(this.x + 8, this.y + 20, 40, 45);
             }
+            
         }
 
     }
@@ -103,6 +104,7 @@ class Zombie {
         this.dead = true;
         //this.game.addEntity(new Score(this.x, this.y, 200));
         this.game.camera.score += this.zombieScore;
+        ASSET_MANAGER.playAsset("./audio/zombieDie.mp3");
 
         // if(that.Ninja.isPoweredUp){
         //     this.game.addEntity(new Score(this.game, this.x, this.y, 200));    
@@ -158,6 +160,8 @@ class Zombie {
                                 that.velocity.x = 0;
                             }
                         }
+                        
+                            //ASSET_MANAGER.playAsset("./audio/zombieDie.mp3");
                     }
                 });
                 if (!that.ninjaCollide) {
@@ -213,8 +217,10 @@ class Zombie {
         if (this.state === 3 && this.facing === 1) {
             this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 30, this.y - this.game.camera.y - 10, PARAMS.SCALE / 2.5);
         } else {
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y - 10, PARAMS.SCALE / 2.5);
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y - 10, PARAMS.SCALE / 2.5);       
         }
+
+        
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);

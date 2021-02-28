@@ -144,7 +144,7 @@ class GameEngine {
                     break;
                 case "KeyX":
                 case "Period":
-                    that.A = false;
+                    that.A = false;   
                     break;
                 case "KeyC":
                     // case "Period":

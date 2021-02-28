@@ -30,9 +30,6 @@ class StartMenu {
             }
             if (this.playCounter > 5) {
                 this.startCounter++;
-                if (this.startCounter > 5) {
-                    PARAMS.START = true;
-                }
             }
         }
     };

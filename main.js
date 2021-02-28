@@ -35,9 +35,15 @@ ASSET_MANAGER.queueDownload("./sprites/Jumping-pads_1.png");
 ASSET_MANAGER.queueDownload("./sprites/layers/land.png");
 ASSET_MANAGER.queueDownload("./sprites/layers/decor.png");
 
-
 //Music
 ASSET_MANAGER.queueDownload("./music/backgroundVinyl.mp3");
+
+//audio
+ASSET_MANAGER.queueDownload("./audio/swingSword.wav");
+ASSET_MANAGER.queueDownload("./audio/kunai.wav");
+ASSET_MANAGER.queueDownload("./audio/zombieHit.wav");
+ASSET_MANAGER.queueDownload("./audio/zombieDie.mp3");
+
 
 
 

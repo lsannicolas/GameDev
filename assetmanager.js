@@ -66,6 +66,8 @@ class AssetManager {
                     img.src = path;
                     this.cache[path] = img;
                     break;
+                    
+                case 'wav':
                 case 'mp3':
                     var aud = new Audio();
                     aud.addEventListener("loadeddata", function () {
@@ -75,7 +77,7 @@ class AssetManager {
                     });
 
                     aud.addEventListener("error", function () {
-                        console.log("Error loading" + this.src);
+                        console.log("Error loading " + this.src);
                         that.errorCount++;
                         if (that.isDone()) callback();
                     });
@@ -89,8 +91,8 @@ class AssetManager {
                     aud.load();
 
                     this.cache[path] = aud;
-                    break;
-            }
+                    break
+                 }
         }
 
     };
