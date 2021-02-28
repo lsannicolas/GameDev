@@ -160,8 +160,8 @@ class SceneManager {
     }
 
     updateAudio() {
-        var mute = document.getElementById("mute").checked;
-        var volume = document.getElementById("volume").value;
+        var mute = PARAMS.VOLUME === 0;
+        var volume = PARAMS.VOLUME/100;
 
         ASSET_MANAGER.muteAudio(mute);
         ASSET_MANAGER.adjustVolume(volume);
