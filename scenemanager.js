@@ -153,7 +153,7 @@ class SceneManager {
     cleanUp() {
         let that = this;
         this.game.entities.forEach(function (entity) {
-            if (entity.y - that.game.camera.y > 1000 && !(entity instanceof Kunai)) {
+            if (entity.y - that.game.camera.y > 1000 && !(entity instanceof Throwable)) {
                 entity.removeFromWorld = true;
             }
         })
@@ -161,7 +161,7 @@ class SceneManager {
 
     updateAudio() {
         var mute = PARAMS.VOLUME === 0;
-        var volume = PARAMS.VOLUME/100;
+        var volume = PARAMS.VOLUME / 100;
 
         ASSET_MANAGER.muteAudio(mute);
         ASSET_MANAGER.adjustVolume(volume);
@@ -171,7 +171,7 @@ class SceneManager {
         if (PARAMS.PLAY) {
             ASSET_MANAGER.pauseBackGroundMusic();
             ASSET_MANAGER.playAsset(this.level.music);
-        } 
+        }
         this.updateAudio();
         if (PARAMS.CONTROLS === true) {
             if (this.startMenu) {
@@ -194,7 +194,7 @@ class SceneManager {
             PARAMS.START = false;
         };
 
-        
+
         PARAMS.DEBUG = false;
         if (PARAMS.START === true && !PARAMS.PAUSE) {
             if (this.startMenu) {
@@ -231,6 +231,7 @@ class SceneManager {
     };
 
     draw(ctx) {
+        console.log(this.game.entities.length)
         if (PARAMS.PAUSE) {
             //<input type ="checkbox" id="mute">Mute <input type="range" id="volume" min="0" max="1" value="0.2" step="0.05"> Volume
             this.volumeSlider.draw(ctx)

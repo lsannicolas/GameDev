@@ -24,10 +24,11 @@ class Zombie {
         this.leftBound = 0;
         this.rightBound = 0;
         this.zombieScore = 0;
+        this.throwTime = 0;
+        this.attackTime = 0;
         this.updateBB();
         this.animations = [];
         this.loadAnimations();
-
 
     }
 
@@ -73,7 +74,7 @@ class Zombie {
             this.animations[3][0] = new Animator(this.spritesheet, 65, 1600, this.width + 110, this.height, 11, 0.09, 46, false, false);
             this.animations[3][1] = new Animator(this.spritesheet, 40, 1840, this.width + 110, this.height, 11, 0.09, 46, true, false);
         }
-        
+
     }
 
     updateBB() {
@@ -92,7 +93,7 @@ class Zombie {
             } else {
                 this.ABB = new BoundingBox(this.x + 8, this.y + 20, 40, 45);
             }
-            
+
         }
 
     }
@@ -109,13 +110,23 @@ class Zombie {
         // if(that.Ninja.isPoweredUp){
         //     this.game.addEntity(new Score(this.game, this.x, this.y, 200));    
         // }
-        
+
         // if (this.state === 3) {
         //     this.removeFromWorld = true;
         // }
     }
 
+    throw() {
+        let sprite = this.facing === 1 ? './sprites/slimeLeft.png' : './sprites/slimeRight.png'
+        this.game.addEntity(new Throwable(this.game, this.x,
+            this.y - this.game.camera.y + 25, this.facing === 1,
+            sprite, 250));
+    }
+
     update() {
+        this.throwTime += this.game.clockTick;
+        this.attackTime += this.game.clockTick;
+
         if (this.dead) {
             this.time2 = this.testTimer.getTime();
             if (this.time2 - this.time1 > 5000) {
@@ -124,15 +135,18 @@ class Zombie {
         }
 
         this.ninjaCollide = false;
-        //console.log(this.state);
         const TICK = this.game.clockTick;
         const MAX_WALK = 100;
         const MAX_FALL = 100;
         const FALL_ACC = .5;
         let that = this;
         if (PARAMS.START && !PARAMS.PAUSE) {
+            if (this.state === 2 && this.throwTime < .5 && this.threw) {
+                this.state = 2
+            }
             //collision system
-            if (!this.dead) {
+            else if (!this.dead) {
+                this.threw = false;
                 this.game.platforms.forEach(function (entity) {
                     that.canFall = false;
                     if (that.BB.bottom - entity.BB.top > 0 && that.BB.bottom - entity.BB.bottom < 50) { //if on top/falling
@@ -160,30 +174,37 @@ class Zombie {
                                 that.velocity.x = 0;
                             }
                         }
-                        
-                            //ASSET_MANAGER.playAsset("./audio/zombieDie.mp3");
                     }
                 });
-                if (!that.ninjaCollide) {
-                    that.state = 1;
+                if (this.throwTime > 2) {
+                    this.throwTime = 0;
+                    let chance = randomInRange(0, 100)
+                    if (chance < 100) {
+                        this.state = 2
+                        this.throw()
+                        this.threw = true;
+                    }
+                }
+                else if (!this.ninjaCollide) {
+                    this.state = 1;
                     this.facing === 0 ? this.velocity.x = MAX_WALK : this.velocity.x = -MAX_WALK
                 }
                 //platform walking physics
                 if (!this.canFall && !this.ninjaCollide) {
                     if (this.leftBound > this.x) {
-                        this.state = 1;
+
                         this.facing = 0;
                         this.velocity.x += MAX_WALK;
                     } else if (this.rightBound - this.x < 70) {
-                        this.state = 1;
+
                         this.facing = 1;
                         this.velocity.x -= MAX_WALK;
                     } else if (this.velocity.x === 0 && this.state !== 2 && this.facing === 1) {
-                        this.state = 1;
+
                         this.facing = 1;
                         this.velocity.x -= MAX_WALK;
                     } else if (this.velocity.x === 0 && this.state !== 2 && this.facing === 0) {
-                        this.state = 1;
+
                         this.facing = 0;
                         this.velocity.x += MAX_WALK;
                     }
@@ -217,10 +238,10 @@ class Zombie {
         if (this.state === 3 && this.facing === 1) {
             this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - 30, this.y - this.game.camera.y - 10, PARAMS.SCALE / 2.5);
         } else {
-            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y - 10, PARAMS.SCALE / 2.5);       
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y - this.game.camera.y - 10, PARAMS.SCALE / 2.5);
         }
 
-        
+
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
