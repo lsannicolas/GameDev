@@ -423,7 +423,7 @@ class Ninja {
         } else {
             this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - this.girlXOffset, this.y - this.game.camera.y - this.girlYOffset, PARAMS.SCALE / 5);
         }
-        if (true) {
+        if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'blue';
             ctx.strokeRect(this.BB.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
             if (this.state === 3) {

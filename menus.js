@@ -5,48 +5,15 @@ class Menus {
         this.controls = ASSET_MANAGER.getAsset("./sprites/intro_menu.png");
         this.pause = ASSET_MANAGER.getAsset("./sprites/pause_menu.png");
         this.settings = ASSET_MANAGER.getAsset("./sprites/settings_menu.png");
-        this.exists = true;
-        this.playCounter = 0;
-        this.levelCounter = 0;
-        this.startCounter = 0;
-
-
+        this.levels = ASSET_MANAGER.getAsset("./sprites/levels_menu.png");
     };
 
     update() {
-        if (this.exists) {
-            if (PARAMS.PLAY) {
-                this.playCounter++;
-                if (this.playCounter > 5) {
-                    //PARAMS.START = true;
-                    PARAMS.PLAY = false;
-                }
-            } else if (PARAMS.LEVELS) {
-                this.levelCounter++;
-                if (this.levelCounter > 5) {
-                    PARAMS.LEVELS = false;
-                }
-            }
-            if (this.playCounter > 5) {
-                this.startCounter++;
-                if (this.startCounter > 5) {
-                    PARAMS.CONTROLS = true;
-                }
-            }
-        }
     };
-    draw(ctx){
-        if (this.exists) {
-            // if (!PARAMS.PLAY && !PARAMS.LEVELS) {
-            //     ctx.drawImage(this.spritesheet, 0, 0, 950, 750, 0, 0, 950, 750);
-            // } else if (PARAMS.PLAY) {
-            //     ctx.drawImage(this.spritesheet, 0, 765, 950, 750, 0, 0, 950, 750);
-            // } else if (PARAMS.LEVELS) {
-            //     ctx.drawImage(this.spritesheet, 0, 1528, 950, 750, 0, 0, 950, 750);
-            //
-            // }
-            ctx.drawImage(this.spritesheet, 0, 0, 950, 750)
 
+    draw(ctx){
+        if (PARAMS.STARTMENU) {
+            ctx.drawImage(this.spritesheet, 0, 0, 950, 750)
         }
         if (PARAMS.CONTROLS) {
             ctx.drawImage(this.controls, 0, 0, 950, 750);
@@ -56,6 +23,9 @@ class Menus {
         }
         if (PARAMS.SETTINGS) {
             ctx.drawImage(this.settings, 0, 0, 950, 750)
+        }
+        if (PARAMS.LEVELMENU) {
+            ctx.drawImage(this.levels, 0, 0, 950, 750)
         }
 
     };

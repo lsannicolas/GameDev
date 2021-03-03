@@ -130,7 +130,7 @@ class Zombie {
         const MAX_FALL = 100;
         const FALL_ACC = .5;
         let that = this;
-        if (PARAMS.START && !PARAMS.PAUSE) {
+        if (PARAMS.PLAY && !PARAMS.PAUSE) {
             //collision system
             if (!this.dead) {
                 this.game.platforms.forEach(function (entity) {
