@@ -106,7 +106,7 @@ class GameEngine {
             var x = e.clientX - that.ctx.canvas.getBoundingClientRect().left;
             var y = e.clientY - that.ctx.canvas.getBoundingClientRect().top;
 
-            return { x: x, y: y };
+            return {x: x, y: y};
         }
 
 
@@ -179,7 +179,7 @@ class GameEngine {
                     break;
                 case "KeyX":
                 case "Period":
-                    that.A = false;   
+                    that.A = false;
                     break;
                 case "KeyC":
                     // case "Period":
@@ -237,3 +237,4 @@ class GameEngine {
         this.update();
         this.draw();
     };
+}
