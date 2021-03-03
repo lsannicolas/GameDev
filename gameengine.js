@@ -4,6 +4,8 @@ class GameEngine {
     constructor() {
         this.entities = [];
         this.platforms = [];
+        this.menus = [];
+        this.background = null;
         this.ctx = null;
         this.surfaceWidth = null;
         this.surfaceHeight = null;
@@ -49,9 +51,8 @@ class GameEngine {
                         }
                     } else if (click.x > 586 && click.x < 673) {
                         if (!PARAMS.SETTINGS) {
-                            //TODO uncomment out when level implementation in
-                            //PARAMS.LEVELMENU = true;
-                            //PARAMS.STARTMENU = false;
+                            PARAMS.LEVELMENU = true;
+                            PARAMS.STARTMENU = false;
 
                         }
 
@@ -201,15 +202,27 @@ class GameEngine {
         this.platforms.push(entity);
     };
 
+    addMenu(entity) {
+        this.menus.push(entity);
+    }
+
     draw() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        this.background.draw(this.ctx);
 
         for (var i = 0; i < this.platforms.length; i++) {
             this.platforms[i].draw(this.ctx);
         }
+
         for (var i = 0; i < this.entities.length; i++) {
             this.entities[i].draw(this.ctx);
         }
+
+        for (var i = 0; i < this.menus.length; i++) {
+            this.menus[i].draw(this.ctx);
+        }
+
+
         this.camera.draw(this.ctx);
     };
 
