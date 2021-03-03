@@ -237,4 +237,3 @@ class GameEngine {
         this.update();
         this.draw();
     };
-};

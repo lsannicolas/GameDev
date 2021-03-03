@@ -154,7 +154,7 @@ class SceneManager {
     cleanUp() {
         let that = this;
         this.game.entities.forEach(function (entity) {
-            if (entity.y - that.game.camera.y > 1000 && !(entity instanceof Kunai)) {
+            if (entity.y - that.game.camera.y > 1000 && !(entity instanceof Throwable)) {
                 entity.removeFromWorld = true;
             }
         })
@@ -162,7 +162,7 @@ class SceneManager {
 
     updateAudio() {
         var mute = PARAMS.VOLUME === 0;
-        var volume = PARAMS.VOLUME/100;
+        var volume = PARAMS.VOLUME / 100;
 
         ASSET_MANAGER.muteAudio(mute);
         ASSET_MANAGER.adjustVolume(volume);
@@ -183,7 +183,7 @@ class SceneManager {
             this.musicNotStarted = false;
             ASSET_MANAGER.pauseBackGroundMusic();
             ASSET_MANAGER.playAsset(this.level.music);
-        } 
+        }
         this.updateAudio();
         if (PARAMS.CONTROLS === true) {
             PARAMS.STARTMENU = false;
