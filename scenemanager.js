@@ -10,8 +10,9 @@ class SceneManager {
         this.highScore = 0;
         this.elapsedTime = 0;
 
-        this.lastBrickY = 0;
+        this.lastBrickY = 0
 
+        PARAMS.DEBUG = false;
         this.level = levelOne;
         this.platforms = levelOne.platforms;
         this.loadLevel(this.level);
@@ -180,6 +181,7 @@ class SceneManager {
             }
         }
 
+
         if (this.ninja.dead) {
             ASSET_MANAGER.pauseBackGroundMusic();
             //set highscore on death and reset old score.
@@ -194,8 +196,6 @@ class SceneManager {
             PARAMS.START = false;
         };
 
-        
-        PARAMS.DEBUG = false;
         if (PARAMS.START === true && !PARAMS.PAUSE) {
             if (this.startMenu) {
                 this.startMenu.exists = false;
@@ -231,6 +231,12 @@ class SceneManager {
     };
 
     draw(ctx) {
+        //for character select
+        if (!PARAMS.START && !PARAMS.SETTINGS && !PARAMS.LEVELS && !PARAMS.CONTROLS) {
+            ctx.fillStyle = "rgba(0, 0, 0, .85)";
+            PARAMS.BOY ? ctx.fillRect(465, 572, 89, 97) : ctx.fillRect(372, 572, 88, 97);
+        }
+
         if (PARAMS.PAUSE) {
             //<input type ="checkbox" id="mute">Mute <input type="range" id="volume" min="0" max="1" value="0.2" step="0.05"> Volume
             this.volumeSlider.draw(ctx)

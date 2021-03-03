@@ -4,6 +4,7 @@ class Menus {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/start_menu.png");
         this.controls = ASSET_MANAGER.getAsset("./sprites/intro_menu.png");
         this.pause = ASSET_MANAGER.getAsset("./sprites/pause_menu.png");
+        this.settings = ASSET_MANAGER.getAsset("./sprites/settings_menu.png");
         this.exists = true;
         this.playCounter = 0;
         this.levelCounter = 0;
@@ -36,20 +37,25 @@ class Menus {
     };
     draw(ctx){
         if (this.exists) {
-            if (!PARAMS.PLAY && !PARAMS.LEVELS) {
-                ctx.drawImage(this.spritesheet, 0, 0, 950, 750, 0, 0, 950, 750);
-            } else if (PARAMS.PLAY) {
-                ctx.drawImage(this.spritesheet, 0, 765, 950, 750, 0, 0, 950, 750);
-            } else if (PARAMS.LEVELS) {
-                ctx.drawImage(this.spritesheet, 0, 1528, 950, 750, 0, 0, 950, 750);
+            // if (!PARAMS.PLAY && !PARAMS.LEVELS) {
+            //     ctx.drawImage(this.spritesheet, 0, 0, 950, 750, 0, 0, 950, 750);
+            // } else if (PARAMS.PLAY) {
+            //     ctx.drawImage(this.spritesheet, 0, 765, 950, 750, 0, 0, 950, 750);
+            // } else if (PARAMS.LEVELS) {
+            //     ctx.drawImage(this.spritesheet, 0, 1528, 950, 750, 0, 0, 950, 750);
+            //
+            // }
+            ctx.drawImage(this.spritesheet, 0, 0, 950, 750)
 
-            }
         }
         if (PARAMS.CONTROLS) {
             ctx.drawImage(this.controls, 0, 0, 950, 750);
         }
         if (PARAMS.PAUSE) {
             ctx.drawImage(this.pause, 0, 0, 950, 750);
+        }
+        if (PARAMS.SETTINGS) {
+            ctx.drawImage(this.settings, 0, 0, 950, 750)
         }
 
     };
@@ -63,7 +69,7 @@ class VolumeSlider {
     }
 
     update() {
-        this.exists = PARAMS.PAUSE;
+        this.exists = PARAMS.PAUSE || PARAMS.SETTINGS;
     }
 
     draw(ctx) {
@@ -87,7 +93,7 @@ class Difficulty {
     }
 
     update() {
-        this.exists = PARAMS.PAUSE;
+        this.exists = PARAMS.PAUSE || PARAMS.SETTINGS;
     }
 
     draw(ctx) {
@@ -116,5 +122,6 @@ class Difficulty {
         }
     }
 }
+
 
 

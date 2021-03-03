@@ -42,24 +42,37 @@ class GameEngine {
             this.ctx.canvas.addEventListener("click", function (e) {
                 let click = getXandY(e);
                 console.log(click);
-                if (click.x > 230 && click.x < 396 && click.y > 467 && click.y < 525) {
-                    PARAMS.PLAY = true;
-                   // ASSET_MANAGER.pauseBackGroundMusic();
-                   // ASSET_MANAGER.playAsset(levelOne.music);
-                } else if (click.x > 544 && click.x < 716 && click.y > 467 && click.y < 525) {
-                    PARAMS.LEVELS = true;
+                if (click.y > 436 && click.y < 520) {
+                    if (click.x > 250 && click.x < 340) {
+                        PARAMS.SETTINGS = true;
+                    } else if (click.x > 416 && click.x < 480) {
+                        if (!PARAMS.SETTINGS) PARAMS.PLAY = true;
+                    } else if (click.x > 586 && click.x < 673) {
+                        if (!PARAMS.SETTINGS) PARAMS.LEVELS = true;
+                    }
+                } else if (click.y > 570 && click.y < 667) {
+                    if (click.x > 372 && click.x < 462) {
+                        PARAMS.BOY = true;
+                    } else if (click.x > 465 && click.x < 555) {
+                        PARAMS.BOY = false;
+                    }
                 }
                 if (PARAMS.CONTROLS && click) {
                     PARAMS.CONTROLS = false;
                     PARAMS.START = true;
                 }
-                if (PARAMS.PAUSE) {
+                if (PARAMS.SETTINGS) {
+                    if (click.x > 712 && click.x < 767 && click.y > 17 && click.y < 69) {
+                        PARAMS.SETTINGS = false;
+                    }
+
+                }
+                if (PARAMS.PAUSE || PARAMS.SETTINGS) {
                     if (click.y > 485 && click.y < 512) {
                         if (click.x > 420 && click.x < 471) {
                             PARAMS.VOLUME = 0;
                         } else if (click.x > 480 && click.x < 630) {
                             PARAMS.VOLUME = Math.floor((click.x - 480)/1.5);
-                            console.log(PARAMS.VOLUME);
                         }
 
                     } else if (click.y > 534 && click.y < 587) {
@@ -113,6 +126,9 @@ class GameEngine {
                 case "Escape":
                     if (PARAMS.START) {
                         PARAMS.PAUSE = !PARAMS.PAUSE;
+                    }
+                    if (PARAMS.SETTINGS) {
+                        PARAMS.SETTINGS = !PARAMS.SETTINGS;
                     }
 
                     break;
