@@ -179,7 +179,7 @@ class Zombie {
                 if (this.throwTime > 2) {
                     this.throwTime = 0;
                     let chance = randomInRange(0, 100)
-                    if (chance < 100) {
+                    if (chance < 60) {
                         this.state = 2
                         this.throw()
                         this.threw = true;

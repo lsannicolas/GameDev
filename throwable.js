@@ -2,9 +2,8 @@ class Throwable {
 
     constructor(game, x, y, left, sprite, max) {
         Object.assign(this, { game, x, y, left, sprite, max });
+        this.yCam = this.game.camera.y;
         this.name = this.sprite.split("/")[2].substring(0, 5);
-        console.log(this.name)
-        // console.log(this.sprite + "inside throwable")
         if (this.left) {
             this.spritesheet = ASSET_MANAGER.getAsset(this.sprite);
         } else {
@@ -23,13 +22,15 @@ class Throwable {
 
 
     updateBB() {
-        let yOffset = this.name === "Kunai" ? 10 : 25
+        let yOffset = this.name === "Kunai" ? 15 : 20
+        let height = this.name === "Kunai" ? 10 : 25
+
 
 
         if (this.left) {
-            this.BB = new BoundingBox(this.x - 40, this.y + this.game.camera.y + yOffset, this.width * this.size, 25);
+            this.BB = new BoundingBox(this.x - 40, this.y + this.game.camera.y + yOffset, this.width * this.size, height);
         } else {
-            this.BB = new BoundingBox(this.x, this.y + this.game.camera.y + yOffset, this.width * this.size, 25);
+            this.BB = new BoundingBox(this.x, this.y + this.game.camera.y + yOffset, this.width * this.size, height);
         }
     };
 
@@ -61,20 +62,16 @@ class Throwable {
         } else {
             this.x += this.velocity.x * this.game.clockTick;
         }
-        this.y += (this.name === "Kunai" ? .75 : .75)
-
+        this.y += Math.abs(this.game.camera.y - this.yCam)
+        // (this.name === "Kunai" ? .75 : .75)
+        this.yCam = this.game.camera.y
     }
 
     draw(ctx) {
-        console.log(this.y)
         if (this.left) {
-            console.log(this.name + "THIS SIZE")
             this.animations.drawFrame(this.game.clockTick, ctx, this.x - 40, this.y + 15, this.size)
         } else {
             this.animations.drawFrame(this.game.clockTick, ctx, this.x, this.y + 15, this.size)
         }
-        ctx.strokeStyle = 'blue';
-        ctx.strokeRect(this.BB.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
-
     }
 }

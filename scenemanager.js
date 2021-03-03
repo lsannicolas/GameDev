@@ -231,7 +231,6 @@ class SceneManager {
     };
 
     draw(ctx) {
-        console.log(this.game.entities.length)
         if (PARAMS.PAUSE) {
             //<input type ="checkbox" id="mute">Mute <input type="range" id="volume" min="0" max="1" value="0.2" step="0.05"> Volume
             this.volumeSlider.draw(ctx)

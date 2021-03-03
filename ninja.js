@@ -282,7 +282,6 @@ class Ninja {
                     this.elapsedTime = 0;
                     const isLeft = this.facing === 1;
                     let sprite = isLeft ? './sprites/Kunai_left.png' : './sprites/Kunai.png'
-                    console.log(sprite + " sprite")
                     this.game.addEntity(new Throwable(this.game, this.x,
                         this.y - this.game.camera.y + 25, isLeft,
                         sprite, 1000));
@@ -427,7 +426,7 @@ class Ninja {
         } else {
             this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - this.girlXOffset, this.y - this.game.camera.y - this.girlYOffset, PARAMS.SCALE / 5);
         }
-        if (true) {
+        if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'blue';
             ctx.strokeRect(this.BB.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
             if (this.state === 3) {
