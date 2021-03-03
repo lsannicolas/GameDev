@@ -9,9 +9,10 @@ class SceneManager {
         this.score = 0;
         this.highScore = 0;
         this.elapsedTime = 0;
-
-        this.lastBrickY = 0;
-
+        this.musicNotStarted = true;
+        this.ninjaLoaded = false;
+        this.lastBrickY = 0
+        PARAMS.DEBUG = false;
         this.level = levelOne;
         this.platforms = levelOne.platforms;
         this.loadLevel(this.level);
@@ -59,7 +60,7 @@ class SceneManager {
         }
 
         this.ninja = new Ninja(this.game, 200, 0, true);
-        this.game.addEntity(this.ninja);
+        //this.game.addEntity(this.ninja);
         this.healthbar = new HPBar(this.ninja);
         this.game.addEntity(this.healthbar);
         //menu stuff
@@ -168,17 +169,27 @@ class SceneManager {
     }
 
     update() {
-        if (PARAMS.PLAY) {
+        console.log(PARAMS.BOY)
+        //TODO is this the correct way to do this?
+        if (PARAMS.PLAY && !this.ninjaLoaded) {
+            this.ninjaLoaded = true;
+            this.ninja = new Ninja(this.game, 200, 0, PARAMS.BOY);
+            this.game.addEntity(this.ninja);
+            this.healthbar = new HPBar(this.ninja);
+            this.game.addEntity(this.healthbar);
+        }
+
+        if (this.musicNotStarted && PARAMS.PLAY) {
+            this.musicNotStarted = false;
             ASSET_MANAGER.pauseBackGroundMusic();
             ASSET_MANAGER.playAsset(this.level.music);
         }
         this.updateAudio();
         if (PARAMS.CONTROLS === true) {
-            if (this.startMenu) {
-                this.startMenu.exists = false;
-                this.startMenu.optionsExists = true;
-            }
+            PARAMS.STARTMENU = false;
+            PARAMS.PLAY = false;
         }
+
 
         if (this.ninja.dead) {
             ASSET_MANAGER.pauseBackGroundMusic();
@@ -191,15 +202,11 @@ class SceneManager {
             this.game.platforms = [];
             this.loadLevel(levelOne);
             this.y = -300;
-            PARAMS.START = false;
+            PARAMS.PLAY = false;
+            PARAMS.STARTMENU = true;
         };
 
-
-        PARAMS.DEBUG = false;
-        if (PARAMS.START === true && !PARAMS.PAUSE) {
-            if (this.startMenu) {
-                this.startMenu.exists = false;
-            }
+        if (PARAMS.PLAY === true && !PARAMS.PAUSE) {
             let midpointY = PARAMS.CANVAS_HEIGHT / 2 - 10;
             this.x = 0;
 
@@ -231,14 +238,45 @@ class SceneManager {
     };
 
     draw(ctx) {
+        //for character select
+        if (PARAMS.STARTMENU && !PARAMS.LEVELMENU && !PARAMS.SETTINGS) {
+            ctx.fillStyle = "rgba(0, 0, 0, .8)";
+            PARAMS.BOY ? ctx.fillRect(465, 572, 89, 97) : ctx.fillRect(372, 572, 88, 97);
+        }
+        //for level select
+        if (PARAMS.LEVELMENU) {
+            ctx.fillStyle = "rgba(0, 0, 0, .8)";
+            switch (PARAMS.LEVEL) {
+                case 1:
+                    ctx.fillRect(277, 123, 160, 418);
+                    ctx.fillRect(496, 123, 160, 418);
+                    ctx.fillRect(719, 123, 160, 418);
+                    break;
+                case 2:
+                    ctx.fillRect(53, 123, 160, 418);
+                    ctx.fillRect(496, 123, 160, 418);
+                    ctx.fillRect(719, 123, 160, 418);
+                    break;
+                case 3:
+                    ctx.fillRect(53, 123, 160, 418);
+                    ctx.fillRect(277, 123, 160, 418);
+                    ctx.fillRect(719, 123, 160, 418);
+                    break;
+                default:
+                    ctx.fillRect(53, 123, 160, 418);
+                    ctx.fillRect(277, 123, 160, 418);
+                    ctx.fillRect(496, 123, 160, 418);
+                    break;
+            }
+        }
         if (PARAMS.PAUSE) {
             //<input type ="checkbox" id="mute">Mute <input type="range" id="volume" min="0" max="1" value="0.2" step="0.05"> Volume
             this.volumeSlider.draw(ctx)
             this.difficulty.draw(ctx);
 
         }
-        if (PARAMS.START) {
-            let score = "Score " + Math.ceil(this.score + " ");
+        if (PARAMS.PLAY) {
+            let score = "Score " + Math.ceil(this.score) + " ";
             ctx.font = 30 + 'px "Play"';
             ctx.fillStyle = "White";
             ctx.fillText(score, 525, 35);
