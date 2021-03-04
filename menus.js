@@ -35,15 +35,13 @@ class Menus {
 class VolumeSlider {
     constructor(game) {
         Object.assign(this, { game });
-        this.exists = true;
     }
 
     update() {
-        this.exists = PARAMS.PAUSE || PARAMS.SETTINGS;
     }
 
     draw(ctx) {
-        if(this.exists){
+        if(PARAMS.PAUSE || PARAMS.SETTINGS){
             ctx.strokeStyle = "White";
             ctx.fillStyle = "Blue";
             ctx.strokeRect(422, 486, 50, 25);
@@ -59,15 +57,13 @@ class VolumeSlider {
 class Difficulty {
     constructor(game) {
         Object.assign(this, { game });
-        this.exists = true;
     }
 
     update() {
-        this.exists = PARAMS.PAUSE || PARAMS.SETTINGS;
     }
 
     draw(ctx) {
-        if(this.exists){
+        if(PARAMS.PAUSE || PARAMS.SETTINGS){
             let easyColor = "Black";
             let normalColor = "Black";
             let hardColor = "Black";

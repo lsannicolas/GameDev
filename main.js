@@ -32,13 +32,25 @@ ASSET_MANAGER.queueDownload('./sprites/up.png');
 ASSET_MANAGER.queueDownload('./sprites/heart.png');
 ASSET_MANAGER.queueDownload('./sprites/wings.png');
 
+ASSET_MANAGER.queueDownload("./sprites/levelone/platform_one.png");
+ASSET_MANAGER.queueDownload("./sprites/levelone/land_one.png");
+ASSET_MANAGER.queueDownload("./sprites/levelone/decor_one.png");
+ASSET_MANAGER.queueDownload("./sprites/levelone/background.png");
 
-ASSET_MANAGER.queueDownload("./sprites/stone.png");
-ASSET_MANAGER.queueDownload("./sprites/grass.png");
-ASSET_MANAGER.queueDownload("./sprites/brick.png");
-ASSET_MANAGER.queueDownload("./sprites/Jumping-pads_1.png");
-ASSET_MANAGER.queueDownload("./sprites/layers/land.png");
-ASSET_MANAGER.queueDownload("./sprites/layers/decor.png");
+ASSET_MANAGER.queueDownload("./sprites/leveltwo/platform_two.png");
+ASSET_MANAGER.queueDownload("./sprites/leveltwo/land_two.png");
+ASSET_MANAGER.queueDownload("./sprites/leveltwo/background_two.png");
+
+ASSET_MANAGER.queueDownload("./sprites/levelthree/platform_three.png");
+ASSET_MANAGER.queueDownload("./sprites/levelthree/land_three.png");
+ASSET_MANAGER.queueDownload("./sprites/levelthree/decor_three.png");
+ASSET_MANAGER.queueDownload("./sprites/levelthree/background_three.png");
+
+ASSET_MANAGER.queueDownload("./sprites/levelfour/platform_four.png");
+ASSET_MANAGER.queueDownload("./sprites/levelfour/land_four.png");
+ASSET_MANAGER.queueDownload("./sprites/levelfour/background_four.png");
+
+
 
 //Music
 ASSET_MANAGER.queueDownload("./music/backgroundVinyl.mp3");

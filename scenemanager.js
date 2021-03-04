@@ -12,18 +12,20 @@ class SceneManager {
         this.musicNotStarted = true;
         this.ninjaLoaded = false;
         this.lastBrickY = 0
+        this.lastLevel = PARAMS.LEVEL;
         PARAMS.DEBUG = false;
         this.level = levelOne;
         this.platforms = levelOne.platforms;
-        this.loadLevel(this.level);
 
+        this.loadLevel(this.level);
     };
 
     loadLevel(level) {
+        this.game.background = new Background(this.game);
         this.game.entities = [];
         this.game.platforms = [];
+        this.game.menus = [];
         this.x = 0;
-
         if (level.bricks) {
             for (let i = 0; i < level.bricks.length; i++) {
                 let brick = level.bricks[i]
@@ -65,11 +67,11 @@ class SceneManager {
         this.game.addEntity(this.healthbar);
         //menu stuff
         this.startMenu = new Menus(this.game);
-        this.game.addEntity(this.startMenu);
+        this.game.addMenu(this.startMenu);
         this.volumeSlider = new VolumeSlider();
-        this.game.addEntity(this.volumeSlider);
+        this.game.addMenu(this.volumeSlider);
         this.difficulty = new Difficulty();
-        this.game.addEntity(this.difficulty);
+        this.game.addMenu(this.difficulty);
     }
 
     generateNewPlatform() {
@@ -169,8 +171,11 @@ class SceneManager {
     }
 
     update() {
-        console.log(PARAMS.BOY)
         //TODO is this the correct way to do this?
+        if (this.lastLevel !== PARAMS.LEVEL) {
+            this.lastLevel = PARAMS.LEVEL;
+            this.loadLevel(levelOne);
+        }
         if (PARAMS.PLAY && !this.ninjaLoaded) {
             this.ninjaLoaded = true;
             this.ninja = new Ninja(this.game, 200, 0, PARAMS.BOY);
@@ -269,12 +274,11 @@ class SceneManager {
                     break;
             }
         }
-        if (PARAMS.PAUSE) {
-            //<input type ="checkbox" id="mute">Mute <input type="range" id="volume" min="0" max="1" value="0.2" step="0.05"> Volume
-            this.volumeSlider.draw(ctx)
-            this.difficulty.draw(ctx);
-
-        }
+        // if (PARAMS.PAUSE) {
+        //     this.volumeSlider.draw(ctx)
+        //     this.difficulty.draw(ctx);
+        //
+        // }
         if (PARAMS.PLAY) {
             let score = "Score " + Math.ceil(this.score) + " ";
             ctx.font = 30 + 'px "Play"';
@@ -297,8 +301,8 @@ class SceneManager {
             // this.cleanUp();
 
             this.game.platforms.shift();
-
             this.game.platforms.push(this.generateNewPlatform())
+
 
             this.cleanUp()
         }
