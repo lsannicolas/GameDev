@@ -64,7 +64,8 @@ class SceneManager {
         this.ninja = new Ninja(this.game, 200, 0, true);
         //this.game.addEntity(this.ninja);
         this.healthbar = new HPBar(this.ninja);
-        this.game.addEntity(this.healthbar);
+        //this.game.addEntity(this.healthbar);
+
         //menu stuff
         this.startMenu = new Menus(this.game);
         this.game.addMenu(this.startMenu);
@@ -201,14 +202,38 @@ class SceneManager {
             //set highscore on death and reset old score.
             this.highScore = Math.max(this.highScore, this.score);
             this.score = 0;
-
+            this.ninjaLoaded = false;
+            this.musicNotStarted = true;
+            PARAMS.PLAY = false;
+            PARAMS.STARTMENU = true;
+            PARAMS.CONTROLS = false;
+            PARAMS.PAUSE = false;
             this.ninja.dead = false;
             this.game.entities = [];
             this.game.platforms = [];
             this.loadLevel(levelOne);
             this.y = -300;
-            PARAMS.PLAY = false;
-            PARAMS.STARTMENU = true;
+
+
+            /*
+                DEBUG: true,
+    STARTMENU: true,
+    PLAY: false,
+    LEVELMENU: false,
+    CONTROLS: false,
+    SETTINGS: false,
+    VOLUME: 20,
+    PAUSE: false,
+    BOY: true,
+    LEVEL: 1,
+    SCALE: 1,
+    BITWIDTH: 16,
+    SCORE: 0,
+    DIFFICULTY: .75,
+    EASY: .5,
+    NORMAL: .75,
+    HARD : 1.25,
+             */
         };
 
         if (PARAMS.PLAY === true && !PARAMS.PAUSE) {
