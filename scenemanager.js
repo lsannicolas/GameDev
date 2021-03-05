@@ -7,12 +7,14 @@ class SceneManager {
         this.lastCamY = 0;
         this.yFlag = true;
         this.score = 0;
-        this.highScore = 0;
+        this.highscore = this.getHighscore();
         this.elapsedTime = 0;
         this.musicNotStarted = true;
         this.ninjaLoaded = false;
         this.lastBrickY = 0
         this.lastLevel = PARAMS.LEVEL;
+        this.levelDifficulty = difficulties.one;
+        this.cachedPlatforms = cachedPlatforms
         PARAMS.DEBUG = false;
         this.level = levelOne;
         this.platforms = levelOne.platforms;
@@ -20,7 +22,17 @@ class SceneManager {
         this.loadLevel(this.level);
     };
 
+    getHighscore() {
+        let high = localStorage.getItem("Highscore")
+        if (high === null) {
+            localStorage.setItem("Highscore", 0)
+            high = 0;
+        }
+        return parseInt(high)
+    }
+
     loadLevel(level) {
+
         this.game.background = new Background(this.game);
         this.game.entities = [];
         this.game.platforms = [];
@@ -75,40 +87,104 @@ class SceneManager {
         this.game.addMenu(this.difficulty);
     }
 
+    // generateNewPlatform() {
+
+    //     let last = this.game.platforms[this.game.platforms.length - 1]
+
+    //     let x;
+
+    //     if (last.x < 450) {
+    //         x = randomInRange(last.x, 500)
+    //     } else {
+    //         x = randomInRange(150, last.x)
+    //     }
+    //     // new Platform values
+    //     let y = last.y - randomInRange(150, 215);
+    //     let width = randomInRange(125, 400)
+
+    //     // if the x coord for the old and new are too close 
+    //     if (Math.abs(x - last.x) < 400) {
+    //         // if on the left, put on the right 
+    //         if (last.x < 450) {
+    //             x = randomInRange(last.x, 600)
+    //         } else { //if more on the right, put on the left
+    //             x = randomInRange(150, last.x)
+    //         }
+    //     }
+
+
+
+    //     if (x + width > 700) {
+    //         width = 700 - x
+    //     }
+
+    //     //Place an enemy if platform is wide
+    //     if (width > 100) {
+    //         let chance = randomInRange(0, 100)
+    //         if (chance < this.levelDifficulty.zombieChance) {
+    //             let gender = randomInRange(0, 100)
+    //             let isGirl = true;
+    //             if (gender > 50) {
+    //                 isGirl = !isGirl
+    //             }
+    //             this.game.pushEntity(new Zombie(this.game, x, y, isGirl))
+    //         }
+    //     }
+
+    //     // Chance to place an item after 500px of change
+    //     let chance = randomInRange(0, 100)
+    //     if (Math.abs(this.game.camera.y - this.lastCamY) > 500 && chance < this.levelDifficulty.itemChance) {
+    //         this.lastCamY = this.game.camera.y;
+    //         let itemChance = randomInRange(0, 100);
+    //         let itemX = randomInRange(0, width - 40)
+    //         switch (itemChance % 4) {
+    //             case 0:
+    //                 this.game.addEntity(new Item(this.game, itemX + x, y - 50, "thumb"))
+    //                 break;
+    //             case 1:
+    //                 this.game.addEntity(new Item(this.game, itemX + x, y - 75, "up"))
+    //                 break;
+    //             case 2:
+    //                 this.game.addEntity(new Item(this.game, itemX + x, y - 50, "heart"))
+    //                 break;
+    //             case 3:
+    //                 this.game.addEntity(new Item(this.game, itemX + x, y - 50, "wings"))
+    //                 break;
+    //             default:
+    //                 break;
+    //         }
+    //     }
+
+    //     return new Platform(this.game, x, y, width)
+    // }
+
     generateNewPlatform() {
-        let last = this.game.platforms[this.game.platforms.length - 1]
+        var last = this.game.platforms[this.game.platforms.length - 1]
 
-        let x;
+        var chance = randomInRange(0, 100)
+        var newPlatform;
 
-        if (last.x < 450) {
-            x = randomInRange(last.x, 500)
-        } else {
-            x = randomInRange(150, last.x)
-        }
-        // new Platform values
         let y = last.y - randomInRange(150, 215);
-        let width = randomInRange(125, 400)
 
-        // if the x coord for the old and new are too close 
-        if (Math.abs(x - last.x) < 400) {
-            // if on the left, put on the right 
-            if (last.x < 450) {
-                x = randomInRange(last.x, 600)
-            } else { //if more on the right, put on the left
-                x = randomInRange(150, last.x)
-            }
+        if (last.x <= 300) {
+            // pick from middle 
+            newPlatform = this.cachedPlatforms.middle[chance % 5]
+        } else if (last.x <= 500) {
+            //pick from right
+            newPlatform = this.cachedPlatforms.right[chance % 5]
+        } else {
+            //pick from left
+            newPlatform = this.cachedPlatforms.left[chance % 5]
         }
 
+        var width = newPlatform.width;
+        var x = newPlatform.x
 
-
-        if (x + width > 700) {
-            width = 700 - x
-        }
 
         //Place an enemy if platform is wide
-        if (width > 200) {
-            let chance = randomInRange(0, 100)
-            if (chance > 30) {
+        if (width > 100) {
+            chance = randomInRange(0, 100)
+            if (chance < this.levelDifficulty.zombieChance) {
                 let gender = randomInRange(0, 100)
                 let isGirl = true;
                 if (gender > 50) {
@@ -119,8 +195,8 @@ class SceneManager {
         }
 
         // Chance to place an item after 500px of change
-        let chance = randomInRange(0, 100)
-        if (Math.abs(this.game.camera.y - this.lastCamY) > 500 && chance > 50) {
+        chance = randomInRange(0, 100)
+        if (Math.abs(this.game.camera.y - this.lastCamY) > 500 && chance < this.levelDifficulty.itemChance) {
             this.lastCamY = this.game.camera.y;
             let itemChance = randomInRange(0, 100);
             let itemX = randomInRange(0, width - 40)
@@ -142,7 +218,8 @@ class SceneManager {
             }
         }
 
-        return new Platform(this.game, x, y, width)
+
+        return new Platform(this.game, newPlatform.x, y, newPlatform.width)
     }
 
 
@@ -155,7 +232,7 @@ class SceneManager {
     }
 
     cleanUp() {
-        let that = this;
+        var that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.y - that.game.camera.y > 1000 && !(entity instanceof Throwable)) {
                 entity.removeFromWorld = true;
@@ -196,11 +273,11 @@ class SceneManager {
             PARAMS.PLAY = false;
         }
 
-
         if (this.ninja.dead) {
             ASSET_MANAGER.pauseBackGroundMusic();
             //set highscore on death and reset old score.
-            this.highScore = Math.max(this.highScore, this.score);
+            this.highscore = Math.max(this.getHighscore(), this.score)
+            localStorage.setItem("Highscore", this.highscore)
             this.score = 0;
             this.ninjaLoaded = false;
             this.musicNotStarted = true;
@@ -242,7 +319,7 @@ class SceneManager {
 
             if (this.game.ninja.multiplied) {
                 this.elapsedTime += this.game.clockTick;
-                this.score += (.1 * 2);
+                this.score += (.1 * 2 * this.levelDifficulty.scoreMult);
             } else {
                 this.score += .08;
             }
@@ -259,7 +336,8 @@ class SceneManager {
 
 
             //scroll map
-            this.y -= PARAMS.DIFFICULTY;
+            this.y -= PARAMS.DIFFICULTY
+            this.y -= this.levelDifficulty.yScroll;
 
             //follow the player
             if (this.y > this.game.ninja.y - midpointY) this.y = this.game.ninja.y - midpointY;
@@ -278,52 +356,46 @@ class SceneManager {
             ctx.fillStyle = "rgba(0, 0, 0, .8)";
             switch (PARAMS.LEVEL) {
                 case 1:
+                    this.levelDifficulty = difficulties.one;
                     ctx.fillRect(277, 123, 160, 418);
                     ctx.fillRect(496, 123, 160, 418);
                     ctx.fillRect(719, 123, 160, 418);
                     break;
                 case 2:
+                    this.levelDifficulty = difficulties.two;
                     ctx.fillRect(53, 123, 160, 418);
                     ctx.fillRect(496, 123, 160, 418);
                     ctx.fillRect(719, 123, 160, 418);
                     break;
                 case 3:
+                    this.levelDifficulty = difficulties.three;
                     ctx.fillRect(53, 123, 160, 418);
                     ctx.fillRect(277, 123, 160, 418);
                     ctx.fillRect(719, 123, 160, 418);
                     break;
                 default:
+                    this.levelDifficulty = difficulties.four;
                     ctx.fillRect(53, 123, 160, 418);
                     ctx.fillRect(277, 123, 160, 418);
                     ctx.fillRect(496, 123, 160, 418);
                     break;
             }
         }
-        // if (PARAMS.PAUSE) {
-        //     this.volumeSlider.draw(ctx)
-        //     this.difficulty.draw(ctx);
-        //
-        // }
         if (PARAMS.PLAY) {
             let score = "Score " + Math.ceil(this.score) + " ";
             ctx.font = 30 + 'px "Play"';
             ctx.fillStyle = "White";
             ctx.fillText(score, 525, 35);
 
-            let highscore = "High Score " + Math.ceil(this.highScore) + " ";
+            let highscore = "High Score " + Math.ceil(this.getHighscore()) + " ";
             ctx.font = 30 + 'px "Play"';
             ctx.fillStyle = "White";
             ctx.fillText(highscore, 700, 35);
             this.checkBrickAndDecor();
         }
-
-        // Make it a larger window to hold more platforms 
-        // Remove/Add based on distance
         let lowest = this.game.platforms[0];
 
         if (lowest.y - 1000 > this.game.camera.y) {
-            // we may want to clean up the entities no longer on screen
-            // this.cleanUp();
 
             this.game.platforms.shift();
             this.game.platforms.push(this.generateNewPlatform())
