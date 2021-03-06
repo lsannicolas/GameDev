@@ -21,6 +21,8 @@ class Animator {
 
         let frame = this.currentFrame();
         if (this.reverse) frame = this.frameCount - frame - 1;
+        // ctx.mozImageSmoothingEnabled = ctx.msImageSmoothingEnabled = ctx.webkitImageSmoothingEnabled = ctx.imageSmoothingEnabled = false;
+
 
         ctx.drawImage(this.spritesheet,
             this.xStart + frame * (this.width + this.framePadding), this.yStart, //source from sheet

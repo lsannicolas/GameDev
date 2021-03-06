@@ -35,12 +35,15 @@ window.requestAnimFrame = (function () {
 
 const PARAMS = {
     DEBUG: true,
-    START: false,
+    STARTMENU: true,
     PLAY: false,
-    LEVELS: false,
+    LEVELMENU: false,
     CONTROLS: false,
+    SETTINGS: false,
     VOLUME: 20,
     PAUSE: false,
+    BOY: true,
+    LEVEL: 1,
     SCALE: 1,
     BITWIDTH: 16,
     SCORE: 0,
