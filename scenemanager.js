@@ -23,7 +23,7 @@ class SceneManager {
         this.game.platforms = [];
         this.x = 0;
 
-        
+    
 
         if (level.bricks) {
             for (let i = 0; i < level.bricks.length; i++) {
@@ -60,7 +60,7 @@ class SceneManager {
             }
         }
 
-        this.ninja = new Ninja(this.game, 200, 0, false);
+        this.ninja = new Ninja(this.game, 200, 0, true);
         this.game.addEntity(this.ninja);
         this.healthbar = new HPBar(this.ninja);
         this.game.addEntity(this.healthbar);
@@ -71,6 +71,8 @@ class SceneManager {
         this.game.addEntity(this.volumeSlider);
         this.difficulty = new Difficulty();
         this.game.addEntity(this.difficulty);
+
+        
     }
 
     generateNewPlatform() {
@@ -162,16 +164,16 @@ class SceneManager {
     }
 
     updateAudio() {
-        var mute = document.getElementById("mute").checked;
-        var volume = document.getElementById("volume").value;
+        var mute = PARAMS.VOLUME === 0;
+        var volume = PARAMS.VOLUME/100;
 
         ASSET_MANAGER.muteAudio(mute);
         ASSET_MANAGER.adjustVolume(volume);
     }
 
     update() {
-        if (PARAMS.PLAY === true) {
-            ASSET_MANAGER.pauseBackGroundMusic();
+        if (PARAMS.PLAY) {
+           // ASSET_MANAGER.pauseBackGroundMusic();
             ASSET_MANAGER.playAsset(this.level.music);
         } 
         this.updateAudio();
@@ -195,6 +197,8 @@ class SceneManager {
             this.y = -300;
             PARAMS.START = false;
         };
+
+        
         PARAMS.DEBUG = false;
         if (PARAMS.START === true && !PARAMS.PAUSE) {
             if (this.startMenu) {
@@ -238,7 +242,6 @@ class SceneManager {
 
         }
         if (PARAMS.START) {
-            // ASSET_MANAGER.playAsset("./music/backgroundVinyl.mp3");
             let score = "Score " + Math.ceil(this.score + " ");
             ctx.font = 30 + 'px "Play"';
             ctx.fillStyle = "White";

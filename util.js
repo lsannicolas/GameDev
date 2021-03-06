@@ -39,6 +39,7 @@ const PARAMS = {
     PLAY: false,
     LEVELS: false,
     CONTROLS: false,
+    VOLUME: 20,
     PAUSE: false,
     SCALE: 1,
     BITWIDTH: 16,
