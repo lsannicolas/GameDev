@@ -18,6 +18,8 @@ class SceneManager {
         PARAMS.DEBUG = false;
         this.level = levelOne;
         this.platforms = levelOne.platforms;
+        this.score_boolean = true;
+        this.item_boolean = true;
 
         this.loadLevel(this.level);
     };
@@ -30,6 +32,7 @@ class SceneManager {
         }
         return parseInt(high)
     }
+
 
     loadLevel(level) {
 
@@ -76,6 +79,7 @@ class SceneManager {
         this.ninja = new Ninja(this.game, 200, 0, true);
         //this.game.addEntity(this.ninja);
         this.healthbar = new HPBar(this.ninja);
+       
         //this.game.addEntity(this.healthbar);
 
         //menu stuff
@@ -85,6 +89,7 @@ class SceneManager {
         this.game.addMenu(this.volumeSlider);
         this.difficulty = new Difficulty();
         this.game.addMenu(this.difficulty);
+        //this.toast = new Toast(this.game);
     }
 
     // generateNewPlatform() {
@@ -248,6 +253,17 @@ class SceneManager {
         ASSET_MANAGER.adjustVolume(volume);
     }
 
+    displayHighScoreMessage() {
+        //if(this.score > 500 && this.score < 650) {
+            toastr.success("You hit 1000 points!", "achievement", {timeOut: 1000});
+        //}
+    }
+
+    itemAchievement() {
+        if(PARAMS.POWERUP_COLLECTED == 10) {
+            toastr.success("You collected 10 power ups!", "achievement", {timeOut: 1000});
+        }
+    }
     update() {
         //TODO is this the correct way to do this?
         if (this.lastLevel !== PARAMS.LEVEL) {
@@ -313,6 +329,7 @@ class SceneManager {
              */
         };
 
+
         if (PARAMS.PLAY === true && !PARAMS.PAUSE) {
             let midpointY = PARAMS.CANVAS_HEIGHT / 2 - 10;
             this.x = 0;
@@ -332,15 +349,34 @@ class SceneManager {
                 this.yFlag = false;
             }
 
+        
+            
+            console.log(PARAMS.POWERUP_COLLECTED);
             //increment score as game plays
+          /*  if (this.score_boolean == true && this.score == 500) {
+                this.displayHighScoreMessage();
+                this.score_boolean = false;
+            }*/
 
+           // this.score_boolean = true;
 
+            if (this.item_boolean == true && PARAMS.POWERUP_COLLECTED == 10) {
+                this.itemAchievement();
+                this.item_boolean = false;
+            }
+            
             //scroll map
             this.y -= PARAMS.DIFFICULTY
             this.y -= this.levelDifficulty.yScroll;
 
             //follow the player
             if (this.y > this.game.ninja.y - midpointY) this.y = this.game.ninja.y - midpointY;
+        }
+       // PARAMS.SCORE = this.score;
+       // console.log(this.score);
+        if (this.score_boolean == true && this.score > 4000 && this.score < 4100) {
+            this.displayHighScoreMessage();
+            this.score_boolean = false;
         }
 
     };
@@ -403,5 +439,9 @@ class SceneManager {
 
             this.cleanUp()
         }
+
+        
+
+        
     };
 };

@@ -220,12 +220,14 @@ class Ninja {
                 entity.removeFromWorld = true;
                 switch (entity.name) {
                     case "up":
+                        PARAMS.POWERUP_COLLECTED += 1;
                         that.state = 2;
                         that.isPoweredUp = true;
                         // Play with this value to adjust boost up
                         that.velocity.y = -2000
                         break;
                     case "thumb":
+                        PARAMS.POWERUP_COLLECTED += 1;
                         that.multiplied = true;
                 }
                 if (that.multiplied) {
@@ -242,6 +244,7 @@ class Ninja {
                 entity.removeFromWorld = true;
                 switch (entity.name) {
                     case "heart":
+                        PARAMS.POWERUP_COLLECTED +=1 ;
                         that.isPoweredUp = true;
                         if (that.hp + 100 > that.maxHP) {
                             that.hp = that.maxHP;

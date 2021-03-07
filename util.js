@@ -51,5 +51,6 @@ const PARAMS = {
     EASY: .5,
     NORMAL: .75,
     HARD : 1.25,
+    POWERUP_COLLECTED: 0
     //VOLUME: 30,
 };
