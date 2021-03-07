@@ -26,6 +26,10 @@ class Item {
                 this.height = 143;
                 this.sprite = ASSET_MANAGER.getAsset('./sprites/wings.png');
                 break;
+            case "star":
+                this.width = 245;
+                this.height = 248;
+                this.sprite = ASSET_MANAGER.getAsset('./sprites/star.png');
         }
         this.loadAnimations();
         this.updateBB();
