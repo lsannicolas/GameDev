@@ -255,6 +255,16 @@ class Ninja {
                         break;
                 }
             }
+            
+            if ((entity.BB && that.BB.collide(entity.BB))
+                && (entity instanceof Item)) {
+                entity.removeFromWorld = true;
+                switch (entity.name) {
+                    case "star":
+                        PARAMS.STARS_COLLECTED+=1;
+                        break;
+                }
+            }
 
         });
 

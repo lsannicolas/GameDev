@@ -18,9 +18,12 @@ class SceneManager {
         PARAMS.DEBUG = false;
         this.level = levelOne;
         this.platforms = levelOne.platforms;
-        this.score_boolean = true;
-        this.item_boolean = true;
+        this.fivethousandpoints = true;
+        this.tenthousandpoints = true;
+        this.tenpowerups = true;
+        this.twentypowerups = true;
         this.stars = PARAMS.STARS;
+        this.threeStars = true;
 
         this.loadLevel(this.level);
     };
@@ -281,6 +284,12 @@ class SceneManager {
             toastr.success("You collected 20 power ups!", "achievement", {timeOut: 1000});
         }
     }
+
+    levelComplete() {
+        if(PARAMS.STARS_COLLECTED == 1) {
+            toastr.success("You collected 3 stars!", "Level Complete", {timeOut: 1000});
+        }
+    }
     update() {
         //TODO is this the correct way to do this?
         if (this.lastLevel !== PARAMS.LEVEL) {
@@ -370,7 +379,7 @@ class SceneManager {
 
         
             
-            console.log(PARAMS.POWERUP_COLLECTED);
+            //console.log(PARAMS.POWERUP_COLLECTED);
             //increment score as game plays
           /*  if (this.score_boolean == true && this.score == 500) {
                 this.displayHighScoreMessage();
@@ -378,27 +387,31 @@ class SceneManager {
             }*/
 
            // this.score_boolean = true;
-
-            if (this.score_boolean == true && this.score > 5000 && this.score < 5500) {
+           
+            if (this.fivethousandpoints == true && this.score > 5000 && this.score < 5500) {
                 this.displayHighScoreMessage();
-                this.score_boolean = false;
+                this.fivethousandpoints = false;
             }
 
-            if (this.score_boolean == true && this.score > 10000 && this.score < 10500) {
+            if (this.tenthousandpoints == true && this.score > 10000 && this.score < 10500) {
                 this.displayHighScoreMessage();
-                this.score_boolean = false;
+                this.tenthousandpoints = false;
             }
             
-            if (this.item_boolean == true && PARAMS.POWERUP_COLLECTED == 10) {
+            if (this.tenpowerups == true && PARAMS.POWERUP_COLLECTED == 10) {
                 this.itemAchievement();
-                this.item_boolean = false;
+                this.tenpowerups = false;
             }
 
-            if (this.item_boolean == true && PARAMS.POWERUP_COLLECTED == 20) {
+            if (this.twentypowerups == true && PARAMS.POWERUP_COLLECTED == 20) {
                 this.itemAchievement();
-                this.item_boolean = false;
+                this.twentypowerups = false;
+            } 
+        
+            if (this.threeStars == true && PARAMS.STARS_COLLECTED == 3) {
+                this.levelComplete();
+                this.threeStars = false;
             }
-            
             //scroll map
             this.y -= PARAMS.DIFFICULTY
             this.y -= this.levelDifficulty.yScroll;
@@ -408,7 +421,6 @@ class SceneManager {
         }
        // PARAMS.SCORE = this.score;
        // console.log(this.score);
-        
 
     };
 
