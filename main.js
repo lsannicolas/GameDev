@@ -31,6 +31,7 @@ ASSET_MANAGER.queueDownload('./sprites/thumb.png');
 ASSET_MANAGER.queueDownload('./sprites/up.png');
 ASSET_MANAGER.queueDownload('./sprites/heart.png');
 ASSET_MANAGER.queueDownload('./sprites/wings.png');
+ASSET_MANAGER.queueDownload('./sprites/star.png');
 
 ASSET_MANAGER.queueDownload("./sprites/levelone/platform_one.png");
 ASSET_MANAGER.queueDownload("./sprites/levelone/land_one.png");

@@ -20,6 +20,7 @@ class SceneManager {
         this.platforms = levelOne.platforms;
         this.score_boolean = true;
         this.item_boolean = true;
+        this.stars = PARAMS.STARS;
 
         this.loadLevel(this.level);
     };
@@ -170,6 +171,7 @@ class SceneManager {
         var newPlatform;
 
         let y = last.y - randomInRange(150, 215);
+        
 
         if (last.x <= 300) {
             // pick from middle 
@@ -221,6 +223,14 @@ class SceneManager {
                 default:
                     break;
             }
+ 
+        }
+
+        if(Math.abs(this.game.camera.y - this.lastCamY) > 750 && this.stars != 0){
+            this.lastCamY = this.game.camera.y;
+            let itemX = randomInRange(0, width - 40)
+            this.stars--;
+            this.game.addEntity(new Item(this.game, itemX + x, y - 70, "star"));
         }
 
 
@@ -313,6 +323,8 @@ class SceneManager {
             this.game.platforms = [];
             this.loadLevel(levelOne);
             this.y = -300;
+            this.stars = 3;
+
 
 
             /*

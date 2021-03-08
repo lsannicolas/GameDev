@@ -26,6 +26,7 @@ var levelOne = {
         { x: 200, y: -375, name: "up" },
         { x: 500, y: -550, name: "wings" },
         { x: 400, y: -950, name: "heart" },
+        
     ],
     enemies: [
         { x: 500, y: -150, isBoy: true },
