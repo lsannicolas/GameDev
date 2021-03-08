@@ -30,6 +30,7 @@ class Item {
                 this.width = 245;
                 this.height = 248;
                 this.sprite = ASSET_MANAGER.getAsset('./sprites/star.png');
+                break;
         }
         this.loadAnimations();
         this.updateBB();
