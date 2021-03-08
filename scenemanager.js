@@ -254,14 +254,21 @@ class SceneManager {
     }
 
     displayHighScoreMessage() {
-        //if(this.score > 500 && this.score < 650) {
-            toastr.success("You hit 1000 points!", "achievement", {timeOut: 1000});
-        //}
+        if(this.score > 5000 && this.score < 5500) {
+            toastr.success("You hit 5000 points!", "achievement", {timeOut: 1000});
+        }
+        if(this.score > 10000 && this.score < 10500) {
+            toastr.success("You hit 10000 points!", "achievement", {timeOut: 1000});
+        }
     }
 
     itemAchievement() {
         if(PARAMS.POWERUP_COLLECTED == 10) {
             toastr.success("You collected 10 power ups!", "achievement", {timeOut: 1000});
+        }
+
+        if(PARAMS.POWERUP_COLLECTED == 20) {
+            toastr.success("You collected 20 power ups!", "achievement", {timeOut: 1000});
         }
     }
     update() {
@@ -360,7 +367,22 @@ class SceneManager {
 
            // this.score_boolean = true;
 
+            if (this.score_boolean == true && this.score > 5000 && this.score < 5500) {
+                this.displayHighScoreMessage();
+                this.score_boolean = false;
+            }
+
+            if (this.score_boolean == true && this.score > 10000 && this.score < 10500) {
+                this.displayHighScoreMessage();
+                this.score_boolean = false;
+            }
+            
             if (this.item_boolean == true && PARAMS.POWERUP_COLLECTED == 10) {
+                this.itemAchievement();
+                this.item_boolean = false;
+            }
+
+            if (this.item_boolean == true && PARAMS.POWERUP_COLLECTED == 20) {
                 this.itemAchievement();
                 this.item_boolean = false;
             }
@@ -374,10 +396,7 @@ class SceneManager {
         }
        // PARAMS.SCORE = this.score;
        // console.log(this.score);
-        if (this.score_boolean == true && this.score > 4000 && this.score < 4100) {
-            this.displayHighScoreMessage();
-            this.score_boolean = false;
-        }
+        
 
     };
 
