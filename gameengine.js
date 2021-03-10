@@ -107,7 +107,7 @@ class GameEngine {
             var x = e.clientX - that.ctx.canvas.getBoundingClientRect().left;
             var y = e.clientY - that.ctx.canvas.getBoundingClientRect().top;
 
-            return {x: x, y: y};
+            return { x: x, y: y };
         }
 
 
@@ -140,7 +140,7 @@ class GameEngine {
                     that.A = true;
                     break;
                 case "KeyC":
-                    // case "Period":
+                case "Slash":
                     that.C = true;
                     break;
                 case "Escape":
@@ -156,7 +156,6 @@ class GameEngine {
         }, false);
 
         this.ctx.canvas.addEventListener("keyup", function (e) {
-
             switch (e.code) {
                 case "ArrowLeft":
                 case "KeyA":
@@ -183,7 +182,7 @@ class GameEngine {
                     that.A = false;
                     break;
                 case "KeyC":
-                    // case "Period":
+                case "Slash":
                     that.C = false;
                     break;
             }
