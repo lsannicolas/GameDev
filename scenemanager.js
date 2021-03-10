@@ -83,7 +83,7 @@ class SceneManager {
         this.ninja = new Ninja(this.game, 200, 0, true);
         //this.game.addEntity(this.ninja);
         this.healthbar = new HPBar(this.ninja);
-       
+
         //this.game.addEntity(this.healthbar);
 
         //menu stuff
@@ -96,77 +96,6 @@ class SceneManager {
         //this.toast = new Toast(this.game);
     }
 
-    // generateNewPlatform() {
-
-    //     let last = this.game.platforms[this.game.platforms.length - 1]
-
-    //     let x;
-
-    //     if (last.x < 450) {
-    //         x = randomInRange(last.x, 500)
-    //     } else {
-    //         x = randomInRange(150, last.x)
-    //     }
-    //     // new Platform values
-    //     let y = last.y - randomInRange(150, 215);
-    //     let width = randomInRange(125, 400)
-
-    //     // if the x coord for the old and new are too close 
-    //     if (Math.abs(x - last.x) < 400) {
-    //         // if on the left, put on the right 
-    //         if (last.x < 450) {
-    //             x = randomInRange(last.x, 600)
-    //         } else { //if more on the right, put on the left
-    //             x = randomInRange(150, last.x)
-    //         }
-    //     }
-
-
-
-    //     if (x + width > 700) {
-    //         width = 700 - x
-    //     }
-
-    //     //Place an enemy if platform is wide
-    //     if (width > 100) {
-    //         let chance = randomInRange(0, 100)
-    //         if (chance < this.levelDifficulty.zombieChance) {
-    //             let gender = randomInRange(0, 100)
-    //             let isGirl = true;
-    //             if (gender > 50) {
-    //                 isGirl = !isGirl
-    //             }
-    //             this.game.pushEntity(new Zombie(this.game, x, y, isGirl))
-    //         }
-    //     }
-
-    //     // Chance to place an item after 500px of change
-    //     let chance = randomInRange(0, 100)
-    //     if (Math.abs(this.game.camera.y - this.lastCamY) > 500 && chance < this.levelDifficulty.itemChance) {
-    //         this.lastCamY = this.game.camera.y;
-    //         let itemChance = randomInRange(0, 100);
-    //         let itemX = randomInRange(0, width - 40)
-    //         switch (itemChance % 4) {
-    //             case 0:
-    //                 this.game.addEntity(new Item(this.game, itemX + x, y - 50, "thumb"))
-    //                 break;
-    //             case 1:
-    //                 this.game.addEntity(new Item(this.game, itemX + x, y - 75, "up"))
-    //                 break;
-    //             case 2:
-    //                 this.game.addEntity(new Item(this.game, itemX + x, y - 50, "heart"))
-    //                 break;
-    //             case 3:
-    //                 this.game.addEntity(new Item(this.game, itemX + x, y - 50, "wings"))
-    //                 break;
-    //             default:
-    //                 break;
-    //         }
-    //     }
-
-    //     return new Platform(this.game, x, y, width)
-    // }
-
     generateNewPlatform() {
         var last = this.game.platforms[this.game.platforms.length - 1]
 
@@ -174,17 +103,31 @@ class SceneManager {
         var newPlatform;
 
         let y = last.y - randomInRange(150, 215);
-        
+
 
         if (last.x <= 300) {
             // pick from middle 
-            newPlatform = this.cachedPlatforms.middle[chance % 5]
+            if (chance < 50) {
+                newPlatform = this.cachedPlatforms.middle[chance % 5]
+            }
+            else {
+                newPlatform = this.cachedPlatforms.right[chance % 5]
+            }
         } else if (last.x <= 500) {
             //pick from right
-            newPlatform = this.cachedPlatforms.right[chance % 5]
+            if (chance < 50) {
+                newPlatform = this.cachedPlatforms.right[chance % 5]
+            } else {
+                newPlatform = this.cachedPlatforms.left[chance % 5]
+            }
+
         } else {
             //pick from left
-            newPlatform = this.cachedPlatforms.left[chance % 5]
+            if (chance < 50) {
+                newPlatform = this.cachedPlatforms.left[chance % 5]
+            } else {
+                newPlatform = this.cachedPlatforms.middle[chance % 5]
+            }
         }
 
         var width = newPlatform.width;
@@ -226,10 +169,10 @@ class SceneManager {
                 default:
                     break;
             }
- 
+
         }
 
-        if(Math.abs(this.game.camera.y - this.lastCamY) > 750 && this.stars != 0){
+        if (Math.abs(this.game.camera.y - this.lastCamY) > 750 && this.stars != 0) {
             this.lastCamY = this.game.camera.y;
             let itemX = randomInRange(0, width - 40)
             this.stars--;
@@ -267,27 +210,27 @@ class SceneManager {
     }
 
     displayHighScoreMessage() {
-        if(this.score > 5000 && this.score < 5500) {
-            toastr.success("You hit 5000 points!", "achievement", {timeOut: 1000});
+        if (this.score > 5000 && this.score < 5500) {
+            toastr.success("You hit 5000 points!", "achievement", { timeOut: 1000 });
         }
-        if(this.score > 10000 && this.score < 10500) {
-            toastr.success("You hit 10000 points!", "achievement", {timeOut: 1000});
+        if (this.score > 10000 && this.score < 10500) {
+            toastr.success("You hit 10000 points!", "achievement", { timeOut: 1000 });
         }
     }
 
     itemAchievement() {
-        if(PARAMS.POWERUP_COLLECTED == 10) {
-            toastr.success("You collected 10 power ups!", "achievement", {timeOut: 1000});
+        if (PARAMS.POWERUP_COLLECTED == 10) {
+            toastr.success("You collected 10 power ups!", "achievement", { timeOut: 1000 });
         }
 
-        if(PARAMS.POWERUP_COLLECTED == 20) {
-            toastr.success("You collected 20 power ups!", "achievement", {timeOut: 1000});
+        if (PARAMS.POWERUP_COLLECTED == 20) {
+            toastr.success("You collected 20 power ups!", "achievement", { timeOut: 1000 });
         }
     }
 
     levelComplete() {
-        if(PARAMS.STARS_COLLECTED == 1) {
-            toastr.success("You collected 3 stars!", "Level Complete", {timeOut: 1000});
+        if (PARAMS.STARS_COLLECTED == 1) {
+            toastr.success("You collected 3 stars!", "Level Complete", { timeOut: 1000 });
         }
     }
     update() {
@@ -377,17 +320,17 @@ class SceneManager {
                 this.yFlag = false;
             }
 
-        
-            
+
+
             //console.log(PARAMS.POWERUP_COLLECTED);
             //increment score as game plays
-          /*  if (this.score_boolean == true && this.score == 500) {
-                this.displayHighScoreMessage();
-                this.score_boolean = false;
-            }*/
+            /*  if (this.score_boolean == true && this.score == 500) {
+                  this.displayHighScoreMessage();
+                  this.score_boolean = false;
+              }*/
 
-           // this.score_boolean = true;
-           
+            // this.score_boolean = true;
+
             if (this.fivethousandpoints == true && this.score > 5000 && this.score < 5500) {
                 this.displayHighScoreMessage();
                 this.fivethousandpoints = false;
@@ -397,7 +340,7 @@ class SceneManager {
                 this.displayHighScoreMessage();
                 this.tenthousandpoints = false;
             }
-            
+
             if (this.tenpowerups == true && PARAMS.POWERUP_COLLECTED == 10) {
                 this.itemAchievement();
                 this.tenpowerups = false;
@@ -406,8 +349,8 @@ class SceneManager {
             if (this.twentypowerups == true && PARAMS.POWERUP_COLLECTED == 20) {
                 this.itemAchievement();
                 this.twentypowerups = false;
-            } 
-        
+            }
+
             if (this.threeStars == true && PARAMS.STARS_COLLECTED == 3) {
                 this.levelComplete();
                 this.threeStars = false;
@@ -419,8 +362,8 @@ class SceneManager {
             //follow the player
             if (this.y > this.game.ninja.y - midpointY) this.y = this.game.ninja.y - midpointY;
         }
-       // PARAMS.SCORE = this.score;
-       // console.log(this.score);
+        // PARAMS.SCORE = this.score;
+        // console.log(this.score);
 
     };
 
@@ -483,8 +426,8 @@ class SceneManager {
             this.cleanUp()
         }
 
-        
 
-        
+
+
     };
 };

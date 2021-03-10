@@ -27,6 +27,7 @@ class Ninja {
             this.loadBoyAnimations();
         }
         this.isPoweredUp = false;
+        this.isWingPowerUp = false;
         this.multiplied = false;
 
         this.radius = 50;
@@ -36,6 +37,7 @@ class Ninja {
         this.elapsedTime = 0;
         this.attackTime = 0;
         this.throwTime = 0;
+        this.wingTime = 0;
 
     }
 
@@ -65,8 +67,8 @@ class Ninja {
         this.animations[2][1] = new Animator(this.spritesheetleft, 1780, 1000, 350, 476, 10, .05, 22, true, true);
 
         // attacking
-        this.animations[3][0] = new Animator(this.spritesheetright, 25, 20, 535, 454, 10, .05, 11, false, true);
-        this.animations[3][1] = new Animator(this.spritesheetleft, 10, 20, 535, 454, 10, .05, 11, true, true);
+        this.animations[3][0] = new Animator(this.spritesheetright, 25, 20, 535, 454, 10, .04, 11, false, true);
+        this.animations[3][1] = new Animator(this.spritesheetleft, 10, 20, 535, 454, 10, .04, 11, true, true);
 
         // Death
         this.animations[4][0] = new Animator(this.spritesheetright, 18, 1985, 487, 485, 10, .05, 5, false, false);
@@ -94,12 +96,12 @@ class Ninja {
         this.animations[2][1] = new Animator(this.spritesheetleft, 1830, 1150, 385, 530, 10, .05, 24, true, true);
 
         // attacking
-        this.animations[3][0] = new Animator(this.spritesheetright, 20, 40, 525, 525, 10, .05, 9, false, true);
-        this.animations[3][1] = new Animator(this.spritesheetleft, 535, 40, 525, 525, 10, .05, 9, true, true);
+        this.animations[3][0] = new Animator(this.spritesheetright, 20, 40, 525, 525, 10, .04, 9, false, true);
+        this.animations[3][1] = new Animator(this.spritesheetleft, 535, 40, 525, 525, 10, .04, 9, true, true);
 
         // Death
-        this.animations[4][0] = new Animator(this.spritesheetright, 30, 2250, 530, 540, 10, .05, 58, false, true);
-        this.animations[4][1] = new Animator(this.spritesheetleft, 30, 2250, 530, 540, 10, .05, 58, true, true);
+        this.animations[4][0] = new Animator(this.spritesheetright, 30, 2250, 530, 540, 10, .04, 58, false, true);
+        this.animations[4][1] = new Animator(this.spritesheetleft, 30, 2250, 530, 540, 10, .04, 58, true, true);
 
         // Throw
         this.animations[5][0] = new Animator(this.throwRight, 20, 0, 410 - 35, 524, 9, .05, 18, false, true);
@@ -132,22 +134,27 @@ class Ninja {
         this.elapsedTime += this.game.clockTick;
         this.attackTime += this.game.clockTick;
         this.throwTime += this.game.clockTick;
+        this.wingTime += this.game.clockTick;
+        if (this.wingTime > 15) {
+            this.wingTime = 0
+            this.isWingPowerUp = false;
+        }
         const TICK = this.game.clockTick;
         //die if you fall of screen
         if (this.y - this.game.camera.y > 760) this.die();
         //adjust constants to alter physics
         //run
-        const MAX_RUN = 1000; //adjust for maximum run speed
+        const MAX_RUN = 1500; //adjust for maximum run speed
         // const ACC_RUN = 600;  //adjust for maximum acceleration
         //skids
         // const DEC_SKID = 1850;
         // const TURN_SKID = 65;
         //jump
-        const JUMP_ACC = 900;  //adjust for maximum jump acc      //JUMP_ACC & MAX_JUMP
+        // const JUMP_ACC = 900;  //adjust for maximum jump acc      //JUMP_ACC & MAX_JUMP
         const MAX_JUMP = 1500;  //adjust for maximum jump height   //NEED TO BOTH BE ADJUSTED
         //falling                                                  //FOR DESIRED RESULT
         const MAX_FALL = 700;  //adjust for fall speed
-        const STOP_FALL = 1800;
+        // const STOP_FALL = 1800;
         //in air deceleration
         // const AIR_DEC = 2;
 
@@ -221,6 +228,7 @@ class Ninja {
                 switch (entity.name) {
                     case "up":
                         PARAMS.POWERUP_COLLECTED += 1;
+                        that.velocity.x = 0
                         that.state = 2;
                         that.isPoweredUp = true;
                         // Play with this value to adjust boost up
@@ -229,6 +237,17 @@ class Ninja {
                     case "thumb":
                         PARAMS.POWERUP_COLLECTED += 1;
                         that.multiplied = true;
+                        break;
+                    case "wings":
+                        PARAMS.POWERUP_COLLECTED += 1;
+                        if (that.isWingPowerUp) {
+                            that.game.camera.score += 500
+                        } else {
+                            that.fallAcc = 1700
+                            //Set up timer for the wings
+                            that.isWingPowerUp = true
+                        }
+                        break;
                 }
                 if (that.multiplied) {
                     that.game.camera.score += 200;
@@ -244,7 +263,7 @@ class Ninja {
                 entity.removeFromWorld = true;
                 switch (entity.name) {
                     case "heart":
-                        PARAMS.POWERUP_COLLECTED +=1 ;
+                        PARAMS.POWERUP_COLLECTED += 1;
                         that.isPoweredUp = true;
                         if (that.hp + 100 > that.maxHP) {
                             that.hp = that.maxHP;
@@ -255,19 +274,18 @@ class Ninja {
                         break;
                 }
             }
-            
+
             if ((entity.BB && that.BB.collide(entity.BB))
                 && (entity instanceof Item)) {
                 entity.removeFromWorld = true;
                 switch (entity.name) {
                     case "star":
-                        PARAMS.STARS_COLLECTED+=1;
+                        PARAMS.STARS_COLLECTED += 1;
                         break;
                 }
             }
 
         });
-
         //physics
         // let yTest = this.velocity.y;
         //this physics will need a fine tuning;
@@ -277,7 +295,7 @@ class Ninja {
             this.state = 4;
 
         }
-        else if (this.state === 3 && this.attackTime <= .5) {
+        else if (this.state === 3 && this.attackTime <= .4) {
             this.updateMovement();
 
         }
@@ -317,8 +335,12 @@ class Ninja {
             if (this.game.B) {
                 canFall = true;
                 if (this.velocity.y == 0) {      // this is where you alter jump physics
-                    this.velocity.y -= JUMP_ACC; //we have the option of double jumping or jumping higher
-                    this.fallAcc = STOP_FALL;    //if you hold b longer
+                    this.velocity.y -= 900; //we have the option of double jumping or jumping higher
+                    // if (!this.isWingPowerUp) {
+                    //     this.fallAcc = STOP_FALL;    //if you hold b longer
+                    // }
+                } else if (this.velocity.y !== 0 && !this.isWingPowerUp) {
+                    this.fallAcc = 1800
                 }
                 // This part makes is so that the player can gain acceleration if they press a directional key
                 // at the same time as the jump key. if falling in air they can change their direction this way.
@@ -360,10 +382,10 @@ class Ninja {
     updateMovement() {
         const TICK = this.game.clockTick;
         let yVel = Math.abs(this.velocity.y);
-        const ACC_RUN = 600;  //adjust for maximum acceleration
+        const ACC_RUN = 800;  //adjust for maximum acceleration
         //skids
-        const DEC_SKID = 1850;
-        const TURN_SKID = 65;
+        const DEC_SKID = 1800;
+        const TURN_SKID = 100;
         //in air deceleration
         const AIR_DEC = 2;
         if (this.game.left && this.velocity.x > 0 && yVel < 20) {
@@ -398,6 +420,8 @@ class Ninja {
             if (this.game.right && !this.game.left) {   //and pressing right.
                 if (yVel < 10 && !this.game.B) {        //makes sure you are on ground
                     this.velocity.x += ACC_RUN * TICK;
+                } else if (!this.game.B) {
+                    this.velocity.x += ACC_RUN * TICK * .7;
                 }
             }
         }
@@ -405,6 +429,8 @@ class Ninja {
             if (!this.game.right && this.game.left) {   //and pressing left.
                 if (yVel < 10 && !this.game.B) {        //makes sure you are on ground
                     this.velocity.x -= ACC_RUN * TICK;
+                } else if (!this.game.B) {
+                    this.velocity.x -= ACC_RUN * TICK * .7;
                 }
             }
         }
