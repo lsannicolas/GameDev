@@ -211,26 +211,26 @@ class SceneManager {
 
     displayHighScoreMessage() {
         if (this.score > 5000 && this.score < 5500) {
-            toastr.success("You hit 5000 points!", "achievement", { timeOut: 1000 });
+            toastr.success("You hit 5000 points!", "achievement", { timeOut: 2000 });
         }
         if (this.score > 10000 && this.score < 10500) {
-            toastr.success("You hit 10000 points!", "achievement", { timeOut: 1000 });
+            toastr.success("You hit 10000 points!", "achievement", { timeOut: 2000 });
         }
     }
 
     itemAchievement() {
         if (PARAMS.POWERUP_COLLECTED == 10) {
-            toastr.success("You collected 10 power ups!", "achievement", { timeOut: 1000 });
+            toastr.success("You collected 10 power ups!", "achievement", { timeOut: 2000 });
         }
 
         if (PARAMS.POWERUP_COLLECTED == 20) {
-            toastr.success("You collected 20 power ups!", "achievement", { timeOut: 1000 });
+            toastr.success("You collected 20 power ups!", "achievement", { timeOut: 2000 });
         }
     }
 
     levelComplete() {
-        if (PARAMS.STARS_COLLECTED == 1) {
-            toastr.success("You collected 3 stars!", "Level Complete", { timeOut: 1000 });
+        if (PARAMS.STARS_COLLECTED == 3) {
+            toastr.success("You collected 3 stars!", "Level Complete", { timeOut: 2000 });
         }
     }
     update() {
