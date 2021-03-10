@@ -41,6 +41,7 @@ class GameEngine {
         //for mouse clicks
         this.ctx.canvas.addEventListener("click", function (e) {
             let click = getXandY(e);
+            console.log(click)
             if (PARAMS.STARTMENU) {
                 if (click.y > 436 && click.y < 520) {
                     if (click.x > 250 && click.x < 340) {
@@ -53,7 +54,6 @@ class GameEngine {
                         if (!PARAMS.SETTINGS) {
                             PARAMS.LEVELMENU = true;
                             PARAMS.STARTMENU = false;
-
                         }
 
                     }
@@ -96,10 +96,15 @@ class GameEngine {
                         PARAMS.VOLUME = Math.floor((click.x - 480) / 1.5);
                     }
 
-                } else if (click.y > 534 && click.y < 587) {
+                } else if (click.y > 534 && click.y < 556) {
                     if (click.x > 439 && click.x < 487) PARAMS.DIFFICULTY = PARAMS.EASY;
                     if (click.x > 500 && click.x < 544) PARAMS.DIFFICULTY = PARAMS.NORMAL;
                     if (click.x > 587 && click.x < 640) PARAMS.DIFFICULTY = PARAMS.HARD;
+                }
+            }
+            if (PARAMS.PAUSE) {
+                if (click.x > 593 && click.x < 636 && click.y > 581 && click.y < 621) {
+                    PARAMS.EXIT = true;
                 }
             }
         }, false);

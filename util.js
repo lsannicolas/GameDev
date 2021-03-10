@@ -43,6 +43,7 @@ const PARAMS = {
     VOLUME: 20,
     PAUSE: false,
     BOY: true,
+    EXIT: false,
     LEVEL: 1,
     SCALE: 1,
     BITWIDTH: 16,

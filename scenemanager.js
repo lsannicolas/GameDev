@@ -234,6 +234,10 @@ class SceneManager {
         }
     }
     update() {
+        if (PARAMS.EXIT) {
+            this.ninja.dead = true;
+            PARAMS.EXIT = false;
+        }
         //TODO is this the correct way to do this?
         if (this.lastLevel !== PARAMS.LEVEL) {
             this.lastLevel = PARAMS.LEVEL;
