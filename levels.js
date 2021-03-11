@@ -14,19 +14,19 @@ var levelOne = {
         // Min width 50 with a jump span of 400 px height ~ 200
         // Max width 250 with a jump span of ~300 height
         { x: 170, y: 300, width: 600 },
-        { x: 170, y: 100, width: 200 },
+        { x: 170, y: 100, width: 350 },
         { x: 500, y: -100, width: 250 },
-        { x: 200, y: -300, width: 100 },
+        { x: 200, y: -300, width: 275 },
         { x: 500, y: -500, width: 250 },
-        { x: 180, y: -700, width: 100 },
-        { x: 400, y: -900, width: 100 },
+        { x: 180, y: -700, width: 175 },
+        { x: 400, y: -900, width: 150 },
     ],
     powerUps: [
         { x: 650, y: -150, name: "thumb" },
         { x: 200, y: -375, name: "up" },
         { x: 500, y: -550, name: "wings" },
         { x: 400, y: -950, name: "heart" },
-        
+
     ],
     enemies: [
         { x: 500, y: -150, isBoy: true },

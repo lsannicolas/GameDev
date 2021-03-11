@@ -17,7 +17,7 @@ const cachedPlatforms = {
             width: 180
         },
         {
-            x: 280,
+            x: 250,
             width: 250
         }
     ], //make 10 different 'left' platforms
@@ -39,7 +39,7 @@ const cachedPlatforms = {
             width: 250
         },
         {
-            x: 475,
+            x: 450,
             width: 280
         }
     ], // make 5 middle platforms
@@ -49,20 +49,20 @@ const cachedPlatforms = {
             width: 100,
         },
         {
-            x: 510,
+            x: 550,
             width: 150,
         },
         {
-            x: 550,
-            width: 150
-        },
-        {
-            x: 600,
-            width: 150
-        },
-        {
             x: 575,
+            width: 150
+        },
+        {
+            x: 580,
             width: 200
+        },
+        {
+            x: 610,
+            width: 175
         }
     ],
 }

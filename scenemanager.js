@@ -120,7 +120,6 @@ class SceneManager {
             } else {
                 newPlatform = this.cachedPlatforms.left[chance % 5]
             }
-
         } else {
             //pick from left
             if (chance < 50) {
@@ -152,7 +151,7 @@ class SceneManager {
         if (Math.abs(this.game.camera.y - this.lastCamY) > 500 && chance < this.levelDifficulty.itemChance) {
             this.lastCamY = this.game.camera.y;
             let itemChance = randomInRange(0, 100);
-            let itemX = randomInRange(0, width - 40)
+            let itemX = randomInRange(0, width - 75)
             switch (itemChance % 4) {
                 case 0:
                     this.game.addEntity(new Item(this.game, itemX + x, y - 50, "thumb"))
@@ -180,7 +179,7 @@ class SceneManager {
         }
 
 
-        return new Platform(this.game, newPlatform.x, y, newPlatform.width)
+        return new Platform(this.game, x, y, width)
     }
 
 
@@ -306,7 +305,7 @@ class SceneManager {
 
 
         if (PARAMS.PLAY === true && !PARAMS.PAUSE) {
-            let midpointY = PARAMS.CANVAS_HEIGHT / 2 - 10;
+            let midpointY = PARAMS.CANVAS_HEIGHT / 3;
             this.x = 0;
 
             if (this.game.ninja.multiplied) {
@@ -320,7 +319,7 @@ class SceneManager {
                 this.game.ninja.multiplied = false;
             }
             if (this.yFlag) {
-                this.y = this.ninja.y - midpointY;
+                this.y = this.ninja.y - PARAMS.CANVAS_HEIGHT / 2 - 10;
                 this.yFlag = false;
             }
 
@@ -429,6 +428,7 @@ class SceneManager {
 
             this.cleanUp()
         }
+        console.log(this.game.entities.length)
 
 
 
