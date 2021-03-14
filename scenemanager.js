@@ -262,6 +262,8 @@ class SceneManager {
         }
 
         if (this.ninja.dead) {
+            PARAMS.POWERUP_COLLECTED = 0
+            PARAMS.STARS_COLLECTED = 0
             ASSET_MANAGER.pauseBackGroundMusic();
             //set highscore on death and reset old score.
             this.highscore = Math.max(this.getHighscore(), this.score)
@@ -428,7 +430,6 @@ class SceneManager {
 
             this.cleanUp()
         }
-        console.log(this.game.entities.length)
 
 
 
